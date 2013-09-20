@@ -1,4 +1,4 @@
-#this is just a comment at the top
+#This file contains all the Model in the application
 from django.contrib.auth.models import User
 from django.db import models
 from scheduler.choices import DAY_OF_WEEK_CHOICES, PROGRAM_TYPE_CHOICES, GENDER_CHOICES, STUDENT_TYPE_CHOICES, SEMESTER_CHOICES, TIME_OF_DAY_CHOICES
