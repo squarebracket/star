@@ -50,10 +50,17 @@ class Section(models.Model):
         return self.name
 
 
+class Facility(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+    capacity = models.IntegerField(default=0)
+    available_start_time = models.TimeField(name="available start time")
+    available_end_time = models.TimeField(name="available end time")
+
+
 class ScheduleItem(models.Model):
-    location = models.CharField(max_length=20)
-    start_time = models.TimeField('start time')
-    end_time = models.TimeField('end time')
+    location = models.ForeignKey(Facility)
+    start_time = models.TimeField(name="start time")
+    end_time = models.TimeField(name="end time")
     day_of_week = models.CharField(max_length=3, choices=DAY_OF_WEEK_CHOICES)
     section = models.ForeignKey(Section)
 
@@ -147,3 +154,5 @@ class ScheduleConstraint(models.Model):
 class CalculatedSchedule(models.Model):
     constraint_set = models.OneToOneField(ScheduleConstraintSet)
     items = models.ManyToManyField(ScheduleItem)
+
+
