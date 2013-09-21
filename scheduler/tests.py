@@ -7,13 +7,22 @@ Replace this with more appropriate tests for your application.
 from datetime import date, time
 
 from django.test import TestCase
-from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration
+from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, University, Faculty
 
 
 class SimpleModelsTest(TestCase):
     def test_adding_a_student(self):
+        concordia = University(name="Concordia University", established_on=date(year=1974, month=8, day=24))
+        concordia.save()
+        encs = Faculty(name="Faculty of Engineering and Computer Science", description="xx", university=concordia)
+        encs.save()
+        business = Faculty(name="Faculty of Business", description="xx", university=concordia)
+        business.save()
+
         #Setup the Program for the student
-        soenProgram = AcademicProgram(name="soen")  # test Soen program, contains core courses
+        soenProgram = AcademicProgram(name="soen", faculty=encs, required_gpa=2.8, type="U")
+
+                                      # test Soen program, contains core courses
         soenProgram.save()
 
         soen101 = Course(name="soen101", course_credits=4, academic_program=soenProgram)
@@ -39,7 +48,7 @@ class SimpleModelsTest(TestCase):
         soen301Prereq201.save()
         soen301Prereq202.save()
 
-        elecProgram = AcademicProgram(name="elec")  # test Elective program, contains elective courses
+        elecProgram = AcademicProgram(name="elec", faculty=business)  # test Elective program, contains elective courses
         elecProgram.save()
 
         elec101 = Course(name="elec101", course_credits=4, academic_program=elecProgram)
@@ -64,9 +73,10 @@ class SimpleModelsTest(TestCase):
         electiveRequirements.allowable_courses.add(elec102)
         electiveRequirements.save()
 
+        print("setup professor")
 
         #Setup Professor
-        prof_fancott = Professor(faculty="encs", date_of_birth=date(1950, 1, 1), gender="M")
+        prof_fancott = Professor(faculty=encs, date_of_birth=date(1950, 1, 1), gender="M")
         prof_fancott.save()
 
         #Setup Offerings by section
@@ -75,15 +85,23 @@ class SimpleModelsTest(TestCase):
         section2_for_soen201 = Section(name="S2", capacity=20, course=soen201, semester="F")
         section2_for_soen201.save()
 
-        wed_lecture_for_soen201_section1 = Lecture(location="H629",
-                                                   start_time=time(hour=10, minute=15),
-                                                   end_time=time(hour=11, minute=30),
+        hall_building = Building(name="Hall", address="123 Street", city="Montreal", province="Quebec",
+                                 country="Canada", postal_code="x2c3v4")
+        hall_building.save()
+
+        room_h629 = Facility(name="H629", building=hall_building, capacity=50)
+        room_h629.save()
+
+
+        wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
+                                                   start_time=time(hour=10, minute=15, second=0),
+                                                   end_time=time(hour=11, minute=30, second=0),
                                                    day_of_week="Wed",
                                                    section=section1_for_soen201,
                                                    professor=prof_fancott)
 
         wed_lecture_for_soen201_section1.save()
-        fri_lecture_for_soen201_section1 = Lecture(location="H629",
+        fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
                                                    start_time=time(hour=10, minute=15),
                                                    end_time=time(hour=11, minute=30),
                                                    day_of_week="Fri", section=section1_for_soen201,

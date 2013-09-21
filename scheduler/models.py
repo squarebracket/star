@@ -1,4 +1,5 @@
 #This file contains all the Model in the application
+from datetime import time
 from django.contrib.auth.models import User
 from django.db import models
 from scheduler.choices import DAY_OF_WEEK_CHOICES, PROGRAM_TYPE_CHOICES, GENDER_CHOICES, STUDENT_TYPE_CHOICES, SEMESTER_CHOICES, TIME_OF_DAY_CHOICES
@@ -9,8 +10,20 @@ class StarUser(User):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 
 
+class University(models.Model):
+    name = models.CharField(max_length=256)
+    established_on = models.DateField("established on")
+
+
+class Faculty(models.Model):
+    name = models.CharField(max_length=256)
+    university=models.ForeignKey(University)
+    description = models.CharField(max_length=256)
+
+
 class AcademicProgram(models.Model):
     name = models.CharField(max_length=20)
+    faculty = models.ForeignKey(Faculty)
     total_required_credits = models.IntegerField(default=0)
     required_gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
     type = models.CharField(max_length=1, choices=PROGRAM_TYPE_CHOICES)
@@ -50,17 +63,27 @@ class Section(models.Model):
         return self.name
 
 
+class Building(models.Model):
+    name = models.CharField(max_length=20)
+    address = models.CharField(max_length=256)
+    city = models.CharField(max_length=256)
+    province = models.CharField(max_length=256)
+    country = models.CharField(max_length=256)
+    postal_code = models.CharField(max_length=256)
+
+
 class Facility(models.Model):
     name = models.CharField(max_length=20, unique=True)
+    building = models.ForeignKey(Building)
     capacity = models.IntegerField(default=0)
-    available_start_time = models.TimeField(name="available start time")
-    available_end_time = models.TimeField(name="available end time")
+    available_start_time = models.TimeField('available start time', default=time(hour=8, minute=0))
+    available_end_time = models.TimeField('available end time', default=time(hour=22, minute=0))
 
 
 class ScheduleItem(models.Model):
     location = models.ForeignKey(Facility)
-    start_time = models.TimeField(name="start time")
-    end_time = models.TimeField(name="end time")
+    start_time = models.TimeField('start time')
+    end_time = models.TimeField('end time')
     day_of_week = models.CharField(max_length=3, choices=DAY_OF_WEEK_CHOICES)
     section = models.ForeignKey(Section)
 
@@ -95,14 +118,14 @@ class Registration(models.Model):
 
 
 class Professor(StarUser):
-    faculty = models.CharField(max_length=20)
+    faculty = models.ForeignKey(Faculty)
 
     class Meta:
         verbose_name = "professor"
 
 
 class Registrar(StarUser):
-    faculty = models.CharField(max_length=20)
+    faculty = models.ForeignKey(Faculty)
 
     class Meta:
         verbose_name = "registrar"
