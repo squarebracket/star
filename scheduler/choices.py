@@ -36,8 +36,3 @@ SEMESTER_CHOICES = (
     ('S1', 'Summer 1'),
     ('S2', 'Summer 2'),
 )
-
-FACILITY_TYPE_CHOICES = (
-    ('L', 'Lab'),
-    ('C', 'Class'),
-)
