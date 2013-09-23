@@ -41,3 +41,8 @@ FACILITY_TYPE_CHOICES = (
     ('L', 'Lab'),
     ('C', 'Class'),
 )
+
+REGISTRATION_STATE_CHOICES = (
+    ('C', 'Confirmed'),
+    ('W', 'Waitlist'),
+)

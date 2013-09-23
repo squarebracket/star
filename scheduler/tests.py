@@ -1,18 +1,14 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
 from datetime import date, time
 
 from django.test import TestCase
-from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, University, Faculty
+from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, AcademicInstitution, Faculty
+from scheduler.services import StudentService
 
 
 class SimpleModelsTest(TestCase):
+
     def test_adding_a_student(self):
-        concordia = University(name="Concordia University", established_on=date(year=1974, month=8, day=24))
+        concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))
         concordia.save()
         encs = Faculty(name="Faculty of Engineering and Computer Science", description="xx", university=concordia)
         encs.save()

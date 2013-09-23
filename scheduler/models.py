@@ -2,27 +2,34 @@
 from datetime import time
 from django.contrib.auth.models import User
 from django.db import models
-from scheduler.choices import DAY_OF_WEEK_CHOICES, PROGRAM_TYPE_CHOICES, GENDER_CHOICES, STUDENT_TYPE_CHOICES, SEMESTER_CHOICES, TIME_OF_DAY_CHOICES
+from scheduler.choices import DAY_OF_WEEK_CHOICES, PROGRAM_TYPE_CHOICES, GENDER_CHOICES, STUDENT_TYPE_CHOICES, SEMESTER_CHOICES, TIME_OF_DAY_CHOICES, REGISTRATION_STATE_CHOICES
 
 
 class StarUser(User):
     date_of_birth = models.DateField('date of birth')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    errorList = []
 
 
-class University(models.Model):
+class AcademicInstitution(models.Model):
     name = models.CharField(max_length=256)
     established_on = models.DateField("established on")
+
+    def __unicode__(self):
+        return self.name
 
 
 class Faculty(models.Model):
     name = models.CharField(max_length=256)
-    university=models.ForeignKey(University)
+    university=models.ForeignKey(AcademicInstitution)
     description = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.name
 
 
 class AcademicProgram(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=256)
     faculty = models.ForeignKey(Faculty)
     total_required_credits = models.IntegerField(default=0)
     required_gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
@@ -71,6 +78,9 @@ class Building(models.Model):
     country = models.CharField(max_length=256)
     postal_code = models.CharField(max_length=256)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Facility(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -78,6 +88,9 @@ class Facility(models.Model):
     capacity = models.IntegerField(default=0)
     available_start_time = models.TimeField('available start time', default=time(hour=8, minute=0))
     available_end_time = models.TimeField('available end time', default=time(hour=22, minute=0))
+
+    def __unicode__(self):
+        return self.name
 
 
 class ScheduleItem(models.Model):
@@ -96,12 +109,15 @@ class Student(StarUser):
     student_identifier = models.CharField(max_length=20)
     type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
 
+    def __unicode__(self):
+        return "student id#" + self.student_identifier
+
     class Meta:
         verbose_name = "student"
 
 
 class StudentRecord(models.Model):
-    student = models.ForeignKey(Student)
+    student = models.OneToOneField(Student)
     standing = models.CharField(max_length=20)
     gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
 
@@ -115,6 +131,7 @@ class StudentRecordEntry(models.Model):
 class Registration(models.Model):
     student = models.ForeignKey(Student)
     section = models.ForeignKey(Section)
+    state = models.CharField(max_length=1, choices=REGISTRATION_STATE_CHOICES)
 
 
 class Professor(StarUser):
