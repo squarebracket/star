@@ -21,11 +21,11 @@ class SimpleModelsTest(TestCase):
                                       # test Soen program, contains core courses
         soenProgram.save()
 
-        soen101 = Course(name="soen101", course_credits=4, academic_program=soenProgram)
-        soen102 = Course(name="soen102", course_credits=4, academic_program=soenProgram)
-        soen201 = Course(name="soen201", course_credits=4, academic_program=soenProgram)
-        soen202 = Course(name="soen202", course_credits=4, academic_program=soenProgram)
-        soen301 = Course(name="soen301", course_credits=4, academic_program=soenProgram)
+        soen101 = Course(name="soen101", course_credits=4, faculty=encs)
+        soen102 = Course(name="soen102", course_credits=4, faculty=encs)
+        soen201 = Course(name="soen201", course_credits=4, faculty=encs)
+        soen202 = Course(name="soen202", course_credits=4, faculty=encs)
+        soen301 = Course(name="soen301", course_credits=4, faculty=encs)
 
         soen101.save()
         soen102.save()
@@ -47,8 +47,8 @@ class SimpleModelsTest(TestCase):
         elecProgram = AcademicProgram(name="elec", faculty=business)  # test Elective program, contains elective courses
         elecProgram.save()
 
-        elec101 = Course(name="elec101", course_credits=4, academic_program=elecProgram)
-        elec102 = Course(name="elec102", course_credits=4, academic_program=elecProgram)
+        elec101 = Course(name="elec101", course_credits=4, faculty=encs)
+        elec102 = Course(name="elec102", course_credits=4, faculty=encs)
         elec101.save()
         elec102.save()
 

@@ -42,7 +42,7 @@ class AcademicProgram(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=20)
     course_credits = models.IntegerField(default=0.0)
-    academic_program = models.ForeignKey(AcademicProgram)
+    faculty = models.ForeignKey(Faculty)
     prerequiste_list = models.ManyToManyField('self', through='Prerequisite', symmetrical=False, related_name="prerequsite_relation")
     corequiste_list = models.ManyToManyField('self', through='Corequisite', symmetrical=False, related_name="corequisite_reltion")
 
