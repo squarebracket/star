@@ -9,13 +9,18 @@ class StudentServiceTest(TestCase):
     def test_should_register_course_for_student(self):
         studentService = StudentService()
         test_student = Student.objects.get_by_natural_key("testuser")
-        course = Course.objects.get(name="SOEN 341")
+        new_course = Course.objects.get(name="SOEN 341")
 
         self.assertIsNotNone(test_student)
-        self.assertIsNotNone(course)
+        self.assertIsNotNone(new_course)
 
-        studentService.RegisterStudentToCourse(test_student, course)
+        studentService.RegisterStudentToCourse(test_student, new_course)
 
         self.assertEqual(0, len(test_student.errorList))
 
+        old_course = test_student.studentrecord.studentrecordentry_set.all()[0].course
+
+        studentService.RegisterStudentToCourse(test_student, old_course)
+
+        self.assertEqual(1, len(test_student.errorList))
         print(AcademicInstitution.objects.all())
