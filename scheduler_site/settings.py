@@ -9,8 +9,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-from env_settings import DATABASES, FIXTURE_DIRS
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -145,3 +143,35 @@ LOGGING = {
         },
     }
 }
+
+# Extra stuff for handling different environments
+try:
+	from env_settings import DATABASES, FIXTURE_DIRS, EXTRA_APPS
+
+	# If there are extra apps to be added, turn INSTALLED_APPS into a list so
+	# that it is mutable, add the EXTRA_APPS, and turn it back into a tuple.
+	# If you can think of a better way, please fix it, because this feels 
+	# unnecessary. 
+	if (len(EXTRA_APPS) > 0):
+		INSTALLED_APPS = list(INSTALLED_APPS)
+		INSTALLED_APPS.extend(EXTRA_APPS)
+		INSTALLED_APPS = tuple(INSTALLED_APPS)
+
+except (ImportError):
+	import os
+	db_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),'schedule.db')
+	# default database config - write out to env_settings.py
+	DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': db_file,  # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
+    }
+    }
+    
+	EXTRA_APPS = ()
+	FIXTURE_DIRS = ()
