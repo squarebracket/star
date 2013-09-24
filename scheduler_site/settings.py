@@ -146,7 +146,7 @@ LOGGING = {
 
 # Extra stuff for handling different environments
 try:
-	from env_settings import DATABASES, FIXTURE_DIRS, EXTRA_APPS
+	from env_settings import *
 
 	# If there are extra apps to be added, turn INSTALLED_APPS into a list so
 	# that it is mutable, add the EXTRA_APPS, and turn it back into a tuple.
