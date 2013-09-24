@@ -3,7 +3,7 @@ from scheduler.models import AcademicInstitution
 
 
 class StudentServiceTest(TestCase):
-    fixtures = ['initial_data.json']
+    fixtures = ['/scheduler/fixtures/initial_data.json']
 
     def should_register_course_for_student(self):
         print(AcademicInstitution.objects.all())

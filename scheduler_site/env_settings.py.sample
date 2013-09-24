@@ -1,12 +1,12 @@
 #python manage.py dumpdata --format=json myapp > /path/to/myapp/fixtures/initial_data.json
 FIXTURE_DIRS = (
-   '/Users/chacoheadhewo/Development/star/fixtures.json',
+   'YOUR_PATH/star/scheduler/fixtures/initial_data.json',
 )
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/chacoheadhewo/Development/star/schedule.db',  # Or path to database file if using sqlite3.
+        'NAME': 'YOUR_PATH/star/schedule.db',  # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
