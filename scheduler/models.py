@@ -21,7 +21,7 @@ class AcademicInstitution(models.Model):
 
 class Faculty(models.Model):
     name = models.CharField(max_length=256)
-    university=models.ForeignKey(AcademicInstitution)
+    university = models.ForeignKey(AcademicInstitution)
     description = models.CharField(max_length=256)
 
     def __unicode__(self):
@@ -44,8 +44,10 @@ class Course(models.Model):
     description = models.CharField(max_length=256)
     course_credits = models.IntegerField(default=0.0)
     faculty = models.ForeignKey(Faculty)
-    prerequiste_list = models.ManyToManyField('self', through='Prerequisite', symmetrical=False, related_name="prerequsite_relation")
-    corequiste_list = models.ManyToManyField('self', through='Corequisite', symmetrical=False, related_name="corequisite_reltion")
+    prerequiste_list = models.ManyToManyField('self', through='Prerequisite', symmetrical=False,
+                                              related_name="prerequsite_relation")
+    corequiste_list = models.ManyToManyField('self', through='Corequisite', symmetrical=False,
+                                             related_name="corequisite_reltion")
 
     def __unicode__(self):
         return self.name
@@ -111,7 +113,7 @@ class Student(StarUser):
     type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
 
     def __unicode__(self):
-        return "student id#" + self.student_identifier
+        return "id#" + self.student_identifier + " (" + self.first_name + " " + self.last_name + ")"
 
     class Meta:
         verbose_name = "student"
@@ -122,11 +124,17 @@ class StudentRecord(models.Model):
     standing = models.CharField(max_length=20)
     gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
 
+    def __unicode__(self):
+        return "student record for " + self.student.student_identifier
+
 
 class StudentRecordEntry(models.Model):
     student_record = models.ForeignKey(StudentRecord)
     course = models.ForeignKey(Course)
     result_grade = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
+
+    def __unicode__(self):
+        return "id# " + self.student_record.student.student_identifier + " course=" + self.course.name + " grade=" + str(self.result_grade)
 
 
 class Registration(models.Model):
