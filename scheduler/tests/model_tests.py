@@ -2,14 +2,13 @@ from datetime import date, time
 
 from django.test import TestCase
 from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, AcademicInstitution, Faculty
-from scheduler.services import StudentService
 
 
 class SimpleModelsTest(TestCase):
-
     def test_adding_a_student(self):
         concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))
         concordia.save()
+        print(AcademicInstitution.objects.all())
         encs = Faculty(name="Faculty of Engineering and Computer Science", description="xx", university=concordia)
         encs.save()
         business = Faculty(name="Faculty of Business", description="xx", university=concordia)
@@ -18,7 +17,7 @@ class SimpleModelsTest(TestCase):
         #Setup the Program for the student
         soenProgram = AcademicProgram(name="soen", faculty=encs, required_gpa=2.8, type="U")
 
-                                      # test Soen program, contains core courses
+        # test Soen program, contains core courses
         soenProgram.save()
 
         soen101 = Course(name="soen101", course_credits=4, faculty=encs)
@@ -87,7 +86,6 @@ class SimpleModelsTest(TestCase):
 
         room_h629 = Facility(name="H629", building=hall_building, capacity=50)
         room_h629.save()
-
 
         wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
                                                    start_time=time(hour=10, minute=15, second=0),
