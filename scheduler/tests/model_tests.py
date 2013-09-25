@@ -111,7 +111,7 @@ class SimpleModelsTest(TestCase):
         student.save()
 
         allStudents = Student.objects.all()
-        self.assertEqual(1, allStudents.count())
+        self.assertEqual(3, allStudents.count())
 
         studentRecord = StudentRecord(student=student, standing="good", gpa=0.00)
         studentRecord.save()
