@@ -8,7 +8,8 @@ class StudentServiceTest(TestCase):
 
     def test_should_register_course_for_student(self):
         studentService = StudentService()
-        test_student = Student.objects.get_by_natural_key("student_user1")
+
+        test_student = Student.objects.get_by_natural_key("student_user_1")
         new_course = Course.objects.get(name="SOEN 341")
 
         self.assertIsNotNone(test_student)

@@ -1,14 +1,21 @@
 #This file contains all the Model in the application
 from datetime import time
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
-from scheduler.choices import DAY_OF_WEEK_CHOICES, PROGRAM_TYPE_CHOICES, GENDER_CHOICES, STUDENT_TYPE_CHOICES, SEMESTER_CHOICES, TIME_OF_DAY_CHOICES, REGISTRATION_STATE_CHOICES
+from scheduler.choices import *
 
 
-class StarUser(User):
+class StarUser(AbstractUser):
     date_of_birth = models.DateField('date of birth')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     errorList = []
+
+    custom_objects = UserManager()
+
+    REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['date_of_birth']
+
+    class Meta:
+        app_label = 'auth'
 
 
 class AcademicInstitution(models.Model):
@@ -134,7 +141,8 @@ class StudentRecordEntry(models.Model):
     result_grade = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
 
     def __unicode__(self):
-        return "id# " + self.student_record.student.student_identifier + " course=" + self.course.name + " grade=" + str(self.result_grade)
+        return "id# " + self.student_record.student.student_identifier + " course=" + self.course.name + " grade=" + str(
+            self.result_grade)
 
 
 class Registration(models.Model):
