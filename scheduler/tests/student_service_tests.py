@@ -2,6 +2,7 @@ from django.utils.unittest.case import TestCase
 from scheduler.models import AcademicInstitution, Student, Course
 from scheduler.services import StudentService
 
+import logging
 
 class StudentServiceTest(TestCase):
     fixtures = ['/scheduler/fixtures/initial_data.json']
@@ -24,4 +25,4 @@ class StudentServiceTest(TestCase):
         studentService.RegisterStudentToCourse(test_student, old_course)
 
         self.assertEqual(1, len(test_student.errorList))
-        print(AcademicInstitution.objects.all())
+        logging.debug(AcademicInstitution.objects.all())

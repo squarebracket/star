@@ -175,3 +175,10 @@ except (ImportError):
     
 	EXTRA_APPS = ()
 	FIXTURE_DIRS = ()
+
+import logging, os
+# create a logfile in the current directory
+logfilename = os.path.join(os.getcwd(), 'log.log')
+# configure the logging
+FORMAT='%(levelname)s @ %(asctime)-15s : %(message)s\ncalled from %(pathname)s at line %(lineno)d'
+logging.basicConfig(filename=logfilename, level=logging.DEBUG, format=FORMAT)

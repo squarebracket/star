@@ -3,12 +3,14 @@ from datetime import date, time
 from django.test import TestCase
 from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, AcademicInstitution, Faculty
 
+import logging
+logging.info('Running tests on models')
 
 class SimpleModelsTest(TestCase):
     def test_adding_a_student(self):
         concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))
         concordia.save()
-        print(AcademicInstitution.objects.all())
+        logging.debug(AcademicInstitution.objects.all())
         encs = Faculty(name="Faculty of Engineering and Computer Science", description="xx", university=concordia)
         encs.save()
         business = Faculty(name="Faculty of Business", description="xx", university=concordia)
@@ -68,9 +70,8 @@ class SimpleModelsTest(TestCase):
         electiveRequirements.allowable_courses.add(elec102)
         electiveRequirements.save()
 
-        print("setup professor")
-
         #Setup Professor
+        logging.info("Setup professor")
         prof_fancott = Professor(faculty=encs, date_of_birth=date(1950, 1, 1), gender="M")
         prof_fancott.save()
 
