@@ -6,6 +6,7 @@ from scheduler.models import Student, AcademicProgram, Course, AcademicRequireme
 import logging
 logging.info('Running tests on models')
 
+
 class SimpleModelsTest(TestCase):
     def test_adding_a_student(self):
         concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))

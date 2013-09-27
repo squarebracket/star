@@ -1,28 +1,49 @@
 from django.utils.unittest.case import TestCase
-from scheduler.models import AcademicInstitution, Student, Course
+from scheduler.models import *
 from scheduler.services import StudentService
 
 import logging
+
 
 class StudentServiceTest(TestCase):
     fixtures = ['/scheduler/fixtures/initial_data.json']
 
     def test_should_register_course_for_student(self):
+        #Create the Student Service
         studentService = StudentService()
 
-        test_student = Student.objects.get_by_natural_key("student_user_1")
-        new_course = Course.objects.get(name="SOEN 341")
+        #Find our test student
+        student = Student.objects.get_by_natural_key("student_user_1")
+        #Find the first course soen 341
+        soen341 = Course.objects.get(name="SOEN 341")
 
-        self.assertIsNotNone(test_student)
-        self.assertIsNotNone(new_course)
+        #Check that both are not null
+        self.assertIsNotNone(student)
+        self.assertIsNotNone(soen341)
 
-        studentService.RegisterStudentToCourse(test_student, new_course)
+        #Record the number of courses registered to this student
+        current_student_registration_count = len(student.registration_set.all())
+        #Register the student to the course
+        studentService.RegisterStudentToCourse(student, soen341)
+        #Check that we successfully registered for the course by count + 1
+        self.assertEqual(current_student_registration_count + 1, len(student.registration_set.all()))
+        #Check that there is no error reported
+        self.assertEqual(0, len(student.errorList))
 
-        self.assertEqual(0, len(test_student.errorList))
+    def test_should_not_register_course_for_student_if_already_taken(self):
+        #Create the Student Service
+        studentService = StudentService()
 
-        old_course = test_student.studentrecord.studentrecordentry_set.all()[0].course
+        #Find our test student
+        student = Student.objects.get_by_natural_key("student_user_1")
 
-        studentService.RegisterStudentToCourse(test_student, old_course)
+        #Find a ENGR202 which the student has already taken
+        student_records = [sre.course for sre in student.studentrecord.studentrecordentry_set.all()
+                           if sre.course.name == "ENGR 202"]
 
-        self.assertEqual(1, len(test_student.errorList))
-        logging.debug(AcademicInstitution.objects.all())
+        engr202 = student_records[0]
+        self.assertIsNotNone(engr202)
+        #Try to register the student to this course
+        studentService.RegisterStudentToCourse(student, engr202)
+        #Check that an error has occured
+        self.assertEqual(1, len(student.errorList))
