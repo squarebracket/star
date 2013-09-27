@@ -76,6 +76,9 @@ class Section(models.Model):
     course = models.ForeignKey(Course)
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
 
+    def isNotFull(self):
+        return len(self.registration_set.all()) < self.capacity
+
     def __unicode__(self):
         return self.name
 
