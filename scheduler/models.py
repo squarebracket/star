@@ -1,4 +1,4 @@
-#This file contains all the Model in the application
+#This file contains all the Models for the application
 from datetime import time
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models

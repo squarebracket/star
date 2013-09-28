@@ -4,10 +4,9 @@ from django.test import TestCase
 from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, AcademicInstitution, Faculty
 
 import logging
-logging.info('Running tests on models')
-
 
 class SimpleModelsTest(TestCase):
+
     def test_adding_a_student(self):
         concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))
         concordia.save()
