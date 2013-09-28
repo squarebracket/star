@@ -85,7 +85,7 @@ class RegistrationServiceTest(TestCase):
 
     def test_should_register_course_if_pre_req_is_fullfilled(self):
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_one.registration_set.all())
+        current_student_registration_count = len(self.student_two.registration_set.all())
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
@@ -94,7 +94,6 @@ class RegistrationServiceTest(TestCase):
         self.assertEqual(current_student_registration_count + 1, len(self.student_two.registration_set.all()))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_two.errorList))
-
 
         # def test_should_be_put_on_wait_list_if_sections_are_full(self):
         #     #Create the Student Service
