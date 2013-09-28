@@ -1,18 +1,18 @@
 from django.utils.unittest.case import TestCase
 from scheduler.models import *
-from scheduler.services import StudentService
+from scheduler.services import RegistrationService
 
 import logging
 
 
-class StudentServiceTest(TestCase):
+class RegistrationServiceTest(TestCase):
     fixtures = ['/scheduler/fixtures/initial_data.json']
 
     def setUp(self):
         #Find our test student
         self.student = Student.objects.get_by_natural_key("student_user_1")
         #Create our service for testing
-        self.studentService = StudentService()
+        self.studentService = RegistrationService()
 
     def test_should_register_course_for_student(self):
         #Find the first course soen 341
@@ -46,7 +46,7 @@ class StudentServiceTest(TestCase):
         #Check that an error has occured
         self.assertEqual(1, len(self.student.errorList))
         #Check for specific error message
-        self.assertEqual(StudentService.COURSE_ALREADY_TAKEN_ERROR_MSG, self.student.errorList[0])
+        self.assertEqual(RegistrationService.COURSE_ALREADY_TAKEN_ERROR_MSG, self.student.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count, len(self.student.registration_set.all()))
         del self.student.errorList[:]
@@ -62,7 +62,7 @@ class StudentServiceTest(TestCase):
         #Check that an error has occured
         self.assertEqual(1, len(self.student.errorList))
         #Check for specific error message
-        self.assertEqual(StudentService.NO_SECTION_AVAILABLE_ERROR_MSG, self.student.errorList[0])
+        self.assertEqual(RegistrationService.NO_SECTION_AVAILABLE_ERROR_MSG, self.student.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count, len(self.student.registration_set.all()))
         del self.student.errorList[:]

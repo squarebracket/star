@@ -1,7 +1,7 @@
 from scheduler.models import Registration
 
 
-class StudentService():
+class RegistrationService():
 
     COURSE_ALREADY_TAKEN_ERROR_MSG = "course already taken"
     NO_SECTION_AVAILABLE_ERROR_MSG = "no sections are open for this course"
