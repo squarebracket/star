@@ -2,7 +2,10 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-from scheduler.models import AcademicProgram, Course, AcademicRequirement, StudentRecordEntry, StudentRecord, Student, Section, ScheduleItem, Registration, Professor, Corequisite, Prerequisite, Director, Registrar, Lab, Tutorial, Lecture, AcademicInstitution, Faculty, Building, Facility
+from scheduler.models import AcademicProgram, Course, AcademicRequirement, \
+    StudentRecordEntry, StudentRecord, Student, Section, ScheduleItem, \
+    Registration, Professor, Corequisite, Prerequisite, Director, Registrar,\
+    Lab, Tutorial, Lecture, AcademicInstitution, Faculty, Building, Facility
 
 admin.site.register(AcademicInstitution)
 admin.site.register(Faculty)

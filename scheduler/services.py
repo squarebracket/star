@@ -20,9 +20,12 @@ class RegistrationService():
             student.errorList.append(self.NO_SECTION_AVAILABLE_ERROR_MSG)
             return student
         if len(course.prerequiste_list.all()) > 0:
-            not_fulfilled = [prereq for prereq in course.prerequiste_list.all() if prereq not in already_taken_course_set]
+            not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
+                             if prereq not in already_taken_course_set]
             if len(not_fulfilled) > 0:
-                student.errorList.append(self.PRE_REQ_NOT_FULFILLED + str([str(c.name) for c in not_fulfilled]).strip("[]"))
+                # this looks ugly -- better way to do it?
+                student.errorList.append(self.PRE_REQ_NOT_FULFILLED +
+                                         str([str(c.name) for c in not_fulfilled]).strip("[]"))
                 return student
 
         not_full_sections = [s for s in course.section_set.all() if s.isNotFull()]
