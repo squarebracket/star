@@ -1,0 +1,4 @@
+django
+sphinx
+south
+beautifulsoup4
