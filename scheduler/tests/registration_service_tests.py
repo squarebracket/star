@@ -9,7 +9,8 @@ from scheduler.services import RegistrationService
 class RegistrationServiceTest(TestCase):
     fixtures = ['/scheduler/fixtures/initial_data.json']
 
-    def set_up(self):
+    def setUp(self):
+        logging.info('Create students')
         #Find our test student
         self.student_one = Student.objects.get_by_natural_key("student_user_1")
         self.student_two = Student.objects.get_by_natural_key("student_user_2")
@@ -17,6 +18,7 @@ class RegistrationServiceTest(TestCase):
         self.registration_service = RegistrationService()
 
     def test_should_register_course_for_student(self):
+        logging.info('test')
         #Find the first course soen 341
         soen341 = Course.objects.get(name="SOEN 341")
 
@@ -84,7 +86,7 @@ class RegistrationServiceTest(TestCase):
         #Try to register the student to this course
         self.registration_service.createRegistrationFor(self.student_one,
                                                         engr301)
-        #Check that an error has occured
+        #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
         self.assertEqual(RegistrationService.PRE_REQ_NOT_FULFILLED + "'ENGR 201'",
