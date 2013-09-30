@@ -67,7 +67,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -77,7 +77,7 @@ SECRET_KEY = '_7wep_rxz!&yes$a5l3!_pdp+lw7ql_7j)n*#s2@y352w(fie#'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -145,40 +145,48 @@ LOGGING = {
 }
 
 # Extra stuff for handling different environments
+#
+# This is probably an inappropriate use of an exception, since it will be
+# fairly common for no env_settings file to exist.
 try:
-	from env_settings import *
+    from scheduler_site.env_settings import *
 
-	# If there are extra apps to be added, turn INSTALLED_APPS into a list so
-	# that it is mutable, add the EXTRA_APPS, and turn it back into a tuple.
-	# If you can think of a better way, please fix it, because this feels 
-	# unnecessary. 
-	if (len(EXTRA_APPS) > 0):
-		INSTALLED_APPS = list(INSTALLED_APPS)
-		INSTALLED_APPS.extend(EXTRA_APPS)
-		INSTALLED_APPS = tuple(INSTALLED_APPS)
+    # If there are extra apps to be added, turn INSTALLED_APPS into a list so
+    # that it is mutable, add the EXTRA_APPS, and turn it back into a tuple.
+    # If you can think of a better way, please fix it, because this feels
+    # unnecessary.
+    if len(EXTRA_APPS) > 0:
+        INSTALLED_APPS = list(INSTALLED_APPS)
+        INSTALLED_APPS.extend(EXTRA_APPS)
+        INSTALLED_APPS = tuple(INSTALLED_APPS)
 
-except (ImportError):
-	import os
-	db_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),'schedule.db')
-	# default database config - write out to env_settings.py
-	DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': db_file,  # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+except ImportError:
+    import os
+
+    db_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'schedule.db')
+    # default database config
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': db_file,  # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',  # Set to empty string for default.
+        }
     }
-    }
-    
-	EXTRA_APPS = ()
-	FIXTURE_DIRS = ()
 
-import logging, os
+    EXTRA_APPS = ()
+    FIXTURE_DIRS = ()
+
+# Setup logging
+import logging
+import os
 # create a logfile in the current directory
 logfilename = os.path.join(os.getcwd(), 'log.log')
 # configure the logging
-FORMAT='%(levelname)s @ %(asctime)-15s : %(message)s\ncalled from %(pathname)s at line %(lineno)d'
+FORMAT = \
+    """%(levelname)s @ %(asctime)-15s : %(message)s
+    called from %(pathname)s at line %(lineno)d"""
 logging.basicConfig(filename=logfilename, level=logging.DEBUG, format=FORMAT)

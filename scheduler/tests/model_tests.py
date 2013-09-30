@@ -1,26 +1,34 @@
 from datetime import date, time
+import logging
 
 from django.test import TestCase
-from scheduler.models import Student, AcademicProgram, Course, AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, Section, Lecture, Professor, Registration, Building, Facility, AcademicInstitution, Faculty
 
-import logging
+from scheduler.models import Student, AcademicProgram, Course, \
+    AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, \
+    Section, Lecture, Professor, Registration, Building, Facility, \
+    AcademicInstitution, Faculty
+
 
 class SimpleModelsTest(TestCase):
 
     def test_adding_a_student(self):
-        concordia = AcademicInstitution(name="Concordia University", established_on=date(year=1974, month=8, day=24))
+        concordia = AcademicInstitution(name="Concordia University",
+                                        established_on=date(year=1974, month=8, day=24))
         concordia.save()
         logging.debug(AcademicInstitution.objects.all())
-        encs = Faculty(name="Faculty of Engineering and Computer Science", description="xx", university=concordia)
+        encs = Faculty(name="Faculty of Engineering and Computer Science",
+                       description="xx", university=concordia)
         encs.save()
-        business = Faculty(name="Faculty of Business", description="xx", university=concordia)
+        business = Faculty(name="Faculty of Business", description="xx",
+                           university=concordia)
         business.save()
 
         #Setup the Program for the student
-        soenProgram = AcademicProgram(name="soen", faculty=encs, required_gpa=2.8, type="U")
+        soen_program = AcademicProgram(name="soen", faculty=encs,
+                                       required_gpa=2.8, type="U")
 
         # test Soen program, contains core courses
-        soenProgram.save()
+        soen_program.save()
 
         soen101 = Course(name="soen101", course_credits=4, faculty=encs)
         soen102 = Course(name="soen102", course_credits=4, faculty=encs)
@@ -35,18 +43,19 @@ class SimpleModelsTest(TestCase):
         soen301.save()
 
         #Setup course prerequisites
-        soen201Prereq101 = Prerequisite(course=soen201, prerequisite_course=soen101)
-        soen202Prereq102 = Prerequisite(course=soen202, prerequisite_course=soen102)
-        soen301Prereq201 = Prerequisite(course=soen301, prerequisite_course=soen201)
-        soen301Prereq202 = Prerequisite(course=soen301, prerequisite_course=soen202)
+        soen201_prereq101 = Prerequisite(course=soen201, prerequisite_course=soen101)
+        soen202_prereq102 = Prerequisite(course=soen202, prerequisite_course=soen102)
+        soen301_prereq201 = Prerequisite(course=soen301, prerequisite_course=soen201)
+        soen301_prereq202 = Prerequisite(course=soen301, prerequisite_course=soen202)
 
-        soen201Prereq101.save()
-        soen202Prereq102.save()
-        soen301Prereq201.save()
-        soen301Prereq202.save()
+        soen201_prereq101.save()
+        soen202_prereq102.save()
+        soen301_prereq201.save()
+        soen301_prereq202.save()
 
-        elecProgram = AcademicProgram(name="elec", faculty=business)  # test Elective program, contains elective courses
-        elecProgram.save()
+        # test Elective program, contains elective courses
+        elec_program = AcademicProgram(name="elec", faculty=business)
+        elec_program.save()
 
         elec101 = Course(name="elec101", course_credits=4, faculty=encs)
         elec102 = Course(name="elec102", course_credits=4, faculty=encs)
@@ -54,34 +63,41 @@ class SimpleModelsTest(TestCase):
         elec102.save()
 
         #Setup program requirements
-        coreRequirements = AcademicRequirement(name="Core", required_credits=12, academic_program=soenProgram)
-        electiveRequirements = AcademicRequirement(name="Electives", required_credits=4, academic_program=soenProgram)
+        core_reqs = AcademicRequirement(name="Core", required_credits=12,
+                                        academic_program=soen_program)
+        elec_reqs = AcademicRequirement(name="Electives",
+                                        required_credits=4,
+                                        academic_program=soen_program)
 
-        coreRequirements.save()
-        coreRequirements.allowable_courses.add(soen101)
-        coreRequirements.allowable_courses.add(soen101)
-        coreRequirements.allowable_courses.add(soen201)
-        coreRequirements.allowable_courses.add(soen202)
-        coreRequirements.allowable_courses.add(soen301)
-        coreRequirements.save()
+        core_reqs.save()
+        core_reqs.allowable_courses.add(soen101)
+        core_reqs.allowable_courses.add(soen101)
+        core_reqs.allowable_courses.add(soen201)
+        core_reqs.allowable_courses.add(soen202)
+        core_reqs.allowable_courses.add(soen301)
+        core_reqs.save()
 
-        electiveRequirements.save()
-        electiveRequirements.allowable_courses.add(elec101)
-        electiveRequirements.allowable_courses.add(elec102)
-        electiveRequirements.save()
+        elec_reqs.save()
+        elec_reqs.allowable_courses.add(elec101)
+        elec_reqs.allowable_courses.add(elec102)
+        elec_reqs.save()
 
         #Setup Professor
         logging.info("Setup professor")
-        prof_fancott = Professor(faculty=encs, date_of_birth=date(1950, 1, 1), gender="M")
+        prof_fancott = Professor(faculty=encs, date_of_birth=date(1950, 1, 1),
+                                 gender="M")
         prof_fancott.save()
 
         #Setup Offerings by section
-        section1_for_soen201 = Section(name="S1", capacity=20, course=soen201, semester="F")
+        section1_for_soen201 = Section(name="S1", capacity=20, course=soen201,
+                                       semester="F")
         section1_for_soen201.save()
-        section2_for_soen201 = Section(name="S2", capacity=20, course=soen201, semester="F")
+        section2_for_soen201 = Section(name="S2", capacity=20, course=soen201,
+                                       semester="F")
         section2_for_soen201.save()
 
-        hall_building = Building(name="Hall", address="123 Street", city="Montreal", province="Quebec",
+        hall_building = Building(name="Hall", address="123 Street",
+                                 city="Montreal", province="Quebec",
                                  country="Canada", postal_code="x2c3v4")
         hall_building.save()
 
@@ -99,30 +115,37 @@ class SimpleModelsTest(TestCase):
         fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
                                                    start_time=time(hour=10, minute=15),
                                                    end_time=time(hour=11, minute=30),
-                                                   day_of_week="Fri", section=section1_for_soen201,
+                                                   day_of_week="Fri",
+                                                   section=section1_for_soen201,
                                                    professor=prof_fancott)
         fri_lecture_for_soen201_section1.save()
 
-        section1_for_soen202 = Section(name="S1", capacity=20, course=soen202, semester="F")
+        section1_for_soen202 = Section(name="S1", capacity=20, course=soen202,
+                                       semester="F")
         section1_for_soen202.save()
 
-        student = Student(username="test_user", password="password", first_name="test", last_name="user",
-                          date_of_birth=date(1980, 1, 1), gender='M')
-        student.program = soenProgram
+        student = Student(username="test_user", password="password",
+                          first_name="test", last_name="user",
+                          date_of_birth=date(1980, 1, 1),
+                          gender='M')
+        student.program = soen_program
         student.save()
 
-        allStudents = Student.objects.all()
+        all_students = Student.objects.all()
 
-        studentRecord = StudentRecord(student=student, standing="good", gpa=0.00)
-        studentRecord.save()
+        test_record = StudentRecord(student=student, standing="good", gpa=0.00)
+        test_record.save()
 
         # The student has taken 2 courses already
-        soen101Entry = StudentRecordEntry(student_record=studentRecord, course=soen101, result_grade=3.8)
-        elec101Entry = StudentRecordEntry(student_record=studentRecord, course=elec101, result_grade=3.5)
+        soen101_entry = StudentRecordEntry(student_record=test_record,
+                                           course=soen101, result_grade=3.8)
+        elec101_entry = StudentRecordEntry(student_record=test_record,
+                                           course=elec101, result_grade=3.5)
 
-        soen101Entry.save()
-        elec101Entry.save()
+        soen101_entry.save()
+        elec101_entry.save()
 
-        soen201_reg = Registration(student=student, section=section1_for_soen201)
+        soen201_reg = Registration(student=student,
+                                   section=section1_for_soen201)
         soen201_reg.save()
 
