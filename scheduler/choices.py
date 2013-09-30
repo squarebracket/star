@@ -1,4 +1,3 @@
-
 DAY_OF_WEEK_CHOICES = (
     ('Mon', 'Monday'),
     ('Tue', 'Tuesday'),
@@ -33,6 +32,7 @@ STUDENT_TYPE_CHOICES = (
 SEMESTER_CHOICES = (
     ('F', 'Fall'),
     ('W', 'Winter'),
+    ('Y', 'Fall/Winter'),
     ('S1', 'Summer 1'),
     ('S2', 'Summer 2'),
 )

@@ -1,14 +1,15 @@
+import logging
+
 from django.utils.unittest.case import TestCase
+
 from scheduler.models import *
 from scheduler.services import RegistrationService
-
-import logging
 
 
 class RegistrationServiceTest(TestCase):
     fixtures = ['/scheduler/fixtures/initial_data.json']
 
-    def setUp(self):
+    def set_up(self):
         #Find our test student
         self.student_one = Student.objects.get_by_natural_key("student_user_1")
         self.student_two = Student.objects.get_by_natural_key("student_user_2")
@@ -28,7 +29,8 @@ class RegistrationServiceTest(TestCase):
         #Register the student to the course
         self.registration_service.createRegistrationFor(self.student_one, soen341)
         #Check that we successfully registered for the course by count + 1
-        self.assertEqual(current_student_registration_count + 1, len(self.student_one.registration_set.all()))
+        self.assertEqual(current_student_registration_count + 1,
+                         len(self.student_one.registration_set.all()))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_one.errorList))
 
@@ -37,19 +39,23 @@ class RegistrationServiceTest(TestCase):
         current_student_registration_count = len(self.student_one.registration_set.all())
 
         #Find a ENGR202 which the student has already taken
-        student_records = [sre.course for sre in self.student_one.studentrecord.studentrecordentry_set.all()
+        student_records = [sre.course for sre in
+                           self.student_one.studentrecord.studentrecordentry_set.all()
                            if sre.course.name == "ENGR 202"]
 
         engr202 = student_records[0]
         self.assertIsNotNone(engr202)
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_one, engr202)
-        #Check that an error has occured
+        self.registration_service.createRegistrationFor(self.student_one,
+                                                        engr202)
+        #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(RegistrationService.COURSE_ALREADY_TAKEN_ERROR_MSG, self.student_one.errorList[0])
+        self.assertEqual(RegistrationService.COURSE_ALREADY_TAKEN_ERROR_MSG,
+                         self.student_one.errorList[0])
         #Check and make sure registration count has not changed
-        self.assertEqual(current_student_registration_count, len(self.student_one.registration_set.all()))
+        self.assertEqual(current_student_registration_count, 
+                         len(self.student_one.registration_set.all()))
         del self.student_one.errorList[:]
 
     def test_should_not_register_course_if_no_section_open(self):
@@ -63,27 +69,32 @@ class RegistrationServiceTest(TestCase):
         #Check that an error has occured
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(RegistrationService.NO_SECTION_AVAILABLE_ERROR_MSG, self.student_one.errorList[0])
+        self.assertEqual(RegistrationService.NO_SECTION_AVAILABLE_ERROR_MSG, 
+                         self.student_one.errorList[0])
         #Check and make sure registration count has not changed
-        self.assertEqual(current_student_registration_count, len(self.student_one.registration_set.all()))
+        self.assertEqual(current_student_registration_count, 
+                         len(self.student_one.registration_set.all()))
         del self.student_one.errorList[:]
 
-    def test_should_not_register_course_if_pre_req_not_fullfilled(self):
+    def test_should_not_register_course_if_pre_req_not_fulfilled(self):
         #Record the number of courses registered to this student
         current_student_registration_count = len(self.student_one.registration_set.all())
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_one, engr301)
+        self.registration_service.createRegistrationFor(self.student_one,
+                                                        engr301)
         #Check that an error has occured
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(RegistrationService.PRE_REQ_NOT_FULFILLED + "'ENGR 201'", self.student_one.errorList[0])
+        self.assertEqual(RegistrationService.PRE_REQ_NOT_FULFILLED + "'ENGR 201'",
+                         self.student_one.errorList[0])
         #Check and make sure registration count has not changed
-        self.assertEqual(current_student_registration_count, len(self.student_one.registration_set.all()))
+        self.assertEqual(current_student_registration_count,
+                         len(self.student_one.registration_set.all()))
         del self.student_one.errorList[:]
 
-    def test_should_register_course_if_pre_req_is_fullfilled(self):
+    def test_should_register_course_if_pre_req_is_fulfilled(self):
         #Record the number of courses registered to this student
         current_student_registration_count = len(self.student_two.registration_set.all())
         #engr301 has engr201 as its pre-req
@@ -91,7 +102,8 @@ class RegistrationServiceTest(TestCase):
         #Try to register the student to this course
         self.registration_service.createRegistrationFor(self.student_two, engr301)
         #Check that we successfully registered for the course by count + 1
-        self.assertEqual(current_student_registration_count + 1, len(self.student_two.registration_set.all()))
+        self.assertEqual(current_student_registration_count + 1,
+                         len(self.student_two.registration_set.all()))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_two.errorList))
 

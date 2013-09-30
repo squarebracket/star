@@ -1,7 +1,9 @@
 #This file contains all the Models for the application
 from datetime import time
+
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+
 from scheduler.choices import *
 
 
@@ -39,7 +41,8 @@ class AcademicProgram(models.Model):
     name = models.CharField(max_length=256)
     faculty = models.ForeignKey(Faculty)
     total_required_credits = models.IntegerField(default=0)
-    required_gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
+    required_gpa = models.DecimalField(default=0.00, decimal_places=2,
+                                       max_digits=10)
     type = models.CharField(max_length=1, choices=PROGRAM_TYPE_CHOICES)
 
     def __unicode__(self):
@@ -51,9 +54,13 @@ class Course(models.Model):
     description = models.CharField(max_length=256)
     course_credits = models.IntegerField(default=0.0)
     faculty = models.ForeignKey(Faculty)
-    prerequiste_list = models.ManyToManyField('self', through='Prerequisite', symmetrical=False,
+    prerequiste_list = models.ManyToManyField('self',
+                                              through='Prerequisite',
+                                              symmetrical=False,
                                               related_name="prerequsite_relation")
-    corequiste_list = models.ManyToManyField('self', through='Corequisite', symmetrical=False,
+    corequiste_list = models.ManyToManyField('self',
+                                             through='Corequisite',
+                                             symmetrical=False,
                                              related_name="corequisite_reltion")
 
     def __unicode__(self):
@@ -99,8 +106,10 @@ class Facility(models.Model):
     name = models.CharField(max_length=20, unique=True)
     building = models.ForeignKey(Building)
     capacity = models.IntegerField(default=0)
-    available_start_time = models.TimeField('available start time', default=time(hour=8, minute=0))
-    available_end_time = models.TimeField('available end time', default=time(hour=22, minute=0))
+    available_start_time = models.TimeField('available start time',
+                                            default=time(hour=8, minute=0))
+    available_end_time = models.TimeField('available end time',
+                                          default=time(hour=22, minute=0))
 
     def __unicode__(self):
         return self.name
@@ -114,7 +123,8 @@ class ScheduleItem(models.Model):
     section = models.ForeignKey(Section)
 
     def __unicode__(self):
-        return self.location + " from " + self.start_time + " to " + self.end_time + " on " + self.day_of_week
+        return "%s from %s to %s on %s" % (self.location, self.start_time,
+                                           self.end_time, self.day_of_week)
 
 
 class Student(StarUser):
@@ -123,7 +133,8 @@ class Student(StarUser):
     type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
 
     def __unicode__(self):
-        return "id#" + self.student_identifier + " (" + self.first_name + " " + self.last_name + ")"
+        return "id#%s (%s %s)" % (self.student_identifier, self.first_name,
+                                  self.last_name)
 
     class Meta:
         verbose_name = "student"
@@ -135,18 +146,19 @@ class StudentRecord(models.Model):
     gpa = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
 
     def __unicode__(self):
-        return "student record for " + self.student.student_identifier
+        return "student record for %s" % self.student.student_identifier
 
 
 class StudentRecordEntry(models.Model):
     student_record = models.ForeignKey(StudentRecord)
     course = models.ForeignKey(Course)
-    result_grade = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
+    result_grade = models.DecimalField(default=0.00, decimal_places=2,
+                                       max_digits=10)
 
     def __unicode__(self):
-        return "id# " + self.student_record.student.student_identifier + " course=" + self.course.name + " grade=" + str(
-            self.result_grade)
-
+        return "id:%s, course:%s, grade:%s" % (self.student_record.student.student_identifier,
+                                               self.course.name,
+                                               self.result_grade)
 
 class Registration(models.Model):
     student = models.ForeignKey(Student)
@@ -177,12 +189,14 @@ class Director(StarUser):
 
 class Prerequisite(models.Model):
     course = models.ForeignKey(Course, related_name="course_p")
-    prerequisite_course = models.ForeignKey(Course, related_name="prerequisite_course")
+    prerequisite_course = models.ForeignKey(Course,
+                                            related_name="prerequisite_course")
 
 
 class Corequisite(models.Model):
     course = models.ForeignKey(Course, related_name="course_c")
-    corequisite_course = models.ForeignKey(Course, related_name="corequisite_course")
+    corequisite_course = models.ForeignKey(Course,
+                                           related_name="corequisite_course")
 
 
 class Lab(ScheduleItem):
