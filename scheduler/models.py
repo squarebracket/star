@@ -36,6 +36,13 @@ class Faculty(models.Model):
     def __unicode__(self):
         return self.name
 
+class Department(models.Model):
+    name = models.CharField(max_length=256)
+    university = models.ForeignKey(AcademicInstitution)
+    faculty = models.ForeignKey(Faculty)
+
+    def __unicode__(self):
+        return self.name
 
 class AcademicProgram(models.Model):
     name = models.CharField(max_length=256)
@@ -50,10 +57,18 @@ class AcademicProgram(models.Model):
 
 
 class Course(models.Model):
-    name = models.CharField(max_length=20)
-    description = models.CharField(max_length=256)
+    course_letters = models.CharField(max_length=4)
+    course_numbers = models.PositiveSmallIntegerField()
+    department = models.ForeignKey(Department)
+    openness = models.PositiveSmallIntegerField(
+        verbose_name='Whether or not the course is open to all students, '
+                     'priority is given to students in the program, or only '
+                     'open to students enrolled in the program.')
+    name = models.CharField(max_length=20, verbose_name='Course title')
+    description = models.CharField(max_length=256,
+                                   verbose_name='Description as it appears in '
+                                                'the academic calendar')
     course_credits = models.IntegerField(default=0.0)
-    faculty = models.ForeignKey(Faculty)
     prerequiste_list = models.ManyToManyField('self',
                                               through='Prerequisite',
                                               symmetrical=False,
