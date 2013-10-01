@@ -26,6 +26,7 @@ class SimpleModelsTest(TestCase):
         #Make test department
         cse = Department(name="Computer Science and Software Engineering",
                          university=concordia, faculty=encs)
+        cse.save()
 
         #Setup the Program for the student
         soen_program = AcademicProgram(name="soen", faculty=encs,

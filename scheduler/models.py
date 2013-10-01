@@ -58,7 +58,7 @@ class AcademicProgram(models.Model):
 
 class Course(models.Model):
     course_letters = models.CharField(max_length=4)
-    course_numbers = models.PositiveSmallIntegerField()
+    course_numbers = models.CharField(max_length=5)
     department = models.ForeignKey(Department)
     openness = models.PositiveSmallIntegerField(
         help_text='Whether or not the course is open to all students, '
