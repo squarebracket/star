@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'scheduler',
     #'south',
+    'scraper',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -150,7 +151,8 @@ LOGGING = {
 #
 # This is probably an inappropriate use of an exception, since it will be
 # fairly common for no env_settings file to exist.
-if os.path.isfile('env_settings.py'):
+cur_path = os.path.dirname(os.path.realpath(__file__))
+if os.path.isfile(os.path.join(cur_path,'env_settings.py')):
     from scheduler_site.env_settings import *
 
     # If there are extra apps to be added, turn INSTALLED_APPS into a list so
@@ -163,7 +165,7 @@ if os.path.isfile('env_settings.py'):
         INSTALLED_APPS = tuple(INSTALLED_APPS)
 
 else:
-    db_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'schedule.db')
+    db_file = os.path.join(cur_path, 'schedule.db')
     # default database config
     DATABASES = {
         'default': {
