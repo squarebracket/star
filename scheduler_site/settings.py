@@ -115,7 +115,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'scheduler',
     #'south',
-    'scraper',
 )
 
 # A sample logging configuration. The only tangible logging
