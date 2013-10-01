@@ -1,8 +1,8 @@
 import logging
 
-from django.utils.unittest.case import TestCase
+from django.test import TestCase
 
-from scheduler.models import *
+from scheduler.models import Student, Course
 from scheduler.services import RegistrationService
 
 
@@ -11,8 +11,10 @@ class RegistrationServiceTest(TestCase):
 
     def setUp(self):
         #Find our test student
-        self.student_one = Student.objects.get_by_natural_key("student_user_1")
-        self.student_two = Student.objects.get_by_natural_key("student_user_2")
+        logging.debug(Student.objects.all())
+        logging.debug(Course.objects.all())
+        self.student_one = Student.objects.get_by_natural_key('student_user_1')
+        self.student_two = Student.objects.get_by_natural_key('student_user_2')
         #Create our service for testing
         self.registration_service = RegistrationService()
 
