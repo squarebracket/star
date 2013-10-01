@@ -61,13 +61,13 @@ class Course(models.Model):
     course_numbers = models.PositiveSmallIntegerField()
     department = models.ForeignKey(Department)
     openness = models.PositiveSmallIntegerField(
-        verbose_name='Whether or not the course is open to all students, '
-                     'priority is given to students in the program, or only '
-                     'open to students enrolled in the program.')
+        help_text='Whether or not the course is open to all students, '
+                  'priority is given to students in the program, or only '
+                  'open to students enrolled in the program.')
     name = models.CharField(max_length=20, verbose_name='Course title')
     description = models.CharField(max_length=256,
-                                   verbose_name='Description as it appears in '
-                                                'the academic calendar')
+                                   help_text='Description as it appears in '
+                                             'the academic calendar')
     course_credits = models.IntegerField(default=0.0)
     prerequiste_list = models.ManyToManyField('self',
                                               through='Prerequisite',
