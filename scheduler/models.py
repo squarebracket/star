@@ -79,7 +79,7 @@ class Course(models.Model):
                                              related_name="corequisite_reltion")
 
     def __unicode__(self):
-        return self.name
+        return "%s %s" % (self.course_letters, self.course_numbers)
 
 
 class AcademicRequirement(models.Model):

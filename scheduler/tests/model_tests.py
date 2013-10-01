@@ -6,7 +6,7 @@ from django.test import TestCase
 from scheduler.models import Student, AcademicProgram, Course, \
     AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, \
     Section, Lecture, Professor, Registration, Building, Facility, \
-    AcademicInstitution, Faculty
+    AcademicInstitution, Faculty, Department
 
 
 class SimpleModelsTest(TestCase):
@@ -23,6 +23,10 @@ class SimpleModelsTest(TestCase):
                            university=concordia)
         business.save()
 
+        #Make test department
+        cse = Department(name="Computer Science and Software Engineering",
+                         university=concordia, faculty=encs)
+
         #Setup the Program for the student
         soen_program = AcademicProgram(name="soen", faculty=encs,
                                        required_gpa=2.8, type="U")
@@ -30,11 +34,21 @@ class SimpleModelsTest(TestCase):
         # test Soen program, contains core courses
         soen_program.save()
 
-        soen101 = Course(name="soen101", course_credits=4, faculty=encs)
-        soen102 = Course(name="soen102", course_credits=4, faculty=encs)
-        soen201 = Course(name="soen201", course_credits=4, faculty=encs)
-        soen202 = Course(name="soen202", course_credits=4, faculty=encs)
-        soen301 = Course(name="soen301", course_credits=4, faculty=encs)
+        soen101 = Course(course_letters="SOEN", course_numbers="101",
+                         name="Some Soen Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
+        soen102 = Course(course_letters="SOEN", course_numbers="102",
+                         name="Some Soen Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
+        soen201 = Course(course_letters="SOEN", course_numbers="201",
+                         name="Some Soen Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
+        soen202 = Course(course_letters="SOEN", course_numbers="202",
+                         name="Some Soen Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
+        soen301 = Course(course_letters="SOEN", course_numbers="301",
+                         name="Some Soen Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
 
         soen101.save()
         soen102.save()
@@ -57,8 +71,12 @@ class SimpleModelsTest(TestCase):
         elec_program = AcademicProgram(name="elec", faculty=business)
         elec_program.save()
 
-        elec101 = Course(name="elec101", course_credits=4, faculty=encs)
-        elec102 = Course(name="elec102", course_credits=4, faculty=encs)
+        elec101 = Course(course_letters="ELEC", course_numbers="101",
+                         name="Some Elective Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
+        elec102 = Course(course_letters="ELEC", course_numbers="102",
+                         name="Some Elective Course", openness=1, course_credits=4,
+                         department=cse, description="Some course description")
         elec101.save()
         elec102.save()
 
