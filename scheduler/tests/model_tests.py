@@ -144,6 +144,12 @@ class SimpleModelsTest(TestCase):
         section1_for_soen202 = Section(name="S1", capacity=20, course=soen202,
                                        semester_year=semester)
         section1_for_soen202.save()
+        section1_for_soen101 = Section(name="S1", capacity=20, course=soen101,
+                                       semester_year=semester)
+        section1_for_soen101.save()
+        section1_for_elec101 = Section(name="S1", capacity=20, course=elec101,
+                                       semester_year=semester)
+        section1_for_elec101.save()
 
         student = Student(username="test_user", password="password",
                           first_name="test", last_name="user",
@@ -159,9 +165,9 @@ class SimpleModelsTest(TestCase):
 
         # The student has taken 2 courses already
         soen101_entry = StudentRecordEntry(student_record=test_record,
-                                           course=soen101, result_grade=3.8)
+                                           section=section1_for_soen101, result_grade=3.8)
         elec101_entry = StudentRecordEntry(student_record=test_record,
-                                           course=elec101, result_grade=3.5)
+                                           section=section1_for_elec101, result_grade=3.5)
 
         soen101_entry.save()
         elec101_entry.save()

@@ -12,7 +12,7 @@ class RegistrationService():
 
     def createRegistrationFor(self, student, course):
 
-        already_taken_course_set = [e.course for e in student.studentrecord.studentrecordentry_set.all()]
+        already_taken_course_set = [e.section.course for e in student.studentrecord.studentrecordentry_set.all()]
         if course in already_taken_course_set:
             student.errorList.append(self.COURSE_ALREADY_TAKEN_ERROR_MSG)
             return student

@@ -41,9 +41,9 @@ class RegistrationServiceTest(TestCase):
         current_student_registration_count = len(self.student_one.registration_set.all())
 
         #Find a ENGR202 which the student has already taken
-        student_records = [sre.course for sre in
+        student_records = [sre.section.course for sre in
                            self.student_one.studentrecord.studentrecordentry_set.all()
-                           if sre.course.name == "ENGR 202"]
+                           if sre.section.course.name == "ENGR 202"]
 
         engr202 = student_records[0]
         self.assertIsNotNone(engr202)

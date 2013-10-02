@@ -1007,7 +1007,6 @@
         "pk": 1,
         "model": "scheduler.studentrecordentry",
         "fields": {
-            "course": 1,
             "section": 6,
             "result_grade": "3.8",
             "student_record": 1
@@ -1017,7 +1016,6 @@
         "pk": 2,
         "model": "scheduler.studentrecordentry",
         "fields": {
-            "course": 2,
             "section": 5,
             "result_grade": "3.9",
             "student_record": 1
@@ -1027,7 +1025,6 @@
         "pk": 3,
         "model": "scheduler.studentrecordentry",
         "fields": {
-            "course": 4,
             "section": 4,
             "result_grade": "2.8",
             "student_record": 1
@@ -1037,7 +1034,6 @@
         "pk": 4,
         "model": "scheduler.studentrecordentry",
         "fields": {
-            "course": 3,
             "section": 3,
             "result_grade": "2.8",
             "student_record": 2

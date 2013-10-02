@@ -177,7 +177,6 @@ class StudentRecord(models.Model):
 class StudentRecordEntry(models.Model):
     student_record = models.ForeignKey(StudentRecord)
     section = models.ForeignKey(Section, null=True)
-    course = models.ForeignKey(Course, null=True)
     result_grade = models.DecimalField(default=0.00, decimal_places=2,
                                        max_digits=10)
 
