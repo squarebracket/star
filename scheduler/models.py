@@ -158,11 +158,11 @@ class Student(StarUser):
     type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
 
     @property
-    def registration_set(self):
+    def registered_courses(self):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "R"]
 
     @property
-    def completion_set(self):
+    def completed_courses(self):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "C"]
 
     def __unicode__(self):
