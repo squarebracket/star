@@ -100,11 +100,11 @@ class Section(models.Model):
     course = models.ForeignKey(Course)
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
 
-    def isNotFull(self):
+    def is_not_full(self):
         return len(self.registration_set.all()) < self.capacity
 
     def __unicode__(self):
-        return self.name
+        return str(self.course.name) + " " + str(self.name)
 
 
 class Building(models.Model):
@@ -168,14 +168,15 @@ class StudentRecord(models.Model):
 
 class StudentRecordEntry(models.Model):
     student_record = models.ForeignKey(StudentRecord)
-    course = models.ForeignKey(Course)
+    section = models.ForeignKey(Section, null=True)
+    course = models.ForeignKey(Course, null=True)
     result_grade = models.DecimalField(default=0.00, decimal_places=2,
                                        max_digits=10)
 
     def __unicode__(self):
-        return "id:%s, course:%s, grade:%s" % (self.student_record.student.student_identifier,
-                                               self.course.name,
-                                               self.result_grade)
+        return "id:%s, section:%s, grade:%s" % (self.student_record.student.student_identifier,
+                                                str(self.section),
+                                                self.result_grade)
 
 
 class Registration(models.Model):

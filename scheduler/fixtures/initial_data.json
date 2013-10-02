@@ -1,808 +1,955 @@
 [
-   {
-      "pk":1,
-      "model":"auth.user",
-      "fields":{
-         "username":"admin",
-         "first_name":"",
-         "last_name":"",
-         "is_active":true,
-         "is_superuser":true,
-         "is_staff":true,
-         "last_login":"2013-09-27T18:37:13.368Z",
-         "groups":[
-
-         ],
-         "user_permissions":[
-
-         ],
-         "password":"pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
-         "email":"admin@email.com",
-         "date_joined":"2013-09-25T20:05:19.811Z"
-      }
-   },
-   {
-      "pk":1,
-      "model":"auth.staruser",
-      "fields":{
-         "username":"student_user_1",
-         "first_name":"student",
-         "last_name":"user_1",
-         "date_of_birth":"2013-09-25",
-         "gender":"M",
-         "is_active":true,
-         "is_superuser":false,
-         "is_staff":false,
-         "last_login":"2013-09-25T20:09:23Z",
-         "groups":[
-
-         ],
-         "user_permissions":[
-
-         ],
-         "password":"password",
-         "email":"student_user_1@encs.concordia.ca",
-         "date_joined":"2013-09-25T20:09:24Z"
-      }
-   },
-   {
-      "pk":2,
-      "model":"auth.staruser",
-      "fields":{
-         "username":"student_user_2",
-         "first_name":"student",
-         "last_name":"user_2",
-         "date_of_birth":"2013-09-25",
-         "gender":"F",
-         "is_active":true,
-         "is_superuser":false,
-         "is_staff":false,
-         "last_login":"2013-09-25T20:13:30Z",
-         "groups":[
-
-         ],
-         "user_permissions":[
-
-         ],
-         "password":"password",
-         "email":"student_user_2@encs.concordia.ca",
-         "date_joined":"2013-09-25T20:13:30Z"
-      }
-   },
-   {
-      "pk":"ielp7g2euo5iydk87juyngit26g0948s",
-      "model":"sessions.session",
-      "fields":{
-         "expire_date":"2013-10-11T18:37:13.371Z",
-         "session_data":"MjgzYWI0NzM1MDRhYjExNTE5ZjUyZmQxZWY2MmFiMjRhYzNmY2Y3MDqAAn1xAShVEl9hdXRoX3VzZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHEDVQ1fYXV0aF91c2VyX2lkcQRLAXUu"
-      }
-   },
-   {
-      "pk":1,
-      "model":"sites.site",
-      "fields":{
-         "domain":"example.com",
-         "name":"example.com"
-      }
-   },
-   {
-      "pk":1,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:10:04.814Z",
-         "object_repr":"id#12345678 (student user_1)",
-         "object_id":"1",
-         "change_message":"",
-         "user":1,
-         "content_type":18
-      }
-   },
-   {
-      "pk":2,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:14:08.669Z",
-         "object_repr":"id#123456788 (student user_2)",
-         "object_id":"2",
-         "change_message":"",
-         "user":1,
-         "content_type":18
-      }
-   },
-   {
-      "pk":3,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:14:25.841Z",
-         "object_repr":"student record for 12345678",
-         "object_id":"1",
-         "change_message":"",
-         "user":1,
-         "content_type":19
-      }
-   },
-   {
-      "pk":4,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:14:35.881Z",
-         "object_repr":"student record for 123456788",
-         "object_id":"2",
-         "change_message":"",
-         "user":1,
-         "content_type":19
-      }
-   },
-   {
-      "pk":5,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:14:57.995Z",
-         "object_repr":"id# 12345678 course=ELEC 275 grade=3.8",
-         "object_id":"1",
-         "change_message":"",
-         "user":1,
-         "content_type":20
-      }
-   },
-   {
-      "pk":6,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:15:03.575Z",
-         "object_repr":"id# 12345678 course=ENCS 282 grade=3.9",
-         "object_id":"2",
-         "change_message":"",
-         "user":1,
-         "content_type":20
-      }
-   },
-   {
-      "pk":7,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-25T20:15:11.318Z",
-         "object_repr":"id# 12345678 course=ENGR 202 grade=2.8",
-         "object_id":"3",
-         "change_message":"",
-         "user":1,
-         "content_type":20
-      }
-   },
-   {
-      "pk":8,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-27T18:37:40.875Z",
-         "object_repr":"H1",
-         "object_id":"1",
-         "change_message":"",
-         "user":1,
-         "content_type":14
-      }
-   },
-   {
-      "pk":9,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":2,
-         "action_time":"2013-09-27T18:37:51.134Z",
-         "object_repr":"Soen 341 - H1",
-         "object_id":"1",
-         "change_message":"Changed name.",
-         "user":1,
-         "content_type":14
-      }
-   },
-   {
-      "pk":10,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-28T15:55:07.484Z",
-         "object_repr":"Prerequisite object",
-         "object_id":"1",
-         "change_message":"",
-         "user":1,
-         "content_type":25
-      }
-   },
-   {
-      "pk":11,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-28T15:56:48.289Z",
-         "object_repr":"Soen 301 Section 1",
-         "object_id":"2",
-         "change_message":"",
-         "user":1,
-         "content_type":14
-      }
-   },
-   {
-      "pk":12,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":1,
-         "action_time":"2013-09-28T15:58:26.534Z",
-         "object_repr":"id# 123456788 course=ENGR 201 grade=2.8",
-         "object_id":"4",
-         "change_message":"",
-         "user":1,
-         "content_type":20
-      }
-   },
-   {
-      "pk":13,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":2,
-         "action_time":"2013-09-28T15:59:02.849Z",
-         "object_repr":"id#1000002 (student user_2)",
-         "object_id":"2",
-         "change_message":"Changed student_identifier.",
-         "user":1,
-         "content_type":18
-      }
-   },
-   {
-      "pk":14,
-      "model":"admin.logentry",
-      "fields":{
-         "action_flag":2,
-         "action_time":"2013-09-28T15:59:15.992Z",
-         "object_repr":"id#1000001 (student user_1)",
-         "object_id":"1",
-         "change_message":"Changed student_identifier.",
-         "user":1,
-         "content_type":18
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.academicinstitution",
-      "fields":{
-         "established_on":"1974-08-24",
-         "name":"Concordia University"
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.faculty",
-      "fields":{
-         "university":1,
-         "name":"Engineering and Computer Science",
-         "description":"Engineering and Computer Science ENCS"
-      }
-   },
     {
-      "pk":1,
-      "model":"scheduler.department",
-      "fields":{
-         "university":1,
-         "name":"Computer Science and Software Engineering",
-         "faculty":2
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.academicprogram",
-      "fields":{
-         "required_gpa":"2.8",
-         "total_required_credits":60,
-         "type":"U",
-         "name":"Bachelor of Software Engineering",
-         "faculty":2
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.academicprogram",
-      "fields":{
-         "required_gpa":"2.8",
-         "total_required_credits":40,
-         "type":"G",
-         "name":"Masters of Software Engineering",
-         "faculty":2
-      }
-   },
-   {
-      "pk":3,
-      "model":"scheduler.academicprogram",
-      "fields":{
-         "required_gpa":"2.8",
-         "total_required_credits":60,
-         "type":"U",
-         "name":"Bachelors of Computer Science",
-         "faculty":2
-      }
-   },
-   {
-      "pk":4,
-      "model":"scheduler.academicprogram",
-      "fields":{
-         "required_gpa":"2.8",
-         "total_required_credits":40,
-         "type":"G",
-         "name":"Masters of Computer Science",
-         "faculty":2
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ELEC 275",
-         "course_letters":"ELEC",
-         "course_numbers":"275",
-         "openness":1,
-         "course_credits":4,
-         "description":"Principles of Electrical Engineering"
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENCS 282",
-         "course_letters":"ENCS",
-         "course_numbers":"282",
-         "openness":1,
-         "course_credits":4,
-         "description":"Technical Writing and Communication"
-      }
-   },
-   {
-      "pk":3,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 201",
-         "course_letters":"ENGR",
-         "course_numbers":"201",
-         "openness":1,
-         "course_credits":4,
-         "description":"Professional Practice and Responsibility"
-      }
-   },
-   {
-      "pk":4,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 202",
-         "course_letters":"ENGR",
-         "course_numbers":"202",
-         "openness":1,
-         "course_credits":4,
-         "description":"Sustainable Development and Environmental Stewardship"
-      }
-   },
-   {
-      "pk":5,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 213",
-         "course_letters":"ENGR",
-         "course_numbers":"213",
-         "openness":1,
-         "course_credits":4,
-         "description":"Applied Ordinary Differential Equations"
-      }
-   },
-   {
-      "pk":6,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 233",
-         "course_letters":"ENGR",
-         "course_numbers":"233",
-         "openness":1,
-         "course_credits":4,
-         "description":"Applied Advanced Calculus"
-      }
-   },
-   {
-      "pk":7,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 301",
-         "course_letters":"ENGR",
-         "course_numbers":"301",
-         "openness":1,
-         "course_credits":4,
-         "description":"Engineering Management Principles and Economics"
-      }
-   },
-   {
-      "pk":8,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 371",
-         "course_letters":"ENGR",
-         "course_numbers":"371",
-         "openness":1,
-         "course_credits":4,
-         "description":"Probability and Statistics in Engineering"
-      }
-   },
-   {
-      "pk":9,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 391",
-         "course_letters":"ENGR",
-         "course_numbers":"391",
-         "openness":1,
-         "course_credits":4,
-         "description":"Numerical Methods in Engineering"
-      }
-   },
-   {
-      "pk":10,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"ENGR 392",
-         "course_letters":"ENGR",
-         "course_numbers":"392",
-         "openness":1,
-         "course_credits":4,
-         "description":"Impact of Technology on Society"
-      }
-   },
-   {
-      "pk":11,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 228",
-         "course_letters":"SOEN",
-         "course_numbers":"228",
-         "openness":1,
-         "course_credits":4,
-         "description":"System Hardware"
-      }
-   },
-   {
-      "pk":12,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 287",
-         "course_letters":"SOEN",
-         "course_numbers":"287",
-         "openness":1,
-         "course_credits":4,
-         "description":"Web Programming"
-      }
-   },
-   {
-      "pk":13,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 331",
-         "course_letters":"SOEN",
-         "course_numbers":"331",
-         "openness":1,
-         "course_credits":4,
-         "description":"Introduction to Formal Methods for Software Engineering"
-      }
-   },
-   {
-      "pk":14,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 341",
-         "course_letters":"SOEN",
-         "course_numbers":"341",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Process"
-      }
-   },
-   {
-      "pk":15,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 342",
-         "course_letters":"SOEN",
-         "course_numbers":"342",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Requirements and Specifications"
-      }
-   },
-   {
-      "pk":16,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 343",
-         "course_letters":"SOEN",
-         "course_numbers":"343",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Architecture and Design I "
-      }
-   },
-   {
-      "pk":17,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 344",
-         "course_letters":"SOEN",
-         "course_numbers":"344",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Architecture and Design II"
-      }
-   },
-   {
-      "pk":18,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 345",
-         "course_letters":"SOEN",
-         "course_numbers":"345",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Testing, Verification and Quality Assurance"
-      }
-   },
-   {
-      "pk":19,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 357",
-         "course_letters":"SOEN",
-         "course_numbers":"357",
-         "openness":1,
-         "course_credits":4,
-         "description":"User Interface Design "
-      }
-   },
-   {
-      "pk":20,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 384",
-         "course_letters":"SOEN",
-         "course_numbers":"384",
-         "openness":1,
-         "course_credits":4,
-         "description":"Management, Measurement and Quality Control"
-      }
-   },
-   {
-      "pk":21,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 385",
-         "course_letters":"SOEN",
-         "course_numbers":"385",
-         "openness":1,
-         "course_credits":4,
-         "description":"Control Systems and Applications "
-      }
-   },
-   {
-      "pk":22,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 390",
-         "course_letters":"SOEN",
-         "course_numbers":"390",
-         "openness":1,
-         "course_credits":4,
-         "description":"Software Engineering Team Design Project"
-      }
-   },
-   {
-      "pk":23,
-      "model":"scheduler.course",
-      "fields":{
-         "department":1,
-         "name":"SOEN 490",
-         "course_letters":"SOEN",
-         "course_numbers":"490",
-         "openness":1,
-         "course_credits":4,
-         "description":"Capstone Software Engineering Design Project"
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.academicrequirement",
-      "fields":{
-         "academic_program":1,
-         "required_credits":30,
-         "name":"Engineering Core",
-         "allowable_courses":[
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-         ]
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.academicrequirement",
-      "fields":{
-         "academic_program":1,
-         "required_credits":66,
-         "name":"Software Engineering Core",
-         "allowable_courses":[
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23
-         ]
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.section",
-      "fields":{
-         "course":14,
-         "semester":"F",
-         "capacity":50,
-         "name":"Soen 341 - H1"
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.section",
-      "fields":{
-         "course":7,
-         "semester":"F",
-         "capacity":1,
-         "name":"Soen 301 Section 1"
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.building",
-      "fields":{
-         "province":"QC",
-         "city":"Montreal",
-         "name":"Hall Building",
-         "country":"CANADA",
-         "postal_code":"H3C5M1",
-         "address":"1455 De Maisonneuve W."
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.student",
-      "fields":{
-         "user_permissions":[
-
-         ],
-         "program":1,
-         "type":"U",
-         "groups":[
-
-         ],
-         "student_identifier":"1000001"
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.student",
-      "fields":{
-         "user_permissions":[
-
-         ],
-         "program":1,
-         "type":"U",
-         "groups":[
-
-         ],
-         "student_identifier":"1000002"
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.studentrecord",
-      "fields":{
-         "standing":"Good",
-         "gpa":"3.8",
-         "student":1
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.studentrecord",
-      "fields":{
-         "standing":"Good",
-         "gpa":"4",
-         "student":2
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.studentrecordentry",
-      "fields":{
-         "course":1,
-         "result_grade":"3.8",
-         "student_record":1
-      }
-   },
-   {
-      "pk":2,
-      "model":"scheduler.studentrecordentry",
-      "fields":{
-         "course":2,
-         "result_grade":"3.9",
-         "student_record":1
-      }
-   },
-   {
-      "pk":3,
-      "model":"scheduler.studentrecordentry",
-      "fields":{
-         "course":4,
-         "result_grade":"2.8",
-         "student_record":1
-      }
-   },
-   {
-      "pk":4,
-      "model":"scheduler.studentrecordentry",
-      "fields":{
-         "course":3,
-         "result_grade":"2.8",
-         "student_record":2
-      }
-   },
-   {
-      "pk":1,
-      "model":"scheduler.prerequisite",
-      "fields":{
-         "course":7,
-         "prerequisite_course":3
-      }
-   }
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2013-09-27T18:37:13.368Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
+            "email": "admin@email.com",
+            "date_joined": "2013-09-25T20:05:19.811Z"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "auth.staruser",
+        "fields": {
+            "username": "student_user_1",
+            "first_name": "student",
+            "last_name": "user_1",
+            "date_of_birth": "2013-09-25",
+            "gender": "M",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2013-09-25T20:09:23Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "password",
+            "email": "student_user_1@encs.concordia.ca",
+            "date_joined": "2013-09-25T20:09:24Z"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.staruser",
+        "fields": {
+            "username": "student_user_2",
+            "first_name": "student",
+            "last_name": "user_2",
+            "date_of_birth": "2013-09-25",
+            "gender": "F",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2013-09-25T20:13:30Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "password",
+            "email": "student_user_2@encs.concordia.ca",
+            "date_joined": "2013-09-25T20:13:30Z"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "sites.site",
+        "fields": {
+            "domain": "example.com",
+            "name": "example.com"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:10:04.814Z",
+            "object_repr": "id#12345678 (student user_1)",
+            "object_id": "1",
+            "change_message": "",
+            "user": 1,
+            "content_type": 18
+        }
+    },
+    {
+        "pk": 2,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:14:08.669Z",
+            "object_repr": "id#123456788 (student user_2)",
+            "object_id": "2",
+            "change_message": "",
+            "user": 1,
+            "content_type": 18
+        }
+    },
+    {
+        "pk": 3,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:14:25.841Z",
+            "object_repr": "student record for 12345678",
+            "object_id": "1",
+            "change_message": "",
+            "user": 1,
+            "content_type": 19
+        }
+    },
+    {
+        "pk": 4,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:14:35.881Z",
+            "object_repr": "student record for 123456788",
+            "object_id": "2",
+            "change_message": "",
+            "user": 1,
+            "content_type": 19
+        }
+    },
+    {
+        "pk": 5,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:14:57.995Z",
+            "object_repr": "id# 12345678 course=ELEC 275 grade=3.8",
+            "object_id": "1",
+            "change_message": "",
+            "user": 1,
+            "content_type": 20
+        }
+    },
+    {
+        "pk": 6,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:15:03.575Z",
+            "object_repr": "id# 12345678 course=ENCS 282 grade=3.9",
+            "object_id": "2",
+            "change_message": "",
+            "user": 1,
+            "content_type": 20
+        }
+    },
+    {
+        "pk": 7,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-25T20:15:11.318Z",
+            "object_repr": "id# 12345678 course=ENGR 202 grade=2.8",
+            "object_id": "3",
+            "change_message": "",
+            "user": 1,
+            "content_type": 20
+        }
+    },
+    {
+        "pk": 8,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-27T18:37:40.875Z",
+            "object_repr": "H1",
+            "object_id": "1",
+            "change_message": "",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 9,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-09-27T18:37:51.134Z",
+            "object_repr": "Soen 341 - H1",
+            "object_id": "1",
+            "change_message": "Changed name.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 10,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-28T15:55:07.484Z",
+            "object_repr": "Prerequisite object",
+            "object_id": "1",
+            "change_message": "",
+            "user": 1,
+            "content_type": 25
+        }
+    },
+    {
+        "pk": 11,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-28T15:56:48.289Z",
+            "object_repr": "Soen 301 Section 1",
+            "object_id": "2",
+            "change_message": "",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 12,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-09-28T15:58:26.534Z",
+            "object_repr": "id# 123456788 course=ENGR 201 grade=2.8",
+            "object_id": "4",
+            "change_message": "",
+            "user": 1,
+            "content_type": 20
+        }
+    },
+    {
+        "pk": 13,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-09-28T15:59:02.849Z",
+            "object_repr": "id#1000002 (student user_2)",
+            "object_id": "2",
+            "change_message": "Changed student_identifier.",
+            "user": 1,
+            "content_type": 18
+        }
+    },
+    {
+        "pk": 14,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-09-28T15:59:15.992Z",
+            "object_repr": "id#1000001 (student user_1)",
+            "object_id": "1",
+            "change_message": "Changed student_identifier.",
+            "user": 1,
+            "content_type": 18
+        }
+    },
+    {
+        "pk": 15,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-02T19:45:58.574Z",
+            "object_repr": "1",
+            "object_id": "3",
+            "change_message": "",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 16,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:46:00.938Z",
+            "object_repr": "id:1000002, course:ENGR 201, grade:2.8",
+            "object_id": "4",
+            "change_message": "Changed section.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 17,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:48:33.899Z",
+            "object_repr": "ENGR 201 S1",
+            "object_id": "3",
+            "change_message": "Changed name.",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 18,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:48:42.812Z",
+            "object_repr": "ENGR 301 S1",
+            "object_id": "2",
+            "change_message": "Changed name.",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 19,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:48:49.536Z",
+            "object_repr": "SOEN 341 S1",
+            "object_id": "1",
+            "change_message": "Changed name.",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 20,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-02T19:53:06.674Z",
+            "object_repr": "ENGR 202 ENGR 202 S1",
+            "object_id": "4",
+            "change_message": "",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 21,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:53:17.307Z",
+            "object_repr": "id:1000001, course:ENGR 202, grade:2.8",
+            "object_id": "3",
+            "change_message": "Changed section.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 22,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:53:26.170Z",
+            "object_repr": "ENGR 202 S1",
+            "object_id": "4",
+            "change_message": "Changed name.",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 23,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-02T19:54:01.046Z",
+            "object_repr": "ENCS 282 S1",
+            "object_id": "5",
+            "change_message": "",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 24,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:55:09.120Z",
+            "object_repr": "id:1000001, course:ENCS 282, grade:3.9",
+            "object_id": "2",
+            "change_message": "Changed section.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 25,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-02T19:55:27.948Z",
+            "object_repr": "ELEC 275 S1",
+            "object_id": "6",
+            "change_message": "",
+            "user": 1,
+            "content_type": 15
+        }
+    },
+    {
+        "pk": 26,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-02T19:55:36.983Z",
+            "object_repr": "id:1000001, course:ELEC 275, grade:3.8",
+            "object_id": "1",
+            "change_message": "Changed section.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.academicinstitution",
+        "fields": {
+            "established_on": "1974-08-24",
+            "name": "Concordia University"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.faculty",
+        "fields": {
+            "university": 1,
+            "name": "Engineering and Computer Science",
+            "description": "Engineering and Computer Science ENCS"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.department",
+        "fields": {
+            "university": 1,
+            "name": "Computer Science and Software Engineering",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.academicprogram",
+        "fields": {
+            "required_gpa": "2.8",
+            "total_required_credits": 60,
+            "type": "U",
+            "name": "Bachelor of Software Engineering",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.academicprogram",
+        "fields": {
+            "required_gpa": "2.8",
+            "total_required_credits": 40,
+            "type": "G",
+            "name": "Masters of Software Engineering",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "scheduler.academicprogram",
+        "fields": {
+            "required_gpa": "2.8",
+            "total_required_credits": 60,
+            "type": "U",
+            "name": "Bachelors of Computer Science",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 4,
+        "model": "scheduler.academicprogram",
+        "fields": {
+            "required_gpa": "2.8",
+            "total_required_credits": 40,
+            "type": "G",
+            "name": "Masters of Computer Science",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Principles of Electrical Engineering",
+            "course_credits": 4,
+            "course_numbers": "275",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ELEC",
+            "name": "ELEC 275"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Technical Writing and Communication",
+            "course_credits": 4,
+            "course_numbers": "282",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENCS",
+            "name": "ENCS 282"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Professional Practice and Responsibility",
+            "course_credits": 4,
+            "course_numbers": "201",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 201"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Sustainable Development and Environmental Stewardship",
+            "course_credits": 4,
+            "course_numbers": "202",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 202"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Applied Ordinary Differential Equations",
+            "course_credits": 4,
+            "course_numbers": "213",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 213"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Applied Advanced Calculus",
+            "course_credits": 4,
+            "course_numbers": "233",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 233"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Engineering Management Principles and Economics",
+            "course_credits": 4,
+            "course_numbers": "301",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 301"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Probability and Statistics in Engineering",
+            "course_credits": 4,
+            "course_numbers": "371",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 371"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Numerical Methods in Engineering",
+            "course_credits": 4,
+            "course_numbers": "391",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 391"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Impact of Technology on Society",
+            "course_credits": 4,
+            "course_numbers": "392",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "ENGR",
+            "name": "ENGR 392"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "System Hardware",
+            "course_credits": 4,
+            "course_numbers": "228",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 228"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Web Programming",
+            "course_credits": 4,
+            "course_numbers": "287",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 287"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Introduction to Formal Methods for Software Engineering",
+            "course_credits": 4,
+            "course_numbers": "331",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 331"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Process",
+            "course_credits": 4,
+            "course_numbers": "341",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 341"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Requirements and Specifications",
+            "course_credits": 4,
+            "course_numbers": "342",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 342"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Architecture and Design I ",
+            "course_credits": 4,
+            "course_numbers": "343",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 343"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Architecture and Design II",
+            "course_credits": 4,
+            "course_numbers": "344",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 344"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Testing, Verification and Quality Assurance",
+            "course_credits": 4,
+            "course_numbers": "345",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 345"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "User Interface Design ",
+            "course_credits": 4,
+            "course_numbers": "357",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 357"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Management, Measurement and Quality Control",
+            "course_credits": 4,
+            "course_numbers": "384",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 384"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Control Systems and Applications ",
+            "course_credits": 4,
+            "course_numbers": "385",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 385"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Software Engineering Team Design Project",
+            "course_credits": 4,
+            "course_numbers": "390",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 390"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "scheduler.course",
+        "fields": {
+            "description": "Capstone Software Engineering Design Project",
+            "course_credits": 4,
+            "course_numbers": "490",
+            "department": 1,
+            "openness": 1,
+            "course_letters": "SOEN",
+            "name": "SOEN 490"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.academicrequirement",
+        "fields": {
+            "academic_program": 1,
+            "required_credits": 30,
+            "name": "Engineering Core",
+            "allowable_courses": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.academicrequirement",
+        "fields": {
+            "academic_program": 1,
+            "required_credits": 66,
+            "name": "Software Engineering Core",
+            "allowable_courses": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 14,
+            "semester": "F",
+            "capacity": 50,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 7,
+            "semester": "F",
+            "capacity": 1,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 3,
+            "semester": "F",
+            "capacity": 0,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 4,
+            "semester": "F",
+            "capacity": 10,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 2,
+            "semester": "F",
+            "capacity": 10,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 1,
+            "semester": "F",
+            "capacity": 10,
+            "name": "S1"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.building",
+        "fields": {
+            "province": "QC",
+            "city": "Montreal",
+            "name": "Hall Building",
+            "country": "CANADA",
+            "postal_code": "H3C5M1",
+            "address": "1455 De Maisonneuve W."
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.student",
+        "fields": {
+            "user_permissions": [],
+            "program": 1,
+            "type": "U",
+            "groups": [],
+            "student_identifier": "1000001"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.student",
+        "fields": {
+            "user_permissions": [],
+            "program": 1,
+            "type": "U",
+            "groups": [],
+            "student_identifier": "1000002"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.studentrecord",
+        "fields": {
+            "standing": "Good",
+            "gpa": "3.8",
+            "student": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.studentrecord",
+        "fields": {
+            "standing": "Good",
+            "gpa": "4",
+            "student": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "course": 1,
+            "section": 6,
+            "result_grade": "3.8",
+            "student_record": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "course": 2,
+            "section": 5,
+            "result_grade": "3.9",
+            "student_record": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "course": 4,
+            "section": 4,
+            "result_grade": "2.8",
+            "student_record": 1
+        }
+    },
+    {
+        "pk": 4,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "course": 3,
+            "section": 3,
+            "result_grade": "2.8",
+            "student_record": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.prerequisite",
+        "fields": {
+            "course": 7,
+            "prerequisite_course": 3
+        }
+    }
 ]
