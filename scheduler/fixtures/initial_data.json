@@ -896,7 +896,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 14,
-            "semester": "F",
             "capacity": 50,
             "name": "S1",
             "semester_year": 1
@@ -907,7 +906,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 7,
-            "semester": "F",
             "capacity": 1,
             "name": "S1",
             "semester_year": 1
@@ -918,7 +916,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 3,
-            "semester": "F",
             "capacity": 0,
             "name": "S1",
             "semester_year": 1
@@ -929,7 +926,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 4,
-            "semester": "F",
             "capacity": 10,
             "name": "S1",
             "semester_year": 1
@@ -940,7 +936,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 2,
-            "semester": "F",
             "capacity": 10,
             "name": "S1",
             "semester_year": 1
@@ -951,7 +946,6 @@
         "model": "scheduler.section",
         "fields": {
             "course": 1,
-            "semester": "F",
             "capacity": 10,
             "name": "S1",
             "semester_year": 1

@@ -6,7 +6,7 @@ from django.test import TestCase
 from scheduler.models import Student, AcademicProgram, Course, \
     AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, \
     Section, Lecture, Professor, Registration, Building, Facility, \
-    AcademicInstitution, Faculty, Department
+    AcademicInstitution, Faculty, Department, Semester
 
 
 class SimpleModelsTest(TestCase):
@@ -107,12 +107,14 @@ class SimpleModelsTest(TestCase):
                                  gender="M")
         prof_fancott.save()
 
+        semester = Semester(year=2000, period="F")
+
         #Setup Offerings by section
         section1_for_soen201 = Section(name="S1", capacity=20, course=soen201,
-                                       semester="F")
+                                       semester_year=semester)
         section1_for_soen201.save()
         section2_for_soen201 = Section(name="S2", capacity=20, course=soen201,
-                                       semester="F")
+                                       semester_year=semester)
         section2_for_soen201.save()
 
         hall_building = Building(name="Hall", address="123 Street",
@@ -140,7 +142,7 @@ class SimpleModelsTest(TestCase):
         fri_lecture_for_soen201_section1.save()
 
         section1_for_soen202 = Section(name="S1", capacity=20, course=soen202,
-                                       semester="F")
+                                       semester_year=semester)
         section1_for_soen202.save()
 
         student = Student(username="test_user", password="password",

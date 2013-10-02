@@ -107,7 +107,6 @@ class Section(models.Model):
     capacity = models.IntegerField(default=0)
     course = models.ForeignKey(Course)
     semester_year = models.ForeignKey(Semester, null=True)
-    semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
 
     def is_not_full(self):
         return len(self.registration_set.all()) < self.capacity
