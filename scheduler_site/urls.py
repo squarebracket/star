@@ -5,13 +5,14 @@ from django.contrib import admin
 from scheduler.models import AcademicProgram, Course, AcademicRequirement, \
     StudentRecordEntry, StudentRecord, Student, Section, ScheduleItem, \
     Registration, Professor, Corequisite, Prerequisite, Director, Registrar,\
-    Lab, Tutorial, Lecture, AcademicInstitution, Faculty, Building, Facility
+    Lab, Tutorial, Lecture, AcademicInstitution, Faculty, Building, Facility, Semester
 
 admin.site.register(AcademicInstitution)
 admin.site.register(Faculty)
 admin.site.register(AcademicProgram)
 admin.site.register(Course)
 admin.site.register(AcademicRequirement)
+admin.site.register(Semester)
 admin.site.register(Section)
 admin.site.register(Building)
 admin.site.register(Facility)

@@ -94,10 +94,19 @@ class AcademicRequirement(models.Model):
         return self.name
 
 
+class Semester(models.Model):
+    year = models.IntegerField(default=0)
+    period = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
+
+    def __unicode__(self):
+        return str(self.period) + " " + str(self.year)
+
+
 class Section(models.Model):
     name = models.CharField(max_length=20)
     capacity = models.IntegerField(default=0)
     course = models.ForeignKey(Course)
+    semester_year = models.ForeignKey(Semester, null=True)
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
 
     def is_not_full(self):
