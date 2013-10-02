@@ -36,6 +36,7 @@ class Faculty(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Department(models.Model):
     name = models.CharField(max_length=256)
     university = models.ForeignKey(AcademicInstitution)
@@ -43,6 +44,7 @@ class Department(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class AcademicProgram(models.Model):
     name = models.CharField(max_length=256)
@@ -174,6 +176,7 @@ class StudentRecordEntry(models.Model):
         return "id:%s, course:%s, grade:%s" % (self.student_record.student.student_identifier,
                                                self.course.name,
                                                self.result_grade)
+
 
 class Registration(models.Model):
     student = models.ForeignKey(Student)
