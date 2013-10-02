@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from scheduler.models import AcademicProgram, Course, AcademicRequirement, \
     StudentRecordEntry, StudentRecord, Student, Section, ScheduleItem, \
-    Registration, Professor, Corequisite, Prerequisite, Director, Registrar,\
+    Professor, Corequisite, Prerequisite, Director, Registrar,\
     Lab, Tutorial, Lecture, AcademicInstitution, Faculty, Building, Facility, Semester
 
 admin.site.register(AcademicInstitution)
@@ -20,7 +20,6 @@ admin.site.register(ScheduleItem)
 admin.site.register(Student)
 admin.site.register(StudentRecord)
 admin.site.register(StudentRecordEntry)
-admin.site.register(Registration)
 admin.site.register(Professor)
 admin.site.register(Registrar)
 admin.site.register(Director)

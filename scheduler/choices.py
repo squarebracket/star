@@ -44,7 +44,5 @@ FACILITY_TYPE_CHOICES = (
 
 REGISTRATION_STATE_CHOICES = (
     ('R', 'Registered'),
-    ('F', 'Finished'),
-    ('C', 'Confirmed'),
-    ('W', 'Waitlist'),
+    ('C', 'Completed'),
 )

@@ -109,7 +109,7 @@ class Section(models.Model):
     semester_year = models.ForeignKey(Semester, null=True)
 
     def is_not_full(self):
-        return len(self.registration_set.all()) < self.capacity
+        return len(self.studentrecordentry_set.all()) < self.capacity
 
     def __unicode__(self):
         return str(self.course.name) + " " + str(self.name)
@@ -157,6 +157,14 @@ class Student(StarUser):
     student_identifier = models.CharField(max_length=20)
     type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
 
+    @property
+    def registration_set(self):
+        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "R"]
+
+    @property
+    def completion_set(self):
+        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "C"]
+
     def __unicode__(self):
         return "id#%s (%s %s)" % (self.student_identifier, self.first_name,
                                   self.last_name)
@@ -185,12 +193,6 @@ class StudentRecordEntry(models.Model):
         return "id:%s, section:%s, grade:%s" % (self.student_record.student.student_identifier,
                                                 str(self.section),
                                                 self.result_grade)
-
-
-class Registration(models.Model):
-    student = models.ForeignKey(Student)
-    section = models.ForeignKey(Section)
-    state = models.CharField(max_length=1, choices=REGISTRATION_STATE_CHOICES)
 
 
 class Professor(StarUser):

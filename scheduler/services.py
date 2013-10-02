@@ -1,4 +1,4 @@
-from scheduler.models import Registration
+from scheduler.models import StudentRecordEntry
 
 
 class RegistrationService():
@@ -31,8 +31,10 @@ class RegistrationService():
         not_full_sections = [s for s in course.section_set.all() if s.is_not_full()]
         first_section = not_full_sections[0]
 
-        registration = Registration(student=student, state="C", section=first_section)
-        registration.save()
+
+        reg_student_record_entry = StudentRecordEntry(student_record=student.studentrecord,
+                                                      state="R", section=first_section)
+        reg_student_record_entry.save()
 
         return student
 

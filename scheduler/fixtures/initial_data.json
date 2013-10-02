@@ -1008,7 +1008,7 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 6,
-            "state": "F",
+            "state": "C",
             "result_grade": "3.8",
             "student_record": 1
         }
@@ -1018,7 +1018,7 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 5,
-            "state": "F",
+            "state": "C",
             "result_grade": "3.9",
             "student_record": 1
         }
@@ -1028,7 +1028,7 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 4,
-            "state": "F",
+            "state": "C",
             "result_grade": "2.8",
             "student_record": 1
         }
@@ -1038,7 +1038,7 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 3,
-            "state": "F",
+            "state": "C",
             "result_grade": "2.8",
             "student_record": 2
         }

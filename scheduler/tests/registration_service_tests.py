@@ -27,18 +27,18 @@ class RegistrationServiceTest(TestCase):
         self.assertIsNotNone(soen341)
 
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_one.registration_set.all())
+        current_student_registration_count = len(self.student_one.registration_set)
         #Register the student to the course
         self.registration_service.createRegistrationFor(self.student_one, soen341)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
-                         len(self.student_one.registration_set.all()))
+                         len(self.student_one.registration_set))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_one.errorList))
 
     def test_should_not_register_course_for_student_if_already_taken(self):
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_one.registration_set.all())
+        current_student_registration_count = len(self.student_one.registration_set)
 
         #Find a ENGR202 which the student has already taken
         student_records = [sre.section.course for sre in
@@ -57,12 +57,12 @@ class RegistrationServiceTest(TestCase):
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count, 
-                         len(self.student_one.registration_set.all()))
+                         len(self.student_one.registration_set))
         del self.student_one.errorList[:]
 
     def test_should_not_register_course_if_no_section_open(self):
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_one.registration_set.all())
+        current_student_registration_count = len(self.student_one.registration_set)
 
         elec275 = Course.objects.get(name="ENGR 213")
         self.assertIsNotNone(elec275)
@@ -75,12 +75,12 @@ class RegistrationServiceTest(TestCase):
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count, 
-                         len(self.student_one.registration_set.all()))
+                         len(self.student_one.registration_set))
         del self.student_one.errorList[:]
 
     def test_should_not_register_course_if_pre_req_not_fulfilled(self):
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_one.registration_set.all())
+        current_student_registration_count = len(self.student_one.registration_set)
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
@@ -93,19 +93,19 @@ class RegistrationServiceTest(TestCase):
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
-                         len(self.student_one.registration_set.all()))
+                         len(self.student_one.registration_set))
         del self.student_one.errorList[:]
 
     def test_should_register_course_if_pre_req_is_fulfilled(self):
         #Record the number of courses registered to this student
-        current_student_registration_count = len(self.student_two.registration_set.all())
+        current_student_registration_count = len(self.student_two.registration_set)
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
         self.registration_service.createRegistrationFor(self.student_two, engr301)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
-                         len(self.student_two.registration_set.all()))
+                         len(self.student_two.registration_set))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_two.errorList))
 

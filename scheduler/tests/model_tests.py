@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from scheduler.models import Student, AcademicProgram, Course, \
     AcademicRequirement, StudentRecord, StudentRecordEntry, Prerequisite, \
-    Section, Lecture, Professor, Registration, Building, Facility, \
+    Section, Lecture, Professor, Building, Facility, \
     AcademicInstitution, Faculty, Department, Semester
 
 
@@ -165,14 +165,14 @@ class SimpleModelsTest(TestCase):
 
         # The student has taken 2 courses already
         soen101_entry = StudentRecordEntry(student_record=test_record,
-                                           section=section1_for_soen101, result_grade=3.8)
+                                           section=section1_for_soen101, result_grade=3.8, state="C")
         elec101_entry = StudentRecordEntry(student_record=test_record,
-                                           section=section1_for_elec101, result_grade=3.5)
+                                           section=section1_for_elec101, result_grade=3.5, state="C")
 
         soen101_entry.save()
         elec101_entry.save()
 
-        soen201_reg = Registration(student=student,
-                                   section=section1_for_soen201)
-        soen201_reg.save()
+        reg_student_record_entry = StudentRecordEntry(student_record=student.studentrecord,
+                                                      section=section1_for_soen201, state="R")
+        reg_student_record_entry.save()
 
