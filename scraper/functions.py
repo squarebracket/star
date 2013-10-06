@@ -21,7 +21,7 @@ STATES = {
 
 SITE_URL = 'http://fcms.concordia.ca/fcms/asc002_stud_all.aspx'
 
-
+# The ** before kwargs means "make a dictionary out of keyword arguments"
 def scrape_sections(**kwargs):
     """Scrapes Concordia's class schedule page and puts the info into the
     models defined by `scheduler.models`
@@ -30,6 +30,22 @@ def scrape_sections(**kwargs):
     session variables, and makes a request for course schedules based on the
     parameters it receives, using defaults if no parameters are provided.
     """
+    # TODO: implement multiple department lookup
+
+
+    # TODO: think of a better variable name / this is ugly
+    defaults = {
+        'course_letters': '',
+        'course_numbers': '',
+        'year': date.today().year,  # This is probably flawed?
+        'session': 'A',  # default is all sessions
+        'departments': ['01', '03', '04', '06', '09'],  # All departments
+        'level': 'U',
+        'title': ''
+    }
+    for key in defaults:
+        if key in kwargs:
+            defaults[key] = kwargs[key]
 
     # The session variables that have to be pulled from the site
     required_info = ['__VIEWSTATE', '__EVENTVALIDATION']
@@ -39,13 +55,13 @@ def scrape_sections(**kwargs):
 
     # populate the POST payload data
     data = {
-        'ctl00$PageBody$txtCournam': '',
-        'ctl00$PageBody$ddlYear': '2013',
-        'ctl00$PageBody$ddlSess': '2',
-        'ctl00$PageBody$ddlLevl': 'U',
-        'ctl00$PageBody$ddlDept': '04',
-        'ctl00$PageBody$txtCournum': '',
-        'ctl00$PageBody$txtKeyTtle': '',
+        'ctl00$PageBody$txtCournam': defaults['course_letters'],
+        'ctl00$PageBody$txtCournum': defaults['course_numbers'],
+        'ctl00$PageBody$ddlYear': defaults['year'],
+        'ctl00$PageBody$ddlSess': defaults['session'],
+        'ctl00$PageBody$ddlLevl': defaults['year'],
+        'ctl00$PageBody$ddlDept': '04',  # FIXME: this
+        'ctl00$PageBody$txtKeyTtle': defaults['title'],
         '__EVENTTARGET': 'ctl00$PageBody$btn_ShowScCrs',
         '__EVENTARGUMENT': '',
         '__LASTFOCUS': ''
@@ -85,7 +101,7 @@ def scrape_sections(**kwargs):
 
     while isinstance(current_row, Tag):
 
-        # Parse :mod:`Course` data
+        # Parse Course data
         status, code, name, credits_ = current_row.contents[1:-1]
         status = STATES[status.img['title']]
         code = code.font.b.string  # grab the data
