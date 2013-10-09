@@ -32,7 +32,7 @@
             "last_login": "2013-09-25T20:09:23Z",
             "groups": [],
             "user_permissions": [],
-            "password": "password",
+            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
             "email": "student_user_1@encs.concordia.ca",
             "date_joined": "2013-09-25T20:09:24Z"
         }
@@ -52,7 +52,7 @@
             "last_login": "2013-09-25T20:13:30Z",
             "groups": [],
             "user_permissions": [],
-            "password": "password",
+            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
             "email": "student_user_2@encs.concordia.ca",
             "date_joined": "2013-09-25T20:13:30Z"
         }
@@ -513,15 +513,6 @@
     },
     {
         "pk": 1,
-        "model": "scheduler.department",
-        "fields": {
-            "university": 1,
-            "name": "Computer Science and Software Engineering",
-            "faculty": 2
-        }
-    },
-    {
-        "pk": 1,
         "model": "scheduler.academicprogram",
         "fields": {
             "required_gpa": "2.8",
@@ -561,6 +552,15 @@
             "total_required_credits": 40,
             "type": "G",
             "name": "Masters of Computer Science",
+            "faculty": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.department",
+        "fields": {
+            "university": 1,
+            "name": "Computer Science and Software Engineering",
             "faculty": 2
         }
     },
@@ -885,6 +885,18 @@
     },
     {
         "pk": 1,
+        "model": "scheduler.building",
+        "fields": {
+            "province": "QC",
+            "city": "Montreal",
+            "name": "Hall Building",
+            "country": "CANADA",
+            "postal_code": "H3C5M1",
+            "address": "1455 De Maisonneuve W."
+        }
+    },
+    {
+        "pk": 1,
         "model": "scheduler.semester",
         "fields": {
             "period": "F",
@@ -953,18 +965,6 @@
     },
     {
         "pk": 1,
-        "model": "scheduler.building",
-        "fields": {
-            "province": "QC",
-            "city": "Montreal",
-            "name": "Hall Building",
-            "country": "CANADA",
-            "postal_code": "H3C5M1",
-            "address": "1455 De Maisonneuve W."
-        }
-    },
-    {
-        "pk": 1,
         "model": "scheduler.student",
         "fields": {
             "user_permissions": [],
@@ -983,6 +983,14 @@
             "type": "U",
             "groups": [],
             "student_identifier": "1000002"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "scheduler.prerequisite",
+        "fields": {
+            "course": 7,
+            "prerequisite_course": 3
         }
     },
     {
@@ -1008,9 +1016,9 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 6,
-            "state": "C",
             "result_grade": "3.8",
-            "student_record": 1
+            "student_record": 1,
+            "state": "C"
         }
     },
     {
@@ -1018,9 +1026,9 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 5,
-            "state": "C",
             "result_grade": "3.9",
-            "student_record": 1
+            "student_record": 1,
+            "state": "C"
         }
     },
     {
@@ -1028,9 +1036,9 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 4,
-            "state": "C",
             "result_grade": "2.8",
-            "student_record": 1
+            "student_record": 1,
+            "state": "C"
         }
     },
     {
@@ -1038,17 +1046,9 @@
         "model": "scheduler.studentrecordentry",
         "fields": {
             "section": 3,
-            "state": "C",
             "result_grade": "2.8",
-            "student_record": 2
-        }
-    },
-    {
-        "pk": 1,
-        "model": "scheduler.prerequisite",
-        "fields": {
-            "course": 7,
-            "prerequisite_course": 3
+            "student_record": 2,
+            "state": "C"
         }
     }
 ]

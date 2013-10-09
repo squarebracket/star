@@ -1,4 +1,4 @@
-#python manage.py dumpdata --e contenttypes --e auth.permission --e sessions.session --format=json > scheduler/fixtures/initial_data.json
+#./manage.py dumpdata --e contenttypes --e auth.permission --e sessions.session --format=json > scheduler/fixtures/initial_data.json
 FIXTURE_DIRS = (
    'YOUR_PATH/star/scheduler/fixtures/initial_data.json',
 )
