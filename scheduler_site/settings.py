@@ -8,6 +8,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+AUTH_USER_MODEL = 'auth.StarUser'
+
 MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False

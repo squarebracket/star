@@ -1,24 +1,6 @@
 [
     {
         "pk": 1,
-        "model": "auth.user",
-        "fields": {
-            "username": "admin",
-            "first_name": "",
-            "last_name": "",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2013-10-02T20:11:55.898Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
-            "email": "admin@email.com",
-            "date_joined": "2013-09-25T20:05:19.811Z"
-        }
-    },
-    {
-        "pk": 1,
         "model": "auth.staruser",
         "fields": {
             "username": "student_user_1",
@@ -32,7 +14,7 @@
             "last_login": "2013-09-25T20:09:23Z",
             "groups": [],
             "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
+            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
             "email": "student_user_1@encs.concordia.ca",
             "date_joined": "2013-09-25T20:09:24Z"
         }
@@ -52,8 +34,28 @@
             "last_login": "2013-09-25T20:13:30Z",
             "groups": [],
             "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$vBeSifa2REGE$kod99Pt3IENbZksF4Sj27EAcA3cW4guZdfUHz/gTwwk=",
+            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
             "email": "student_user_2@encs.concordia.ca",
+            "date_joined": "2013-09-25T20:13:30Z"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.staruser",
+        "fields": {
+            "username": "admin",
+            "first_name": "admin",
+            "last_name": "admin",
+            "date_of_birth": "2013-01-01",
+            "gender": "F",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2013-10-10T19:31:29.373Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
+            "email": "admin@encs.concordia.ca",
             "date_joined": "2013-09-25T20:13:30Z"
         }
     },
