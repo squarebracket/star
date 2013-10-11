@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^logout', views.logout, name='logout'),
 
     url(r'^student', views.student, name='student'),
+    url(r'^register', views.register, name='register'),
 
 )

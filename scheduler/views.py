@@ -4,9 +4,14 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
+from scheduler.models import Course
+from scheduler.services import RegistrationService
 
 
 def index(request):
+    """
+    The main front page, allowing login of the user
+    """
     context = RequestContext(request, {
         'welcome': 'welcome',
     })
@@ -51,3 +56,16 @@ def logout(request):
     """
     auth_logout(request)
     return HttpResponseRedirect(reverse('scheduler:index'))
+
+@login_required
+def register(request):
+    """
+    Registers a course for a student
+    """
+    course_name = request.POST['course_name']
+    registration_service = RegistrationService()
+    for_student = request.user.student
+    course = Course.objects.get(name=course_name)
+
+    registration_service.createRegistrationFor(for_student, course)
+    return HttpResponseRedirect(reverse('scheduler:student'))
