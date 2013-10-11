@@ -29,7 +29,7 @@ class RegistrationServiceTest(TestCase):
         #Record the number of courses registered to this student
         current_student_registration_count = len(self.student_one.registered_courses)
         #Register the student to the course
-        self.registration_service.createRegistrationFor(self.student_one, soen341)
+        self.registration_service.create_registration_for(self.student_one, soen341)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_one.registered_courses))
@@ -48,7 +48,7 @@ class RegistrationServiceTest(TestCase):
         engr202 = student_records[0]
         self.assertIsNotNone(engr202)
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_one,
+        self.registration_service.create_registration_for(self.student_one,
                                                         engr202)
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
@@ -67,7 +67,7 @@ class RegistrationServiceTest(TestCase):
         elec275 = Course.objects.get(name="ENGR 213")
         self.assertIsNotNone(elec275)
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_one, elec275)
+        self.registration_service.create_registration_for(self.student_one, elec275)
         #Check that an error has occured
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
@@ -84,7 +84,7 @@ class RegistrationServiceTest(TestCase):
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_one,
+        self.registration_service.create_registration_for(self.student_one,
                                                         engr301)
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
@@ -102,7 +102,7 @@ class RegistrationServiceTest(TestCase):
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
-        self.registration_service.createRegistrationFor(self.student_two, engr301)
+        self.registration_service.create_registration_for(self.student_two, engr301)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_two.registered_courses))

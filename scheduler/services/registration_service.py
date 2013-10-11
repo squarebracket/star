@@ -2,7 +2,10 @@ from scheduler.models import StudentRecordEntry
 
 
 class RegistrationService():
-
+    """
+    This is the Registration Component, facade, it is responsible for all the work that
+    is done in terms of registration
+    """
     def __init__(self):
         pass
 
@@ -10,7 +13,7 @@ class RegistrationService():
     COURSE_ALREADY_TAKEN_ERROR_MSG = "course already taken"
     NO_SECTION_AVAILABLE_ERROR_MSG = "no sections are open for this course"
 
-    def createRegistrationFor(self, student, course):
+    def create_registration_for(self, student, course):
 
         already_taken_course_set = [e.section.course for e in student.studentrecord.studentrecordentry_set.all()]
         if course in already_taken_course_set:
@@ -37,4 +40,7 @@ class RegistrationService():
         reg_student_record_entry.save()
 
         return student
+
+    def drop_registration_for(self, for_student, course):
+        pass
 

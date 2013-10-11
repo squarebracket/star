@@ -11,5 +11,6 @@ urlpatterns = patterns('',
 
     url(r'^student', views.student, name='student'),
     url(r'^register', views.register, name='register'),
+    url(r'^drop', views.drop, name='drop'),
 
 )

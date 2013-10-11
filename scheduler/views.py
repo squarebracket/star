@@ -67,5 +67,18 @@ def register(request):
     for_student = request.user.student
     course = Course.objects.get(name=course_name)
 
-    registration_service.createRegistrationFor(for_student, course)
+    registration_service.create_registration_for(for_student, course)
+    return HttpResponseRedirect(reverse('scheduler:student'))
+
+@login_required
+def drop(request):
+    """
+    Drops a course for a student
+    """
+    course_name = request.POST['course_name']
+    registration_service = RegistrationService()
+    for_student = request.user.student
+    course = Course.objects.get(name=course_name)
+
+    registration_service.drop_registration_for(for_student, course)
     return HttpResponseRedirect(reverse('scheduler:student'))

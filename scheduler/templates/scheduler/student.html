@@ -19,7 +19,7 @@
     <table>
         {% for course in user.student.registered_courses %}
             <tr>
-                <td>{{ course.name }}</td>
+                <td>{{ course.name }}</td> <td> <a href="/scheduler/drop?course_name={{ course.name }}">drop</a></td>
             </tr>
         {% endfor %}
     </table>
