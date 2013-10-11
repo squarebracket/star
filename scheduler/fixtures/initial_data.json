@@ -51,7 +51,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2013-10-11T14:07:04.064Z",
+            "last_login": "2013-10-11T14:54:23.717Z",
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
@@ -544,6 +544,19 @@
             "object_repr": "id:1000001, section:SOEN 228 S1, grade:0.0",
             "object_id": "6",
             "change_message": "",
+            "user": 3,
+            "content_type": 31
+        }
+    },
+    {
+        "pk": 38,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-10-11T14:54:38.251Z",
+            "object_repr": "id:1000001, section:SOEN 287 S2, grade:0",
+            "object_id": "5",
+            "change_message": "Changed section.",
             "user": 3,
             "content_type": 31
         }
@@ -1129,7 +1142,7 @@
         "pk": 5,
         "model": "scheduler.studentrecordentry",
         "fields": {
-            "section": 7,
+            "section": 8,
             "result_grade": "0",
             "student_record": 1,
             "state": "R"
