@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -11,15 +12,22 @@ def index(request):
     })
     return render(request, 'scheduler/index.html', context)
 
-
+@login_required
 def student(request):
+    """
+    Show the main student page
+    """
     context = RequestContext(request, {
-        'welcome': 1,
+        'first_name': 1,
     })
     return render(request, 'scheduler/student.html', context)
 
 
 def login(request):
+    """
+    Login, takes username and password from request and authenticates user
+    if user is valid, send to corresponding page, otherwise send to index
+    """
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
@@ -35,3 +43,11 @@ def login(request):
     else:
         # Return an 'invalid login' error message.
         return HttpResponseRedirect(reverse('scheduler:index'))
+
+
+def logout(request):
+    """
+    Logout, takes user out of session
+    """
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('scheduler:index'))
