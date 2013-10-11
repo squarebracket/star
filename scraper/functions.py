@@ -1,5 +1,7 @@
 """Contains the actual scraper functions"""
 
+#dummy commit
+
 from datetime import date, time
 import urllib2
 import urllib
@@ -39,7 +41,7 @@ def scrape_sections(**kwargs):
         'course_numbers': '',
         'year': date.today().year,  # This is probably flawed?
         'session': 'A',  # default is all sessions
-        'departments': ['01', '03', '04', '06', '09'],  # All departments
+        'departments': '04', #default for now is ENCS
         'level': 'U',
         'title': ''
     }
