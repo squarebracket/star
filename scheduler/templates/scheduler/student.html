@@ -3,7 +3,7 @@
 {% block title %} Student Registration and Scheduling {% endblock %}
 
 {% block content %}
-    Welcome {{ student.first_name }} {{ student.last_name }}
+    Welcome {{ user.first_name }} {{ user.last_name }}
 
     <h3>
         Register for a course
@@ -13,7 +13,7 @@
         You are currently registered for the following courses
     </h3>
     <table>
-        {% for course in student.registered_courses %}
+        {% for course in user.student.registered_courses %}
             <tr>
                 <td>{{ course.name }}</td>
             </tr>
@@ -24,7 +24,7 @@
         You have completed the following courses
     </h3>
     <table>
-        {% for course in student.completed_courses %}
+        {% for course in user.student.completed_courses %}
             <tr>
                 <td>{{ course.name }}</td>
             </tr>
