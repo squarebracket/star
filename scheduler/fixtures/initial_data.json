@@ -11,7 +11,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2013-09-25T20:09:23Z",
+            "last_login": "2013-10-11T14:19:21.928Z",
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
@@ -51,7 +51,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2013-10-10T19:31:29.373Z",
+            "last_login": "2013-10-11T14:07:04.064Z",
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
@@ -494,6 +494,58 @@
             "change_message": "Changed semester_year.",
             "user": 1,
             "content_type": 16
+        }
+    },
+    {
+        "pk": 34,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-11T14:08:13.574Z",
+            "object_repr": "SOEN 228 S1",
+            "object_id": "7",
+            "change_message": "",
+            "user": 3,
+            "content_type": 19
+        }
+    },
+    {
+        "pk": 35,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-11T14:08:27.623Z",
+            "object_repr": "SOEN 287 S2",
+            "object_id": "8",
+            "change_message": "",
+            "user": 3,
+            "content_type": 19
+        }
+    },
+    {
+        "pk": 36,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-11T14:08:55.990Z",
+            "object_repr": "id:1000001, section:SOEN 228 S1, grade:0.0",
+            "object_id": "5",
+            "change_message": "",
+            "user": 3,
+            "content_type": 31
+        }
+    },
+    {
+        "pk": 37,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2013-10-11T14:09:06.193Z",
+            "object_repr": "id:1000001, section:SOEN 228 S1, grade:0.0",
+            "object_id": "6",
+            "change_message": "",
+            "user": 3,
+            "content_type": 31
         }
     },
     {
@@ -966,6 +1018,26 @@
         }
     },
     {
+        "pk": 7,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 11,
+            "capacity": 10,
+            "name": "S1",
+            "semester_year": 1
+        }
+    },
+    {
+        "pk": 8,
+        "model": "scheduler.section",
+        "fields": {
+            "course": 12,
+            "capacity": 10,
+            "name": "S2",
+            "semester_year": 1
+        }
+    },
+    {
         "pk": 1,
         "model": "scheduler.student",
         "fields": {
@@ -1051,6 +1123,26 @@
             "result_grade": "2.8",
             "student_record": 2,
             "state": "C"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "section": 7,
+            "result_grade": "0",
+            "student_record": 1,
+            "state": "R"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "scheduler.studentrecordentry",
+        "fields": {
+            "section": 7,
+            "result_grade": "0",
+            "student_record": 1,
+            "state": "R"
         }
     }
 ]

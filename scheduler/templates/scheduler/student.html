@@ -1,9 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %} Welcome student {% endblock %}
+{% block title %} Student Registration and Scheduling {% endblock %}
 
 {% block content %}
+    Welcome {{ student.first_name }} {{ student.last_name }}
 
-    Hello student
+    <h3>
+        Register for a course
+    </h3>
+
+    <h3>
+        You are currently registered for the following courses
+    </h3>
+    <table>
+        {% for course in student.registered_courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h3>
+        You have completed the following courses
+    </h3>
+    <table>
+        {% for course in student.completed_courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}

@@ -18,7 +18,7 @@ def student(request):
     Show the main student page
     """
     context = RequestContext(request, {
-        'first_name': 1,
+        'student': request.user,
     })
     return render(request, 'scheduler/student.html', context)
 
