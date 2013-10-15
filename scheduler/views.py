@@ -61,11 +61,10 @@ def register(request):
     Registers a course for a student
     """
     course_name = request.POST['course_name']
-    registration_service = RegistrationService()
     for_student = request.user.student
     course = Course.objects.get(name=course_name)
 
-    registration_service.create_registration_for(for_student, course)
+    for_student.register_for_course(course)
     return HttpResponseRedirect(reverse('scheduler:student'))
 
 @login_required
@@ -74,9 +73,8 @@ def drop(request):
     Drops a course for a student
     """
     course_name = request.POST['course_name']
-    registration_service = RegistrationService()
     for_student = request.user.student
     course = Course.objects.get(name=course_name)
 
-    registration_service.drop_registration_for(for_student, course)
+    for_student.drop_course(course)
     return HttpResponseRedirect(reverse('scheduler:student'))

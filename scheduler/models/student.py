@@ -21,6 +21,9 @@ class Student(StarUser):
     def completed_courses(self):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "C"]
 
+    def drop_course(self, course):
+        pass
+
     def register_for_course(self, course):
         from scheduler.models import StudentRecordEntry
         already_taken_course_set = [e.section.course for e in self.studentrecord.studentrecordentry_set.all()]
