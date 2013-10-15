@@ -6,8 +6,11 @@ from scheduler.models.star_user import StarUser
 
 class Student(StarUser):
     PRE_REQ_NOT_FULFILLED = "pre-req not fulfilled: "
+    CO_REQ_NOT_FULFILLED = "co-req not fulfilled: "
     COURSE_ALREADY_TAKEN_ERROR_MSG = "course already taken"
+    COURSE_ALREADY_REGISTERED_ERROR_MSG = "course already registered"
     NO_SECTION_AVAILABLE_ERROR_MSG = "no sections are open for this course"
+    ALL_SECTIONS_FULL_ERROR_MSG = "all sections are full for this course"
 
     program = models.ForeignKey(AcademicProgram)
     student_identifier = models.CharField(max_length=20)
@@ -26,8 +29,12 @@ class Student(StarUser):
 
     def register_for_course(self, course):
         from scheduler.models import StudentRecordEntry
+
         if course in self.completed_courses:
             self.errorList.append(self.COURSE_ALREADY_TAKEN_ERROR_MSG)
+            return
+        if course in self.registered_courses:
+            self.errorList.append(self.COURSE_ALREADY_REGISTERED_ERROR_MSG)
             return
         if len(course.section_set.all()) == 0:
             self.errorList.append(self.NO_SECTION_AVAILABLE_ERROR_MSG)
@@ -38,12 +45,23 @@ class Student(StarUser):
             if len(not_fulfilled) > 0:
                 # this looks ugly -- better way to do it?
                 self.errorList.append(self.PRE_REQ_NOT_FULFILLED +
-                                         str([str(c.name) for c in not_fulfilled]).strip("[]"))
+                                      str([str(c.name) for c in not_fulfilled]).strip("[]"))
+                return
+        if len(course.corequiste_list.all()) > 0:
+            not_fulfilled = [coreq for coreq in course.corequiste_list.all()
+                             if coreq not in self.registered_courses]
+            if len(not_fulfilled) > 0:
+                # this looks ugly -- better way to do it?
+                self.errorList.append(self.CO_REQ_NOT_FULFILLED +
+                                      str([str(c.name) for c in not_fulfilled]).strip("[]"))
                 return
 
         not_full_sections = [s for s in course.section_set.all() if s.is_not_full()]
-        first_section = not_full_sections[0]
+        if len(not_full_sections) == 0:
+            self.errorList.append(self.ALL_SECTIONS_FULL_ERROR_MSG)
+            return
 
+        first_section = not_full_sections[0]
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,
                                                       state="R", section=first_section)
         reg_student_record_entry.save()
