@@ -8,10 +8,19 @@
     <h3>
         Register for a course
     </h3>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <form action="/scheduler/register" method="post">
         {% csrf_token %}
         <input type="text" name="course_name"/>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Register"/>
     </form>
     <h3>
         You are currently registered for the following courses
@@ -19,7 +28,8 @@
     <table>
         {% for course in user.student.registered_courses %}
             <tr>
-                <td>{{ course.name }}</td> <td> <a href="/scheduler/drop?course_name={{ course.name }}">drop</a></td>
+                <td>{{ course.name }}</td>
+                <td><a href="/scheduler/drop?course_name={{ course.name }}">drop</a></td>
             </tr>
         {% endfor %}
     </table>

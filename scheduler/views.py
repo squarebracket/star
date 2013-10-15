@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -5,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
 from scheduler.models import Course
+
 
 def index(request):
     """
@@ -65,6 +67,11 @@ def register(request):
     course = Course.objects.get(name=course_name)
 
     for_student.register_for_course(course)
+    for error in for_student.errorList:
+        messages.error(request, error)
+
+    for info in for_student.infoList:
+        messages.info(request, info)
     return HttpResponseRedirect(reverse('scheduler:student'))
 
 @login_required
