@@ -26,7 +26,7 @@ class Student(StarUser):
 
     def register_for_course(self, course):
         from scheduler.models import StudentRecordEntry
-        already_taken_course_set = [e.section.course for e in self.studentrecord.studentrecordentry_set.all()]
+        already_taken_course_set = [completed_course for completed_course in self.completed_courses]
         if course in already_taken_course_set:
             self.errorList.append(self.COURSE_ALREADY_TAKEN_ERROR_MSG)
             return
