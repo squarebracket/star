@@ -11,6 +11,7 @@ class Student(StarUser):
     COURSE_ALREADY_REGISTERED_ERROR_MSG = "course already registered"
     NO_SECTION_AVAILABLE_ERROR_MSG = "no sections are open for this course"
     ALL_SECTIONS_FULL_ERROR_MSG = "all sections are full for this course"
+    REGISTERED_SUCCESS_MSG = "you have successfully registered for the course"
 
     program = models.ForeignKey(AcademicProgram)
     student_identifier = models.CharField(max_length=20)
@@ -43,17 +44,15 @@ class Student(StarUser):
             not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
                              if prereq not in self.completed_courses]
             if len(not_fulfilled) > 0:
-                # this looks ugly -- better way to do it?
-                self.errorList.append(self.PRE_REQ_NOT_FULFILLED +
-                                      str([str(c.name) for c in not_fulfilled]).strip("[]"))
+                for missing_course in not_fulfilled:
+                    self.errorList.append(self.PRE_REQ_NOT_FULFILLED + missing_course.name)
                 return
         if len(course.corequiste_list.all()) > 0:
             not_fulfilled = [coreq for coreq in course.corequiste_list.all()
                              if coreq not in self.registered_courses]
             if len(not_fulfilled) > 0:
-                # this looks ugly -- better way to do it?
-                self.errorList.append(self.CO_REQ_NOT_FULFILLED +
-                                      str([str(c.name) for c in not_fulfilled]).strip("[]"))
+                for missing_course in not_fulfilled:
+                    self.errorList.append(self.CO_REQ_NOT_FULFILLED + missing_course.name)
                 return
 
         not_full_sections = [s for s in course.section_set.all() if s.is_not_full()]

@@ -91,7 +91,7 @@ class StudentTest(TestCase):
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(Student.PRE_REQ_NOT_FULFILLED + "'ENGR 201'",
+        self.assertEqual(Student.PRE_REQ_NOT_FULFILLED + "ENGR 201",
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
