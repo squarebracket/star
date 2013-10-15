@@ -26,8 +26,7 @@ class Student(StarUser):
 
     def register_for_course(self, course):
         from scheduler.models import StudentRecordEntry
-        already_taken_course_set = [completed_course for completed_course in self.completed_courses]
-        if course in already_taken_course_set:
+        if course in self.completed_courses:
             self.errorList.append(self.COURSE_ALREADY_TAKEN_ERROR_MSG)
             return
         if len(course.section_set.all()) == 0:
@@ -35,7 +34,7 @@ class Student(StarUser):
             return
         if len(course.prerequiste_list.all()) > 0:
             not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
-                             if prereq not in already_taken_course_set]
+                             if prereq not in self.completed_courses]
             if len(not_fulfilled) > 0:
                 # this looks ugly -- better way to do it?
                 self.errorList.append(self.PRE_REQ_NOT_FULFILLED +
