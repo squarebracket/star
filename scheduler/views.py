@@ -5,8 +5,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
 from scheduler.models import Course
-from scheduler.services import RegistrationService
-
 
 def index(request):
     """

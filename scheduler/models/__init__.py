@@ -1,7 +1,3 @@
-# Dummy class to avoid circular import error
-# Will be overriden by importing real StudentRecordEntry class
-class StudentRecordEntry():
-    pass
 from academic_institution import *
 from academic_program import *
 from academic_requirement import *
