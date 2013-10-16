@@ -66,18 +66,29 @@ class Student(StarUser):
             self.error_list.append(Resource.ALL_SECTIONS_FULL_ERROR_MSG)
             return
 
-        first_section = not_full_sections[0]
-
         registered_sections_for_semester = [sre.section for sre in self.studentrecord.studentrecordentry_set.all() if
                                             sre.state == "R" and sre.section.semester_year.name == semester.name]
 
-        for registered_section in registered_sections_for_semester:
-            if registered_section.conflicts_with(first_section):
-                self.error_list.append(Resource.SECTION_CONFLICTS_WITH_EXISTING_REGISTRATIONS)
-                return
+        to_register_section = None
+        conflict_section = None
+        if len(registered_sections_for_semester) == 0:
+            to_register_section = not_full_sections[0]
+        else:
+            for check_section in not_full_sections:
+                conflict_section = None
+                for registered_section in registered_sections_for_semester:
+                    if registered_section.conflicts_with(check_section):
+                        conflict_section = registered_section
+
+                if conflict_section is None:
+                    to_register_section = check_section
+
+        if to_register_section is None and conflict_section is not None:
+            self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE + conflict_section)
+            return
 
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,
-                                                      state="R", section=first_section)
+                                                      state="R", section=to_register_section)
         reg_student_record_entry.save()
         self.info_list.append(Resource.REGISTERED_SUCCESS_MSG)
         return

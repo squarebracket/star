@@ -1,4 +1,5 @@
 class Resource:
+    CONFLICT_FOUND_IN_SCHEDULE = "conflict found in schedule with"
     SECTION_CONFLICTS_WITH_EXISTING_REGISTRATIONS = "course registration conflicts with"
     NO_SECTION_AVAILABLE_IN_SEMESTER = "no section available in semester"
     COURSE_NOT_REGISTERED_ERROR_MSG = "course not found in your registered list"
