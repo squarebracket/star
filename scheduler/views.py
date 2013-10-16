@@ -79,7 +79,7 @@ def drop(request):
     """
     Drops a course for a student
     """
-    course_name = request.POST['course_name']
+    course_name = request.GET['course_name']
     for_student = request.user.student
     course = Course.objects.get(name=course_name)
 

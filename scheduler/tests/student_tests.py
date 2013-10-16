@@ -1,6 +1,7 @@
 import logging
 from django.test import TestCase
 from scheduler.models import Student, Course
+from scheduler.resources import Resource
 
 
 class StudentTest(TestCase):
@@ -56,7 +57,7 @@ class StudentTest(TestCase):
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(Student.COURSE_ALREADY_TAKEN_ERROR_MSG,
+        self.assertEqual(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG,
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
@@ -74,7 +75,7 @@ class StudentTest(TestCase):
         #Check that an error has occured
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(Student.NO_SECTION_AVAILABLE_ERROR_MSG,
+        self.assertEqual(Resource.NO_SECTION_AVAILABLE_ERROR_MSG,
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
@@ -91,7 +92,7 @@ class StudentTest(TestCase):
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.errorList))
         #Check for specific error message
-        self.assertEqual(Student.PRE_REQ_NOT_FULFILLED + "ENGR 201",
+        self.assertEqual(Resource.PRE_REQ_NOT_FULFILLED + "ENGR 201",
                          self.student_one.errorList[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
