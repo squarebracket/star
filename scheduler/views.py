@@ -66,16 +66,18 @@ def register(request):
     Registers a course for a student
     """
     course_name = request.POST['course_name']
+    semester_name = request.POST['semester_name']
     request_student = request.user.student
     try:
         course = Course.objects.get(name=course_name)
-        request_student.register_for_course(course)
+        semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
+        request_student.register_for_course(course, semester)
         for error in request_student.errorList:
             messages.error(request, error)
         for info in request_student.infoList:
             messages.info(request, info)
     except Course.DoesNotExist:
-    # we have no object!  do something
+        # we have no object!  do something
         messages.error(request, "course not found")
 
     return HttpResponseRedirect(reverse('scheduler:student'))

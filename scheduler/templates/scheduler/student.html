@@ -21,7 +21,7 @@
     <form action="/scheduler/register" method="post">
         {% csrf_token %}
         <input type="text" name="course_name"/>
-        <select>
+        <select name="semester_name">
             {% for semester in open_semesters %}
                 <option value="{{ semester }}"
                         {% if semester == current_semester %}selected="selected"{% endif %}>
