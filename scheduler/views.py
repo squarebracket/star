@@ -65,7 +65,7 @@ def register(request):
     """
     Registers a course for a student
     """
-    course_name = request.POST['course_name']
+    course_name = request.POST['course_name'].upper()
     semester_name = request.POST['semester_name']
     request_student = request.user.student
     try:
