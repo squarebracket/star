@@ -67,6 +67,15 @@ class Student(StarUser):
             return
 
         first_section = not_full_sections[0]
+
+        registered_sections_for_semester = [sre.section for sre in self.studentrecord.studentrecordentry_set.all() if
+                                            sre.state == "R" and sre.section.semester_year.name == semester.name]
+
+        for registered_section in registered_sections_for_semester:
+            if registered_section.conflicts_with(first_section):
+                self.error_list.append(Resource.SECTION_CONFLICTS_WITH_EXISTING_REGISTRATIONS)
+                return
+
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,
                                                       state="R", section=first_section)
         reg_student_record_entry.save()

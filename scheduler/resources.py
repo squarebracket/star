@@ -1,4 +1,5 @@
 class Resource:
+    SECTION_CONFLICTS_WITH_EXISTING_REGISTRATIONS = "course registration conflicts with"
     NO_SECTION_AVAILABLE_IN_SEMESTER = "no section available in semester"
     COURSE_NOT_REGISTERED_ERROR_MSG = "course not found in your registered list"
     PRE_REQ_NOT_FULFILLED = "pre-req not fulfilled: "

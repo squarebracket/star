@@ -12,6 +12,9 @@ class Section(models.Model):
     def is_not_full(self):
         return len(self.studentrecordentry_set.all()) < self.capacity
 
+    def conflicts_with(self, section):
+        return False
+
     def __unicode__(self):
         return str(self.course.name) + " " + str(self.name)
 
