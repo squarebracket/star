@@ -40,7 +40,7 @@ class StudentTest(TestCase):
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_one.registered_courses))
         #Check that there is no error reported
-        self.assertEqual(0, len(self.student_one.errorList))
+        self.assertEqual(0, len(self.student_one.error_list))
 
     def test_should_not_register_course_for_student_if_already_taken(self):
         #Record the number of courses registered to this student
@@ -56,14 +56,14 @@ class StudentTest(TestCase):
         #Try to register the student to this course
         self.student_one.register_for_course(engr202, self.test_semester)
         #Check that an error has occurred
-        self.assertEqual(1, len(self.student_one.errorList))
+        self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
         self.assertEqual(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG,
-                         self.student_one.errorList[0])
+                         self.student_one.error_list[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
                          len(self.student_one.registered_courses))
-        del self.student_one.errorList[:]
+        del self.student_one.error_list[:]
 
     def test_should_not_register_course_if_no_section_open(self):
         #Record the number of courses registered to this student
@@ -74,14 +74,14 @@ class StudentTest(TestCase):
         #Try to register the student to this course
         self.student_one.register_for_course(elec275, self.test_semester)
         #Check that an error has occured
-        self.assertEqual(1, len(self.student_one.errorList))
+        self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
         self.assertEqual(Resource.NO_SECTION_AVAILABLE_ERROR_MSG,
-                         self.student_one.errorList[0])
+                         self.student_one.error_list[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
                          len(self.student_one.registered_courses))
-        del self.student_one.errorList[:]
+        del self.student_one.error_list[:]
 
     def test_should_not_register_course_if_pre_req_not_fulfilled(self):
         #Record the number of courses registered to this student
@@ -91,14 +91,14 @@ class StudentTest(TestCase):
         #Try to register the student to this course
         self.student_one.register_for_course(engr301, self.test_semester)
         #Check that an error has occurred
-        self.assertEqual(1, len(self.student_one.errorList))
+        self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
         self.assertEqual(Resource.PRE_REQ_NOT_FULFILLED + "ENGR 201",
-                         self.student_one.errorList[0])
+                         self.student_one.error_list[0])
         #Check and make sure registration count has not changed
         self.assertEqual(current_student_registration_count,
                          len(self.student_one.registered_courses))
-        del self.student_one.errorList[:]
+        del self.student_one.error_list[:]
 
     def test_should_register_course_if_pre_req_is_fulfilled(self):
         #Record the number of courses registered to this student
@@ -111,7 +111,7 @@ class StudentTest(TestCase):
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_two.registered_courses))
         #Check that there is no error reported
-        self.assertEqual(0, len(self.student_two.errorList))
+        self.assertEqual(0, len(self.student_two.error_list))
 
         # def test_should_be_put_on_wait_list_if_sections_are_full(self):
         #     #Create the Student Service

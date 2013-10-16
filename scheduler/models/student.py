@@ -20,7 +20,7 @@ class Student(StarUser):
 
     def drop_course(self, course):
         if course not in self.registered_courses:
-            self.errorList.append(Resource.COURSE_NOT_REGISTERED_ERROR_MSG)
+            self.error_list.append(Resource.COURSE_NOT_REGISTERED_ERROR_MSG)
             return
         matching = [sre for sre in self.studentrecord.studentrecordentry_set.all()
                     if sre.section.course.name == course.name]
@@ -31,45 +31,46 @@ class Student(StarUser):
         from scheduler.models import StudentRecordEntry
 
         if course in self.completed_courses:
-            self.errorList.append(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG)
+            self.error_list.append(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG)
             return
         if course in self.registered_courses:
-            self.errorList.append(Resource.COURSE_ALREADY_REGISTERED_ERROR_MSG)
+            self.error_list.append(Resource.COURSE_ALREADY_REGISTERED_ERROR_MSG)
             return
         if len(course.section_set.all()) == 0:
-            self.errorList.append(Resource.NO_SECTION_AVAILABLE_ERROR_MSG)
+            self.error_list.append(Resource.NO_SECTION_AVAILABLE_ERROR_MSG)
             return
         if len(course.prerequiste_list.all()) > 0:
             not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
                              if prereq not in self.completed_courses]
             if len(not_fulfilled) > 0:
                 for missing_course in not_fulfilled:
-                    self.errorList.append(Resource.PRE_REQ_NOT_FULFILLED + missing_course.name)
+                    self.error_list.append(Resource.PRE_REQ_NOT_FULFILLED + missing_course.name)
                 return
         if len(course.corequiste_list.all()) > 0:
             not_fulfilled = [coreq for coreq in course.corequiste_list.all()
                              if coreq not in self.registered_courses]
             if len(not_fulfilled) > 0:
                 for missing_course in not_fulfilled:
-                    self.errorList.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
+                    self.error_list.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
                 return
 
         sections_matching_semester = [s for s in course.section_set.all() if
                                       s.semester_year.name == semester.name]
         if len(sections_matching_semester) == 0:
-            self.errorList.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
+            self.error_list.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
             return
 
         not_full_sections = [s for s in sections_matching_semester if
                              s.is_not_full()]
         if len(not_full_sections) == 0:
-            self.errorList.append(Resource.ALL_SECTIONS_FULL_ERROR_MSG)
+            self.error_list.append(Resource.ALL_SECTIONS_FULL_ERROR_MSG)
             return
 
         first_section = not_full_sections[0]
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,
                                                       state="R", section=first_section)
         reg_student_record_entry.save()
+        self.info_list.append(Resource.REGISTERED_SUCCESS_MSG)
         return
 
     def __unicode__(self):

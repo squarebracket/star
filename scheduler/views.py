@@ -72,10 +72,12 @@ def register(request):
         course = Course.objects.get(name=course_name)
         semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
         request_student.register_for_course(course, semester)
-        for error in request_student.errorList:
+        for error in request_student.error_list:
             messages.error(request, error)
-        for info in request_student.infoList:
+        del request_student.error_list[:]
+        for info in request_student.info_list:
             messages.info(request, info)
+        del request_student.info_list[:]
     except Course.DoesNotExist:
         # we have no object!  do something
         messages.error(request, "course not found")
