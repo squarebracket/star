@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
-from scheduler.models import Course
+from scheduler.models import Course, Semester
 
 
 def index(request):
@@ -17,6 +17,7 @@ def index(request):
     })
     return render(request, 'scheduler/index.html', context)
 
+
 @login_required
 def student(request):
     """
@@ -24,6 +25,7 @@ def student(request):
     """
     context = RequestContext(request, {
         'user': request.user,
+        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
     })
     return render(request, 'scheduler/student.html', context)
 
@@ -57,22 +59,27 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('scheduler:index'))
 
+
 @login_required
 def register(request):
     """
     Registers a course for a student
     """
     course_name = request.POST['course_name']
-    for_student = request.user.student
-    course = Course.objects.get(name=course_name)
+    request_student = request.user.student
+    try:
+        course = Course.objects.get(name=course_name)
+        request_student.register_for_course(course)
+        for error in request_student.errorList:
+            messages.error(request, error)
+        for info in request_student.infoList:
+            messages.info(request, info)
+    except Course.DoesNotExist:
+    # we have no object!  do something
+        messages.error(request, "course not found")
 
-    for_student.register_for_course(course)
-    for error in for_student.errorList:
-        messages.error(request, error)
-
-    for info in for_student.infoList:
-        messages.info(request, info)
     return HttpResponseRedirect(reverse('scheduler:student'))
+
 
 @login_required
 def drop(request):
