@@ -54,8 +54,14 @@ class Student(StarUser):
                     self.errorList.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
                 return
 
-        not_full_sections = [s for s in course.section_set.all() if
-                             s.is_not_full() and s.semester_year.name == semester.name]
+        sections_matching_semester = [s for s in course.section_set.all() if
+                                      s.semester_year.name == semester.name]
+        if len(sections_matching_semester) == 0:
+            self.errorList.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
+            return
+
+        not_full_sections = [s for s in sections_matching_semester if
+                             s.is_not_full()]
         if len(not_full_sections) == 0:
             self.errorList.append(Resource.ALL_SECTIONS_FULL_ERROR_MSG)
             return

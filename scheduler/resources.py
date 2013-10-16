@@ -1,4 +1,5 @@
 class Resource:
+    NO_SECTION_AVAILABLE_IN_SEMESTER = "no section available in semester"
     COURSE_NOT_REGISTERED_ERROR_MSG = "course not found in your registered list"
     PRE_REQ_NOT_FULFILLED = "pre-req not fulfilled: "
     CO_REQ_NOT_FULFILLED = "co-req not fulfilled: "
