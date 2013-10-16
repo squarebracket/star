@@ -63,15 +63,20 @@ def logout(request):
 @login_required
 def register(request):
     """
-    Registers a course for a student
+    Registers a course for a student by name for semester by name
     """
     course_name = request.POST['course_name'].upper()
     semester_name = request.POST['semester_name']
     request_student = request.user.student
     try:
+        #find course by name
         course = Course.objects.get(name=course_name)
+        #find semester by name
         semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
+        #register for the course for semester
         request_student.register_for_course(course, semester)
+
+        #Load error and info into request messages and then clear lists
         for error in request_student.error_list:
             messages.error(request, error)
         del request_student.error_list[:]
@@ -79,7 +84,7 @@ def register(request):
             messages.info(request, info)
         del request_student.info_list[:]
     except Course.DoesNotExist:
-        # we have no object!  do something
+        #error, course not found
         messages.error(request, "course not found")
 
     return HttpResponseRedirect(reverse('scheduler:student'))
@@ -88,7 +93,7 @@ def register(request):
 @login_required
 def drop(request):
     """
-    Drops a course for a student
+    Drops a course for a student by name
     """
     course_name = request.GET['course_name']
     for_student = request.user.student

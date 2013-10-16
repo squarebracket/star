@@ -16,6 +16,14 @@ class StudentRecordEntry(models.Model):
                                                 str(self.section),
                                                 self.result_grade)
 
+    @property
+    def is_register_state(self):
+        return self.state == "R"
+
+    @property
+    def is_complete_state(self):
+        return self.state == "C"
+
     class Meta:
         def __init__(self):
             pass

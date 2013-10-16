@@ -12,13 +12,16 @@ class Student(StarUser):
 
     @property
     def registered_courses(self):
-        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "R"]
+        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_register_state]
 
     @property
     def completed_courses(self):
-        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.state == "C"]
+        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_complete_state]
 
     def drop_course(self, course):
+        """
+        Drops the student from a course
+        """
         if course not in self.registered_courses:
             self.error_list.append(Resource.COURSE_NOT_REGISTERED_ERROR_MSG)
             return
@@ -28,17 +31,27 @@ class Student(StarUser):
             match.delete()
 
     def register_for_course(self, course, semester):
+        """
+        Registers the student to a course in a semester
+        """
         from scheduler.models import StudentRecordEntry
 
+        #Validate if course has already been taken
         if course in self.completed_courses:
             self.error_list.append(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG)
             return
+
+        #Validate if course is already registered
         if course in self.registered_courses:
             self.error_list.append(Resource.COURSE_ALREADY_REGISTERED_ERROR_MSG)
             return
+
+        #Validate if there is a section available for course
         if len(course.section_set.all()) == 0:
             self.error_list.append(Resource.NO_SECTION_AVAILABLE_ERROR_MSG)
             return
+
+        #Validate if all pre-requisite has been met
         if len(course.prerequiste_list.all()) > 0:
             not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
                              if prereq not in self.completed_courses]
@@ -46,6 +59,8 @@ class Student(StarUser):
                 for missing_course in not_fulfilled:
                     self.error_list.append(Resource.PRE_REQ_NOT_FULFILLED + missing_course.name)
                 return
+
+        #Validate if all co-requisite has been met
         if len(course.corequiste_list.all()) > 0:
             not_fulfilled = [coreq for coreq in course.corequiste_list.all()
                              if coreq not in self.registered_courses]
@@ -54,20 +69,23 @@ class Student(StarUser):
                     self.error_list.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
                 return
 
+        #Validate if there is a section available in the requested semester
         sections_matching_semester = [s for s in course.section_set.all() if
                                       s.semester_year.name == semester.name]
         if len(sections_matching_semester) == 0:
             self.error_list.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
             return
 
+        #Validate if there is a section that is not full
         not_full_sections = [s for s in sections_matching_semester if
                              s.is_not_full()]
         if len(not_full_sections) == 0:
             self.error_list.append(Resource.ALL_SECTIONS_FULL_ERROR_MSG)
             return
 
+        #Validate for conflict against existing registered sections
         registered_sections_for_semester = [sre.section for sre in self.studentrecord.studentrecordentry_set.all() if
-                                            sre.state == "R" and sre.section.semester_year.name == semester.name]
+                                            sre.is_register_state and sre.section.semester_year.name == semester.name]
 
         to_register_section = None
         conflict_section = None
@@ -87,6 +105,7 @@ class Student(StarUser):
             self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE + " " + str(conflict_section))
             return
 
+        #No errors, add into student record entry
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,
                                                       state="R", section=to_register_section)
         reg_student_record_entry.save()
