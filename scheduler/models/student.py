@@ -84,7 +84,7 @@ class Student(StarUser):
                     to_register_section = check_section
 
         if to_register_section is None and conflict_section is not None:
-            self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE + conflict_section)
+            self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE + " " + str(conflict_section))
             return
 
         reg_student_record_entry = StudentRecordEntry(student_record=self.studentrecord,

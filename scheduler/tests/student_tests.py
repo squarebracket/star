@@ -13,8 +13,8 @@ class StudentTest(TestCase):
         logging.debug(Course.objects.all())
         self.student_one = Student.objects.get_by_natural_key('student_user_1')
         self.student_two = Student.objects.get_by_natural_key('student_user_2')
-        self.test_semester = [sem for sem in Semester.objects.all() if sem.name == 'Fall 2012'][0]
-        #Create our service for testing
+        self.fall_2012_semester = [sem for sem in Semester.objects.all() if sem.name == 'Fall 2012'][0]
+        self.fall_2013_semester = [sem for sem in Semester.objects.all() if sem.name == 'Fall 2013'][0]
 
     def test_should_get_registered_courses(self):
         student_one = Student.objects.get_by_natural_key('student_user_1')
@@ -35,7 +35,7 @@ class StudentTest(TestCase):
         #Record the number of courses registered to this student
         current_student_registration_count = len(self.student_one.registered_courses)
         #Register the student to the course
-        self.student_one.register_for_course(soen341, self.test_semester)
+        self.student_one.register_for_course(soen341, self.fall_2012_semester)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_one.registered_courses))
@@ -54,7 +54,7 @@ class StudentTest(TestCase):
         engr202 = student_records[0]
         self.assertIsNotNone(engr202)
         #Try to register the student to this course
-        self.student_one.register_for_course(engr202, self.test_semester)
+        self.student_one.register_for_course(engr202, self.fall_2012_semester)
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
@@ -72,7 +72,7 @@ class StudentTest(TestCase):
         elec275 = Course.objects.get(name="ENGR 213")
         self.assertIsNotNone(elec275)
         #Try to register the student to this course
-        self.student_one.register_for_course(elec275, self.test_semester)
+        self.student_one.register_for_course(elec275, self.fall_2012_semester)
         #Check that an error has occured
         self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
@@ -89,7 +89,7 @@ class StudentTest(TestCase):
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
-        self.student_one.register_for_course(engr301, self.test_semester)
+        self.student_one.register_for_course(engr301, self.fall_2012_semester)
         #Check that an error has occurred
         self.assertEqual(1, len(self.student_one.error_list))
         #Check for specific error message
@@ -106,18 +106,42 @@ class StudentTest(TestCase):
         #engr301 has engr201 as its pre-req
         engr301 = Course.objects.get(name="ENGR 301")
         #Try to register the student to this course
-        self.student_two.register_for_course(engr301, self.test_semester)
+        self.student_two.register_for_course(engr301, self.fall_2012_semester)
         #Check that we successfully registered for the course by count + 1
         self.assertEqual(current_student_registration_count + 1,
                          len(self.student_two.registered_courses))
         #Check that there is no error reported
         self.assertEqual(0, len(self.student_two.error_list))
 
-        # def test_should_be_put_on_wait_list_if_sections_are_full(self):
-        #     #Create the Student Service
-        #     studentService = StudentService()
-        #
-        #     #Find our test student
-        #     student = Student.objects.get_by_natural_key("student_user_1")
-        #     #Record the number of courses registered to this student
-        #     current_student_registration_count = len(student.registration_set.all())
+    def test_should_register_with_no_conflicts(self):
+        #Record the number of courses registered to this student
+        current_student_registration_count = len(self.student_one.registered_courses)
+        #soen341 is on Wed
+        soen341 = Course.objects.get(name="SOEN 341")
+        #Try to register the student to this course
+        self.student_one.register_for_course(soen341, self.fall_2013_semester)
+        #Check that we successfully registered for the course by count + 1
+        self.assertEqual(current_student_registration_count + 1,
+                         len(self.student_one.registered_courses))
+        #Check that there is no error reported
+        self.assertEqual(0, len(self.student_one.error_list))
+
+        #soen345 is on Mon
+        soen345 = Course.objects.get(name="SOEN 345")
+        #Try to register the student to this course
+        self.student_one.register_for_course(soen345, self.fall_2013_semester)
+        #Check that we successfully registered for the course by count + 2
+        self.assertEqual(current_student_registration_count + 2,
+                         len(self.student_one.registered_courses))
+        #Check that there is no error reported
+        self.assertEqual(0, len(self.student_one.error_list))
+
+        #soen345 is on Mon
+        soen345 = Course.objects.get(name="SOEN 357")
+        #Try to register the student to this course
+        self.student_one.register_for_course(soen345, self.fall_2013_semester)
+        #Check that we successfully registered for the course by count + 2
+        self.assertEqual(current_student_registration_count + 2,
+                         len(self.student_one.registered_courses))
+        #Check that there is no error reported
+        self.assertEqual(1, len(self.student_one.error_list))
