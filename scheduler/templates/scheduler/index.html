@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>
-    Welcome to STAR, Scheduling Tool for Academic Registration
-    </title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} Student Registration and Scheduling {% endblock %}
+
+{% block content %}
     <h1>
         Welcome to STAR, Scheduling Tool for Academic Registration
     </h1>
@@ -17,5 +14,5 @@
         <input type="password" name="password"/>
         <input type="submit" value="Sign in" />
     </form>
-</body>
-</html>
+
+{% endblock %}

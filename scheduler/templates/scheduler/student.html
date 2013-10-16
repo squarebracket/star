@@ -2,20 +2,21 @@
 
 {% block title %} Student Registration and Scheduling {% endblock %}
 
+{%  block nav %}
+        <ul>
+            <li><a href="/scheduler/logout">Logout</a></li>
+            <li><a href="#">Option 1</a></li>
+            <li><a href="#">Option 2</a></li>
+            ...
+        </ul>
+{%  endblock %}
+
 {% block content %}
     Welcome {{ user.first_name }} {{ user.last_name }}
 
     <h3>
         Register for a course
     </h3>
-
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 
     <form action="/scheduler/register" method="post">
         {% csrf_token %}
