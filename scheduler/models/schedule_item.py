@@ -12,6 +12,17 @@ class ScheduleItem(models.Model):
     section = models.ForeignKey(Section)
 
     def conflits_with(self, other_item):
+        if self.day_of_week != other_item.day_of_week:
+            return False
+        if self.start_time <= other_item.start_time <= self.end_time:
+            return True
+        if self.start_time <= other_item.end_time <= self.end_time:
+            return True
+        if other_item.start_time <= self.start_time <= other_item.end_time:
+            return True
+        if other_item.start_time <= self.end_time <= other_item.end_time:
+            return True
+
         return False
 
     def __unicode__(self):
