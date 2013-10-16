@@ -11,7 +11,7 @@ class ScheduleItem(models.Model):
     day_of_week = models.CharField(max_length=3, choices=DAY_OF_WEEK_CHOICES)
     section = models.ForeignKey(Section)
 
-    def conflits_with(self, other_item):
+    def conflicts_with(self, other_item):
         if self.day_of_week != other_item.day_of_week:
             return False
         if self.start_time <= other_item.start_time <= self.end_time:
@@ -26,8 +26,8 @@ class ScheduleItem(models.Model):
         return False
 
     def __unicode__(self):
-        return "%s from %s to %s on %s" % (self.location, self.start_time,
-                                           self.end_time, self.day_of_week)
+        return "%s from %s to %s on %s for %s" % (self.location, self.start_time,
+                                                  self.end_time, self.day_of_week, str(self.section))
 
 
     class Meta:

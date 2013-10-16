@@ -42,7 +42,7 @@ class Section(models.Model):
         return Tutorial.objects.filter(section=self)
 
     def __unicode__(self):
-        return str(self.course.name) + " " + str(self.name)
+        return str(self.course.name) + " " + str(self.name) + " " + str(self.semester_year)
 
     class Meta:
         def __init__(self):
