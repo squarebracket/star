@@ -764,7 +764,8 @@
         "fields": {
             "university": 1,
             "name": "Engineering and Computer Science",
-            "description": "Engineering and Computer Science ENCS"
+            "description": "Engineering and Computer Science ENCS",
+            "code": 4
         }
     },
     {
@@ -815,9 +816,9 @@
         "pk": 1,
         "model": "scheduler.department",
         "fields": {
-            "university": 1,
             "name": "Computer Science and Software Engineering",
-            "faculty": 2
+            "faculty": 2,
+            "code": 405
         }
     },
     {
