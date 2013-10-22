@@ -1,14 +1,16 @@
-from django.db import models
-from scheduler.models.schedule_constraint_set import ScheduleConstraintSet
-from scheduler.models.schedule_item import ScheduleItem
 
+class CalculatedSchedule:
+    def __init__(self):
+        self.schedule_items = []
+        return
 
-class CalculatedSchedule(models.Model):
-    constraint_set = models.OneToOneField(ScheduleConstraintSet)
-    items = models.ManyToManyField(ScheduleItem)
+    def add_schedule_item(self, item):
+        self.schedule_items.append(item)
 
-    class Meta:
-        def __init__(self):
-            pass
-
-        app_label = 'scheduler'
+    def add_section(self, section):
+        for lecture in section.lectures:
+            self.add_schedule_item(lecture)
+        for tutorial in section.tutorials:
+            self.add_schedule_item(tutorial)
+        for lab in section.labs:
+            self.add_schedule_item(lab)

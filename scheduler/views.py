@@ -101,3 +101,15 @@ def drop(request):
 
     for_student.drop_course(course)
     return HttpResponseRedirect(reverse('scheduler:student'))
+
+@login_required
+def schedule(request):
+    """
+    Gets the current schedule
+    """
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
+        'schedule': request.user.student.create_schedule_from_registered_courses()
+    })
+    return render(request, 'scheduler/schedule.html', context)
