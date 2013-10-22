@@ -29,7 +29,6 @@ class ScheduleItem(models.Model):
         return "%s from %s to %s on %s for %s" % (self.location, self.start_time,
                                                   self.end_time, self.day_of_week, str(self.section))
 
-
     class Meta:
         def __init__(self):
             pass

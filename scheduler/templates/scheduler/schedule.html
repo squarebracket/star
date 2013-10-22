@@ -16,5 +16,64 @@
         Your Schedule
     </h3>
 
+    <table>
+        <tr>
+            <td>Monday</td>
+            <td>
+                {% for item in schedule.mon_items %}
+                    {{ item }}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>
+                {% for item in schedule.tue_items %}
+                    {{ item }}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>
+                {% for item in schedule.wed_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>
+                {% for item in schedule.thu_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>
+                {% for item in schedule.fri_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Saturday</td>
+            <td>
+                {% for item in schedule.sat_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td>
+                {% for item in schedule.sun_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+
+    </table>
 
 {% endblock %}
