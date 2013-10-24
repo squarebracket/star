@@ -101,3 +101,44 @@ def drop(request):
 
     for_student.drop_course(course)
     return HttpResponseRedirect(reverse('scheduler:student'))
+
+
+@login_required
+def schedule(request):
+    """
+    Gets the current schedule
+    """
+
+    if request.session.get('schedule', False):
+        pass
+    else:
+        reg_schedule = request.user.student.create_schedule_from_registered_courses()
+        request.session['schedule'] = reg_schedule
+
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
+        'schedule': request.session['schedule']
+    })
+    return render(request, 'scheduler/schedule.html', context)
+
+
+@login_required
+def add_course(request):
+    """
+    Registers a course for a student by name for semester by name
+    """
+    course_name = request.POST['course_name'].upper()
+    semester_name = request.POST['semester_name']
+    schedule = request.session['schedule']
+    try:
+        #find course by name
+        course = Course.objects.get(name=course_name)
+        #find semester by name
+        semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
+
+    except Course.DoesNotExist:
+        #error, course not found
+        messages.error(request, "course not found")
+
+    return HttpResponseRedirect(reverse('scheduler:schedule'))

@@ -13,7 +13,6 @@ from lecture import *
 from prerequisite import *
 from professor import *
 from registrar import *
-from schedule import *
 from schedule_constraint import *
 from schedule_constraint_set import *
 from schedule_item import *

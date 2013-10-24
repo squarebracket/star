@@ -1,14 +1,43 @@
-from django.db import models
-from scheduler.models.schedule_constraint_set import ScheduleConstraintSet
-from scheduler.models.schedule_item import ScheduleItem
+class CalculatedSchedule:
+    def __init__(self):
+        self.schedule_items = []
+        return
 
+    def add_schedule_item(self, item):
+        self.schedule_items.append(item)
 
-class CalculatedSchedule(models.Model):
-    constraint_set = models.OneToOneField(ScheduleConstraintSet)
-    items = models.ManyToManyField(ScheduleItem)
+    def add_section(self, section):
+        for lecture in section.lectures:
+            self.add_schedule_item(lecture)
+        for tutorial in section.tutorials:
+            self.add_schedule_item(tutorial)
+        for lab in section.labs:
+            self.add_schedule_item(lab)
 
-    class Meta:
-        def __init__(self):
-            pass
+    @property
+    def mon_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Mon'], key=lambda x: x.start_time)
 
-        app_label = 'scheduler'
+    @property
+    def tue_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Tue'], key=lambda x: x.start_time)
+
+    @property
+    def wed_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Wed'], key=lambda x: x.start_time)
+
+    @property
+    def thu_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Thu'], key=lambda x: x.start_time)
+
+    @property
+    def fri_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Fri'], key=lambda x: x.start_time)
+
+    @property
+    def sat_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Sat'], key=lambda x: x.start_time)
+
+    @property
+    def sun_items(self):
+        return sorted([item for item in self.schedule_items if item.day_of_week == 'Sun'], key=lambda x: x.start_time)

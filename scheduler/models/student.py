@@ -1,6 +1,7 @@
 from django.db import models
 from scheduler.choices import STUDENT_TYPE_CHOICES
 from scheduler.models.academic_program import AcademicProgram
+from scheduler.models.schedule import CalculatedSchedule
 from scheduler.models.star_user import StarUser
 from scheduler.resources import Resource
 
@@ -12,11 +13,22 @@ class Student(StarUser):
 
     @property
     def registered_courses(self):
-        return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_register_state]
+        return [section.course for section in self.registered_sections]
+
+    @property
+    def registered_sections(self):
+        return [sre.section for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_register_state]
 
     @property
     def completed_courses(self):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_complete_state]
+
+    def create_schedule_from_registered_courses(self):
+        schedule = CalculatedSchedule()
+        for sec in self.registered_sections:
+            schedule.add_section(sec)
+
+        return schedule
 
     def drop_course(self, course):
         """
