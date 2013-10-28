@@ -42,10 +42,79 @@ class Student(StarUser):
         for match in matching:
             match.delete()
 
+    def validate_course_already_taken(self, course):
+        """
+        Validate if course has already been taken
+        """
+        if course in self.completed_courses:
+            self.error_list.append(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG)
+            return
+
+    def validate_course_already_registered(self, course):
+        """
+        Validate if course is already registered
+        """
+        if course in self.registered_courses:
+            self.error_list.append(Resource.COURSE_ALREADY_REGISTERED_ERROR_MSG)
+        return
+
+    def validate_section_is_available(self, course):
+        """
+        Validate if there is a section available for course
+        """
+        if len(course.section_set.all()) == 0:
+            self.error_list.append(Resource.NO_SECTION_AVAILABLE_ERROR_MSG)
+        return
+
+    def validate_prerequisites(self, course):
+        """
+        Validate if all pre-requisite has been met
+        """
+        if len(course.prerequiste_list.all()) > 0:
+            not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
+                             if prereq not in self.completed_courses]
+            if len(not_fulfilled) > 0:
+                for missing_course in not_fulfilled:
+                    self.error_list.append(Resource.PRE_REQ_NOT_FULFILLED + missing_course.name)
+        return
+
+    def validate_corequisites(self, course):
+        """
+        Validate if all co-requisite has been met
+        """
+        if len(course.corequiste_list.all()) > 0:
+            not_fulfilled = [coreq for coreq in course.corequiste_list.all()
+                             if coreq not in self.registered_courses]
+            if len(not_fulfilled) > 0:
+                for missing_course in not_fulfilled:
+                    self.error_list.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
+        return
+
     def add_to_schedule(self, schedule, course, semester):
         """
-        Adds the course for a semester to a schedule        """
-        from scheduler.models import StudentRecordEntry
+        Adds the course for a semester to a schedule
+        """
+        self.validate_course_already_taken(course)
+        if self.has_errors:
+            return
+
+        self.validate_course_already_registered(course)
+        if self.has_errors:
+            return
+
+        self.validate_section_is_available(course)
+        if self.has_errors:
+            return
+
+        sections_matching_semester = course.get_sessions_matching_semester(semester)
+        #Validate if there is a section available in the requested semester
+        if len(sections_matching_semester) == 0:
+            self.error_list.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
+            return
+
+        first_section = sections_matching_semester[0]
+        schedule.add_section(first_section)
+
         return
 
     def register_for_course(self, course, semester):
@@ -54,42 +123,29 @@ class Student(StarUser):
         """
         from scheduler.models import StudentRecordEntry
 
-        #Validate if course has already been taken
-        if course in self.completed_courses:
-            self.error_list.append(Resource.COURSE_ALREADY_TAKEN_ERROR_MSG)
+        self.validate_course_already_taken(course)
+        if self.has_errors:
             return
 
-        #Validate if course is already registered
-        if course in self.registered_courses:
-            self.error_list.append(Resource.COURSE_ALREADY_REGISTERED_ERROR_MSG)
+        self.validate_course_already_registered(course)
+        if self.has_errors:
             return
 
-        #Validate if there is a section available for course
-        if len(course.section_set.all()) == 0:
-            self.error_list.append(Resource.NO_SECTION_AVAILABLE_ERROR_MSG)
+        self.validate_section_is_available(course)
+        if self.has_errors:
             return
 
-        #Validate if all pre-requisite has been met
-        if len(course.prerequiste_list.all()) > 0:
-            not_fulfilled = [prereq for prereq in course.prerequiste_list.all()
-                             if prereq not in self.completed_courses]
-            if len(not_fulfilled) > 0:
-                for missing_course in not_fulfilled:
-                    self.error_list.append(Resource.PRE_REQ_NOT_FULFILLED + missing_course.name)
-                return
+        self.validate_prerequisites(course)
+        if self.has_errors:
+            return
 
-        #Validate if all co-requisite has been met
-        if len(course.corequiste_list.all()) > 0:
-            not_fulfilled = [coreq for coreq in course.corequiste_list.all()
-                             if coreq not in self.registered_courses]
-            if len(not_fulfilled) > 0:
-                for missing_course in not_fulfilled:
-                    self.error_list.append(Resource.CO_REQ_NOT_FULFILLED + missing_course.name)
-                return
+        self.validate_corequisites(course)
+        if self.has_errors:
+            return
+
+        sections_matching_semester = course.get_sessions_matching_semester(semester)
 
         #Validate if there is a section available in the requested semester
-        sections_matching_semester = [s for s in course.section_set.all() if
-                                      s.semester_year.name == semester.name]
         if len(sections_matching_semester) == 0:
             self.error_list.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
             return
