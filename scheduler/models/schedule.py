@@ -14,6 +14,21 @@ class CalculatedSchedule:
         for lab in section.labs:
             self.add_schedule_item(lab)
 
+    def has_no_conflict_with(self, section):
+
+        for existing_item in self.schedule_items:
+            for lecture in section.lectures:
+                if existing_item.conflicts_with(lecture):
+                    return False
+            for tutorial in section.tutorials:
+                if existing_item.conflicts_with(tutorial):
+                    return False
+            for lab in section.labs:
+                if existing_item.conflicts_with(lab):
+                    return False
+
+        return True
+
     @property
     def mon_items(self):
         return sorted([item for item in self.schedule_items if item.day_of_week == 'Mon'], key=lambda x: x.start_time)
