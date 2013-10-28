@@ -140,7 +140,7 @@ def add_course(request):
         #find semester by name
         semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
 
-        request_student.add_to_schedue(request_schedule, course, semester)
+        request_student.add_to_schedule(request_schedule, course, semester)
     except Course.DoesNotExist:
         #error, course not found
         messages.error(request, "course not found")
