@@ -42,6 +42,12 @@ class Student(StarUser):
         for match in matching:
             match.delete()
 
+    def add_to_schedule(self, schedule, course, semester):
+        """
+        Adds the course for a semester to a schedule        """
+        from scheduler.models import StudentRecordEntry
+        return
+
     def register_for_course(self, course, semester):
         """
         Registers the student to a course in a semester

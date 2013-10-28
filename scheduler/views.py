@@ -79,10 +79,11 @@ def register(request):
         #Load error and info into request messages and then clear lists
         for error in request_student.error_list:
             messages.error(request, error)
-        del request_student.error_list[:]
+        request_student.clear_error_list()
+
         for info in request_student.info_list:
             messages.info(request, info)
-        del request_student.info_list[:]
+        request_student.clear_info_list()
     except Course.DoesNotExist:
         #error, course not found
         messages.error(request, "course not found")
@@ -130,13 +131,16 @@ def add_course(request):
     """
     course_name = request.POST['course_name'].upper()
     semester_name = request.POST['semester_name']
-    schedule = request.session['schedule']
+    request_schedule = request.session['schedule']
+    request_student = request.user.student
+
     try:
         #find course by name
         course = Course.objects.get(name=course_name)
         #find semester by name
         semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
 
+        request_student.add_to_schedue(request_schedule, course, semester)
     except Course.DoesNotExist:
         #error, course not found
         messages.error(request, "course not found")
