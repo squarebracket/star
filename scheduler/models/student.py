@@ -121,7 +121,7 @@ class Student(StarUser):
         if added_section is None:
             self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE)
 
-        return
+        return schedule
 
     def register_for_course(self, course, semester):
         """
