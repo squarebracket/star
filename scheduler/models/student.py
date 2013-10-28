@@ -112,8 +112,14 @@ class Student(StarUser):
             self.error_list.append(Resource.NO_SECTION_AVAILABLE_IN_SEMESTER)
             return
 
-        first_section = sections_matching_semester[0]
-        schedule.add_section(first_section)
+        added_section = None
+        for possible_section in sections_matching_semester:
+            if schedule.has_no_conflict_with(possible_section):
+                added_section = possible_section
+                schedule.add_section(possible_section)
+
+        if added_section is None:
+            self.error_list.append(Resource.CONFLICT_FOUND_IN_SCHEDULE)
 
         return
 
