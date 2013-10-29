@@ -24,6 +24,14 @@ class Course(models.Model):
                                              symmetrical=False,
                                              related_name="corequisite_reltion")
 
+    def get_sessions_matching_semester(self, semester):
+        """
+        get sessions matching semester
+        """
+        sections_matching_semester = [s for s in self.section_set.all() if
+                                      s.semester_year.name == semester.name]
+        return sections_matching_semester
+
     def __unicode__(self):
         return "%s %s" % (self.course_letters, self.course_numbers)
 

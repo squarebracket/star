@@ -7,12 +7,34 @@ class CalculatedSchedule:
         self.schedule_items.append(item)
 
     def add_section(self, section):
+        """
+        Add all the lectures, tutorials and labs for a section
+        to the schedule
+        """
         for lecture in section.lectures:
             self.add_schedule_item(lecture)
         for tutorial in section.tutorials:
             self.add_schedule_item(tutorial)
         for lab in section.labs:
             self.add_schedule_item(lab)
+
+    def has_no_conflict_with(self, section):
+        """
+        Checks if the section's lab and lectures and tutorials
+        have conflict with anything else in the schedule
+        """
+        for existing_item in self.schedule_items:
+            for lecture in section.lectures:
+                if existing_item.conflicts_with(lecture):
+                    return False
+            for tutorial in section.tutorials:
+                if existing_item.conflicts_with(tutorial):
+                    return False
+            for lab in section.labs:
+                if existing_item.conflicts_with(lab):
+                    return False
+
+        return True
 
     @property
     def mon_items(self):

@@ -12,6 +12,16 @@ class StarUser(AbstractUser):
 
     REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['date_of_birth']
 
+    @property
+    def has_errors(self):
+        return len(self.error_list) > 0
+
+    def clear_error_list(self):
+        del self.error_list[:]
+
+    def clear_info_list(self):
+        del self.info_list[:]
+
     class Meta:
         def __init__(self):
             pass
