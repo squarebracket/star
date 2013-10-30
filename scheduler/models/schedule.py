@@ -102,6 +102,9 @@ class Schedule:
         else:
             return self.schedule_by_semester[section.semester_year].has_no_conflict_with(section)
 
+    def clear(self):
+        self.schedule_by_semester.clear()
+
     @property
     def semester_schedules(self):
         return self.schedule_by_semester.values()
