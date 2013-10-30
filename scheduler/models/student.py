@@ -1,7 +1,7 @@
 from django.db import models
 from scheduler.choices import STUDENT_TYPE_CHOICES
 from scheduler.models.academic_program import AcademicProgram
-from scheduler.models.schedule import CalculatedSchedule
+from scheduler.models.schedule import Schedule
 from scheduler.models.star_user import StarUser
 from scheduler.resources import Resource
 
@@ -24,7 +24,7 @@ class Student(StarUser):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_complete_state]
 
     def create_schedule_from_registered_courses(self):
-        schedule = CalculatedSchedule()
+        schedule = Schedule()
         for sec in self.registered_sections:
             schedule.add_section(sec)
 
