@@ -4,16 +4,16 @@ import logging
 from django.test import TestCase
 
 from uni_info.models import AcademicProgram, Course, \
-    AcademicRequirement, Section, Building, Facility, \
+    AcademicRequirement, \
+    Section, Building, Facility, \
     AcademicInstitution, Faculty, Department, Semester
 
-from user_stuff.models import Student, Professor
-# from registrator.models import StudentRecord, StudentRecordEntry
+from scheduler.models import StudentRecord, StudentRecordEntry
 
 
 class SimpleModelsTest(TestCase):
 
-    def test_adding_a_student(self):
+    def test_adding_a_bunch_of_things(self):
         concordia = AcademicInstitution(name="Concordia University",
                                         established_on=date(year=1974, month=8, day=24))
         concordia.save()
@@ -59,12 +59,12 @@ class SimpleModelsTest(TestCase):
         soen202.save()
         soen301.save()
 
-        #Setup course prerequisites
+        # #Setup course prerequisites
         # soen201_prereq101 = Prerequisite(course=soen201, prerequisite_course=soen101)
         # soen202_prereq102 = Prerequisite(course=soen202, prerequisite_course=soen102)
         # soen301_prereq201 = Prerequisite(course=soen301, prerequisite_course=soen201)
         # soen301_prereq202 = Prerequisite(course=soen301, prerequisite_course=soen202)
-
+        #
         # soen201_prereq101.save()
         # soen202_prereq102.save()
         # soen301_prereq201.save()
@@ -103,12 +103,6 @@ class SimpleModelsTest(TestCase):
         elec_reqs.allowable_courses.add(elec102)
         elec_reqs.save()
 
-        #Setup Professor
-        logging.info("Setup professor")
-        prof_fancott = Professor(faculty=encs, date_of_birth=date(1950, 1, 1),
-                                 gender="M")
-        prof_fancott.save()
-
         semester = Semester(year=2000, period="F")
 
         #Setup Offerings by section
@@ -127,20 +121,20 @@ class SimpleModelsTest(TestCase):
         room_h629 = Facility(name="H629", building=hall_building, capacity=50)
         room_h629.save()
 
-        wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
-                                                   start_time=time(hour=10, minute=15, second=0),
-                                                   end_time=time(hour=11, minute=30, second=0),
-                                                   day_of_week="Wed",
-                                                   section=section1_for_soen201,
-                                                   professor=prof_fancott)
-
-        wed_lecture_for_soen201_section1.save()
-        fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
-                                                   start_time=time(hour=10, minute=15),
-                                                   end_time=time(hour=11, minute=30),
-                                                   day_of_week="Fri",
-                                                   section=section1_for_soen201,
-                                                   professor=prof_fancott)
+        # wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
+        #                                            start_time=time(hour=10, minute=15, second=0),
+        #                                            end_time=time(hour=11, minute=30, second=0),
+        #                                            day_of_week="Wed",
+        #                                            section=section1_for_soen201,
+        #                                            professor=prof_fancott)
+        #
+        # wed_lecture_for_soen201_section1.save()
+        # fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
+        #                                            start_time=time(hour=10, minute=15),
+        #                                            end_time=time(hour=11, minute=30),
+        #                                            day_of_week="Fri",
+        #                                            section=section1_for_soen201,
+        #                                            professor=prof_fancott)
         fri_lecture_for_soen201_section1.save()
 
         section1_for_soen202 = Section(name="S1", capacity=20, course=soen202,

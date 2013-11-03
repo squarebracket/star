@@ -122,8 +122,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'registrator',
     'scheduler',
     'scraper',
+    'user_stuff',
+    'uni_info',
     #'south',
 )
 
