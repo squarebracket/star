@@ -19,22 +19,9 @@ TIME_OF_DAY_CHOICES = (
     ('E', 'Evening'),
 )
 
-GENDER_CHOICES = (
-    ('M', 'Male'),
-    ('F', 'Female'),
-)
-
 STUDENT_TYPE_CHOICES = (
     ('U', 'Undergraduate'),
     ('G', 'Graduate'),
-)
-
-SEMESTER_CHOICES = (
-    ('F', 'Fall'),
-    ('W', 'Winter'),
-    ('Y', 'Fall/Winter'),
-    ('S1', 'Summer 1'),
-    ('S2', 'Summer 2'),
 )
 
 FACILITY_TYPE_CHOICES = (

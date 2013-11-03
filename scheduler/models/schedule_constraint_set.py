@@ -1,5 +1,5 @@
 from django.db import models
-from scheduler.models.student import Student
+from user_stuff.models.student import Student
 
 
 class ScheduleConstraintSet(models.Model):
