@@ -37,8 +37,6 @@ from uni_info.models.course import Course
 from uni_info.models.department import Department
 from uni_info.models.facility import Facility
 from uni_info.models.faculty import Faculty
-#from uni_info.models.lab import Lab
-#from uni_info.models.lecture import Lecture
+from uni_info.models.requirement import Requirement
 from uni_info.models.section import Section
 from uni_info.models.semester import Semester
-#from uni_info.models.tutorial import Tutorial

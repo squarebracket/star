@@ -1,4 +1,5 @@
 from django.db import models
+from uni_info.models import Facility
 from uni_info.models.course import Course
 from uni_info.models.semester import Semester
 from itertools import chain
@@ -33,6 +34,7 @@ class Section(models.Model):
     start_time = models.TimeField(null=True)
     end_time = models.TimeField(null=True)
     days = models.CharField(max_length=7)
+    location = models.ForeignKey(Facility, null=True)
     _instructor = models.ForeignKey(StarUser, null=True)
 
     cancelled = models.BooleanField(default=False)
@@ -71,20 +73,6 @@ class Section(models.Model):
             return self
         else:
             return {self: direct_descendants}
-    #@property
-    #def lectures(self):
-    #    from uni_info.models import Lecture
-    #    return Lecture.objects.filter(section=self)
-    #
-    #@property
-    #def labs(self):
-    #    from uni_info.models import Lab
-    #    return Lab.objects.filter(section=self)
-    #
-    #@property
-    #def tutorials(self):
-    #    from uni_info.models import Tutorial
-    #    return Tutorial.objects.filter(section=self)
 
     def __unicode__(self):
         return str(self.course.name) + " " + str(self.name) + " " + str(self.semester_year)

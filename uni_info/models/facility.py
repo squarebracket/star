@@ -13,7 +13,7 @@ class Facility(models.Model):
                                           default=time(hour=22, minute=0))
 
     def __unicode__(self):
-        return self.name
+        return "%s-%s" % (self.building, self.name)
 
     class Meta:
         def __init__(self):

@@ -8,6 +8,7 @@ class Building(models.Model):
     province = models.CharField(max_length=256)
     country = models.CharField(max_length=256)
     postal_code = models.CharField(max_length=256)
+    campus = models.CharField(max_length=5)
 
     def __unicode__(self):
         return self.name
