@@ -1,5 +1,6 @@
 from django.test import TestCase
-from scheduler.models import Schedule, Section
+from scheduler.models import Schedule
+from uni_info.models import Section
 
 
 class ScheduleTest(TestCase):
