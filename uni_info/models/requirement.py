@@ -12,3 +12,6 @@ class Requirement(models.Model):
     type = models.PositiveSmallIntegerField(choices=REQUIREMENTS)
     value = models.PositiveSmallIntegerField(null=True)
     course = models.ForeignKey(Course)
+
+    class Meta:
+        app_label = 'uni_info'
