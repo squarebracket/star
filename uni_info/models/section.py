@@ -63,7 +63,7 @@ class Section(models.Model):
         return False
 
     @property
-    def child_sections(self):
+    def section_tree_from_here(self):
         result_list = self._get_children()
         return result_list
 
