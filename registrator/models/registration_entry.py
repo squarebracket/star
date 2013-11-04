@@ -5,6 +5,10 @@ from user_stuff.models import StarUser
 
 class RegistrationEntry(models.Model):
 
+    """
+    A single entry for a registration action performed by a user.
+    """
+
     REGISTER = 1
     DROP = 2
     CHANGE_SECTION = 3
