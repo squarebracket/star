@@ -28,8 +28,3 @@ FACILITY_TYPE_CHOICES = (
     ('L', 'Lab'),
     ('C', 'Class'),
 )
-
-REGISTRATION_STATE_CHOICES = (
-    ('R', 'Registered'),
-    ('C', 'Completed'),
-)

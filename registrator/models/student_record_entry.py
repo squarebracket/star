@@ -1,10 +1,18 @@
 from django.db import models
-from scheduler.choices import REGISTRATION_STATE_CHOICES
 from uni_info.models.section import Section
 from registrator.models.student_record import StudentRecord
 
 
 class StudentRecordEntry(models.Model):
+
+    REGISTERED = 'R'
+    COMPLETED = 'C'
+
+    REGISTRATION_STATE_CHOICES = (
+        (REGISTERED, 'Registered'),
+        (COMPLETED, 'Completed'),
+    )
+
     student_record = models.ForeignKey(StudentRecord)
     section = models.ForeignKey(Section, null=True)
     state = models.CharField(max_length=1, choices=REGISTRATION_STATE_CHOICES)
