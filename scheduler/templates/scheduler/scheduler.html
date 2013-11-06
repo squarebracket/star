@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="Stylesheet" href="style.css" type="text/css" />
+    <script src="script/jquery.js"></script>
+    <script src="script/jquery.idTabs.js"></script>
+    <script type="text/javascript">
+    
+    function clearBox() { //clear the addclass box
+        if (document.getElementById("addBox").value == "Enter Class") {
+            document.getElementById("addBox").value = "";
+        }
+    }
+
+    function addClass() {//testing to add a class
+        var addedClass = document.getElementById("addBox").value;
+        if (addedClass != "") {// check if the class is valid amongst the scheduler...
+            document.getElementById("AddSchGeneratedContent").innerHTML += "<div style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + addedClass + "</div>";
+        }   
+        
+        else
+            alert("This class does not exist, please re-try");
+    }
+
+    function searchCourse() {
+        var searchedCourse = document.getElementById("searchBox").value;
+        if (searchedCourse != "")
+            document.getElementById("SearchSchGeneratedContent").innerHTML = "<div style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + searchedCourse + " <br />Details here bro</div>";
+        else
+            alert("Please enter a class");    
+
+    }
+
+    function registerCourse() {
+        var registeredCourse = document.getElementById("registerBox").value;
+        if (registeredCourse != "") {
+            document.getElementById("RegisterSchGeneratedContent").innerHTML += "<div style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + registeredCourse + "</div>";
+    
+        }
+        else
+            alert("Please enter a class");
+
+    }
+
+</script>
+ <title>Scheduler</title>
+</head>
+<body>
+<div class="container">
+<div class="header"> <a href="#" style="float:right;color:White;">logout</a>
+<br />HEADER HERE</div>
+
+<div class="leftNav">
+Progression Chart
+ <div class="idTabs">
+      <ul>
+        <li><a href="#yearone">Year 1</a></li>
+        <li><a href="#yeartwo">Year 2</a></li>
+        <li><a href="#yearthree">Year 3</a></li>
+        <li><a href="#yearfour">Year 4</a></li>
+      </ul>
+      </div><br /><br />
+      <div class="items">
+      <br />
+       <div id="yearone"><div class="classCompleted">COMP 232</div>
+                        <div class="classCompleted">  COMP 248</div>
+                         <div class="classCompleted"> ENGR 201</div>
+                        <div class="classCompleted">  ENGR 213</div>
+                       <div class="classCompleted">   General Elective</div>
+                        <div class="classCompleted">  COMP 249</div>
+                        <div class="classCompleted">  ENGR 233</div>
+                        <div class="classCompleted">  SOEN 228</div>
+                         <div class="classCompleted"> SOEN 287</div>
+                        <div class="classCompleted">  Basic Science</div>
+                          </div>
+        <div id="yeartwo">
+                          <div class="classCompleted">COMP 348</div>
+                          <div class="classCompleted">COMP 352</div>
+                          <div class="classCompleted">ENCS 282</div>
+                          <div class="classCompleted">ENGR 202</div>
+                          <div class="classCompleted">Basic Science</div>
+                          <div class="classCompleted">COMP 346</div>
+                          <div class="classCompleted">ELEC 275</div>
+                          <div class="classCompleted">ENGR 371</div>
+                          <div class="classNotCompleted">SOEN 331</div>
+                          <div class="classCompleted">SOEN 341</div>
+                          </div>
+
+        <div id="yearthree">
+                            <div class="classNotCompleted">COMP 335</div>
+                            <div class="classNotCompleted">SOEN 342</div>
+                            <div class="classNotCompleted">SOEN 343</div>
+                            <div class="classNotCompleted">SOEN 384</div>
+                            <div class="classNotCompleted">Technical Elective</div>
+                            <div class="classNotCompleted">SOEN 344</div>
+                            <div class="classNotCompleted">SOEN 345</div>
+                            <div class="classNotCompleted">SOEN 357</div>
+                            <div class="classNotCompleted">SOEN 390</div>
+                            <div class="classNotCompleted">SOEN 385</div>
+        </div>
+        <div class="yearfour">
+                              <div class="classNotCompleted">SOEN 490</div>
+                              <div class="classNotCompleted">ENGR 391</div>
+                              <div class="classNotCompleted">Technical Elective</div>
+                              <div class="classNotCompleted">Technical Elective</div>
+                              <div class="classNotCompleted">Technical Elective</div>
+                              <div class="classNotCompleted">SOEN 385</div>
+                              <div class="classNotCompleted">ENGR 392</div>
+                              <div class="classNotCompleted">SOEN 490</div>
+                              <div class="classNotCompleted">Technical Elective</div>
+                              <div class="classNotCompleted">Technical Elective</div>
+        </div>
+      </div>
+    </div>
+ 
+<div class="rightNav">
+    <div class="idTabs">
+          <ul>
+            <li><a href="#AddSch">Add to schedule</a></li>
+            <li><a href="#ViewSch">View Schedule</a></li>
+            <li><a href="#SearchSch">Search for Course</a></li>
+            <li><a href="#RegisterSch">Register for Course</a></li>
+          </ul>
+          </div>
+    <div class="items">
+        <div id="AddSch" style="">
+            <br /><br /><br />
+            <form action="">School Term:
+            <input type="radio" name="Term" value="Fall" />Fall
+            <input type="radio" name="Term" value="Winter" />Winter
+            <input type="radio" name="Term" value="Summer" />Summer
+            </form>
+            <br /><br />
+            <div style="margin:0 auto;text-align:center;background-color:lightblue;width:250px;">
+                Add course <input type="text" id="addBox" value="Enter Class" onclick="clearBox();"/>
+                <br /><button id="addSchedule" class="clean-gray" onclick="addClass()">Add</button>
+            </div>
+            <br /><br />
+            <div id="AddSchGeneratedContent">
+            </div>
+            <center>
+            <button class="btn" onclick="">Generate Schedule</button>
+            </center>
+        </div>
+
+        <div id="ViewSch">
+        <br /><br /><br />
+        <form action="">School Term:
+            <input type="radio" name="Term" value="Fall" />Fall
+            <input type="radio" name="Term" value="Winter" />Winter
+            <input type="radio" name="Term" value="Summer" />Summer
+            </form>
+        Generated Schedule Content
+        <div id="ViewSchGeneratedContent">
+            </div>
+        </div>
+
+        <div id="SearchSch">
+        <br /><br /><br />
+        <form action="">School Term:
+            <input type="radio" name="Term" value="Fall" />Fall
+            <input type="radio" name="Term" value="Winter" />Winter
+            <input type="radio" name="Term" value="Summer" />Summer
+            </form><br /><br />
+            <div style="margin:0 auto;text-align:center;background-color:lightblue;width:250px;">
+                Search for a course <input type="text" id="searchBox" value="Enter Class" onclick="clearBox();"/>
+                <br /><button id="searchBtn" class="clean-gray" onclick="searchCourse()">Search</button>
+            </div><br />
+            <div id="SearchSchGeneratedContent">
+            </div>
+        </div>
+
+        <div id="RegisterSch">
+        <br /><br /><br />
+        <form action="">School Term:
+            <input type="radio" name="Term" value="Fall" />Fall
+            <input type="radio" name="Term" value="Winter" />Winter
+            <input type="radio" name="Term" value="Summer" />Summer
+            </form><br /><br />
+            <div style="margin:0 auto;text-align:center;background-color:lightblue;width:250px;">
+                Register a course <input type="text" id="registerBox" value="Enter Class" onclick="clearBox();"/>
+                <br /><button id="registerBtn" class="clean-gray" onclick="registerCourse()">Register</button>
+            </div><br />
+            <div id="RegisterSchGeneratedContent"></div>
+        </div>
+
+    </div>
+
+</div>  
+</div>
+</body>
+</html>
