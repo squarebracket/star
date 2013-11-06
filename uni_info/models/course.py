@@ -45,7 +45,7 @@ class Course(models.Model):
     # for debug purposes, provide a string to store the scraped prerequisites
     _scraped_prerequisite_text = models.TextField(null=True, blank=True)
 
-    def get_sessions_matching_semester(self, semester):
+    def get_sections_for_semester(self, semester):
         """
         get sessions matching semester
         """
