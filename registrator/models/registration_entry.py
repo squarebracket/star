@@ -23,3 +23,6 @@ class RegistrationEntry(models.Model):
     section = models.ForeignKey(Section)
     user = models.ForeignKey(StarUser)
     action = models.PositiveSmallIntegerField(choices=ACTION_CHOICES)
+
+    class Meta:
+        app_label='registrator'

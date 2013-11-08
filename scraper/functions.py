@@ -10,20 +10,9 @@ import os
 
 from bs4 import BeautifulSoup, Tag
 
-from uni_info.models import Course, Section, Faculty, AcademicInstitution, Department, Semester
-#from scheduler.models import Course, Section, Lab, Tutorial, Lecture, Faculty,\
-#    AcademicInstitution, Department, Semester, ScheduleItem
+from uni_info.models import Course, Section, Faculty, AcademicInstitution, Department, Semester, Requirement, Facility,\
+    Building
 
-#logger = logging.getLogger(__name__)
-#logfilename = os.path.join(os.getcwd(), 'scraper.log')
-## configure the logging
-#FORMAT = \
-#    """%(levelname)s @ %(asctime)-15s : %(message)s
-#    called from %(pathname)s at line %(lineno)d"""
-#formatter = logging.Formatter(fmt=FORMAT)
-#handler = logging.Handler()
-#handler.setFormatter(formatter)
-##logger.basicConfig(filename=logfilename, level=logging.DEBUG, format=FORMAT)
 
 # for figuring out the state of Course
 STATES = {
@@ -50,6 +39,11 @@ SECTION_TYPE_MAPPER = {
     'Sem': Section.SEMINAR,
 }
 
+REQUIREMENTS_MAPPER = {
+    'Minimum of (?P<value>\d{1,3}) credits in (.*)': Requirement.NUMBER_OF_CREDITS_COMPLETED,
+    '(?P<value>\d{2}) credits in the program': Requirement.NUMBER_OF_CREDITS_COMPLETED,
+}
+
 SITE_URL = 'http://fcms.concordia.ca/fcms/asc002_stud_all.aspx'
 
 PREREQ_REGEX = "([A-Z]{4}) ([0-9A-Z]{3,6}(?:, ([0-9A-Z]{3,6}))*)"
@@ -62,11 +56,14 @@ current_section = None
 def scrape_sections(**kwargs):
     """
     Scrapes Concordia's class schedule page and puts the info into the
-    models defined by `scheduler.models`
+    models defined by `uni_info`
 
     Under the hood, it makes a request to the class schedule page, pulls out
     session variables, and makes a request for course schedules based on the
     parameters it receives, using defaults if no parameters are provided.
+
+    The information it extracts is inserted into :model:`uni_info.Course` and
+    :model:`uni_info.Section` instances.
     """
 
     # Request the page (so we can grab the session variables later)
@@ -89,11 +86,6 @@ def scrape_sections(**kwargs):
 
     params = dict([(k, v) for k, v in kwargs.items() if '__' not in k])
     params.update(defaults)
-    #for key in defaults:
-    #    if key in kwargs:
-    #        to_post[key] = kwargs[key]
-    #    else:
-    #        to_post[key] = defaults[key]
 
     # The session variables that have to be pulled from the site
     required_info = ['__VIEWSTATE', '__EVENTVALIDATION']
@@ -104,13 +96,13 @@ def scrape_sections(**kwargs):
         print "Scraping course data for %s" % department.name
         # populate the POST payload data
         data = {
-            'ctl00$PageBody$txtCournam': defaults['course_letters'],
-            'ctl00$PageBody$txtCournum': defaults['course_numbers'],
-            'ctl00$PageBody$ddlYear': defaults['year'],
-            'ctl00$PageBody$ddlSess': defaults['session'],
-            'ctl00$PageBody$ddlLevl': defaults['level'],
+            'ctl00$PageBody$txtCournam': params['course_letters'],
+            'ctl00$PageBody$txtCournum': params['course_numbers'],
+            'ctl00$PageBody$ddlYear': params['year'],
+            'ctl00$PageBody$ddlSess': params['session'],
+            'ctl00$PageBody$ddlLevl': params['level'],
             'ctl00$PageBody$ddlDept': '%04d' % department.code,  # FIXME: this
-            'ctl00$PageBody$txtKeyTtle': defaults['title'],
+            'ctl00$PageBody$txtKeyTtle': params['title'],
             '__EVENTTARGET': 'ctl00$PageBody$btn_ShowScCrs',
             '__EVENTARGUMENT': '',
             '__LASTFOCUS': ''
@@ -188,6 +180,17 @@ def scrape_sections(**kwargs):
                                 course.corequisite_courses.add(coreq_course)
                             except Course.DoesNotExist:
                                 pass
+                        for other_req in others:
+                            value = other_req[1]['value']
+                            try:
+                                other_req = Requirement.objects.get(type=other_req[0],
+                                                                    course=course,
+                                                                    value=value)
+                            except Requirement.DoesNotExist:
+                                other_req = Requirement(type=other_req[0],
+                                                        course=course,
+                                                        value=value)
+                                other_req.save()
                     current_row = current_row.nextSibling
                     course.save()
                     #end of prereq handling
@@ -230,6 +233,18 @@ def scrape_sections(**kwargs):
                         c = Section(name=d[1], days=days, start_time=start_time, end_time=end_time,
                                     semester_year=semester, course=course, sec_type=SECTION_TYPE_MAPPER[d[0]])
 
+                    location = current_row.contents[5].string
+                    if len(location) > 3:
+                        l = location[4:].split('-')
+                        building = Building.objects.get(name=l[0])
+                        room = re.sub('( ){1,10}', '-', l[1].strip(' '))
+                        try:
+                            fac = Facility.objects.get(name=room, building=building)
+                        except Facility.DoesNotExist:
+                            fac = Facility(name=room, building=building)
+                            fac.save()
+                        c.location = fac
+
                     # get nesting level. Once again, ugly code -> ugly code
                     blah = current_row.contents[3].font.contents[0].string.encode('unicode-escape')
                     if blah == u'\xa0\xa0\xa0\xa0\xa0\xa0'.encode('unicode-escape'):
@@ -247,6 +262,7 @@ def scrape_sections(**kwargs):
                         c.cancelled = True
                         num_cancelled += 1
 
+                    # c.location = fac
                     c.save()
             #move on to next course
 
@@ -292,10 +308,6 @@ def get_departments(site_tree=None):
                     dept = Department(code=code, name=name, faculty=faculty)
                     dept.save()
 
-OTHER_REQUIREMENTS_LIST = {
-
-}
-
 
 def split_prereq_string(prereq_string):
 
@@ -307,15 +319,18 @@ def split_prereq_string(prereq_string):
 
     split_string = prereq_string.split('; ')
     for requirement_set in split_string:
+        logging.info('testing string (split by ;) %s' % requirement_set)
         # if it starts with [A-Z]{4}, it's a set of courses
         if re.match('^[A-Z]{4}(.)*', requirement_set):
             for c in requirement_set.split(', '):
+                logging.info('testing string (split by ,) %s' % c)
                 m = re.match('([A-Z]{4} )?(\d{3})(.*)', c)
                 if m is not None:
                     if m.group(1) is not None:
                         course_letters = m.group(1).strip(' ')
                     course_numbers = m.group(2)
                     prereq_courses_list.append((course_letters, course_numbers))
+                    logging.info('testing remainder string %s' % m.group(3).lower().strip(' .'))
                     if m.group(3).lower().strip(' .') == "previously or concurrently":
                         coreq_courses_list.append(prereq_courses_list.pop())
                         pass
@@ -323,8 +338,15 @@ def split_prereq_string(prereq_string):
                     coreq_courses_list.append(prereq_courses_list.pop())
         # if not, it's another kind of requirement
         else:
-            other_requirements_list.append(requirement_set)
-
+            for (regex, req_num) in REQUIREMENTS_MAPPER.iteritems():
+                m = re.match(regex, requirement_set)
+                if m is not None:
+                    other_req = (req_num, m.groupdict())
+                    other_requirements_list.append(other_req)
+                    break
+            else:
+                # other_requirements_list.append('unknown other requirement')
+                print "unhandled other requirement of %s" % requirement_set
     logging.info("Prereqs found: %s; Coreqs found: %s; Other requirements found: %s" %
                  (prereq_courses_list, coreq_courses_list, other_requirements_list))
     return prereq_courses_list, coreq_courses_list, other_requirements_list

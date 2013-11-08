@@ -1,6 +1,5 @@
-__author__ = 'chuck'
-__all__ = ["academic_institution", "academic_program", "academic_requirement", "building", "corequisite", "course",
-           "department", "faculty", "prequisite", "section", "semester"]
+# __all__ = ["academic_institution", "academic_program", "academic_requirement", "building", "corequisite", "course",
+#            "department", "faculty", "prequisite", "section", "semester"]
 import modulefinder
 import inspect
 import sys

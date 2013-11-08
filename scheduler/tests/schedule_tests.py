@@ -14,7 +14,7 @@ class ScheduleTest(TestCase):
 
         soen_341 = [s for s in all_section if s.course.name == "SOEN 341" and s.semester_year.name == "Fall 2013"]
         self.assertEqual(3, len(soen_341))
-        #self.schedule.add_section(soen_341[0])
+        self.schedule.add_section(soen_341[0])
 
         #Check we have something for a semester
         #self.assertEqual(1, len(self.schedule.semester_schedules))

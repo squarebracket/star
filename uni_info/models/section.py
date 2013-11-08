@@ -8,6 +8,9 @@ from user_stuff.models import StarUser
 
 
 class Section(models.Model):
+    """
+    Describes a Section
+    """
 
     LECTURE = 1
     TUTORIAL = 2
@@ -54,20 +57,16 @@ class Section(models.Model):
             # so check if we've actually hit capacity
             return len(self.studentrecordentry_set.all()) < self.capacity
 
-    def conflicts_with(self, section):
-
-        for my_item in self.all_schedule_items:
-            for test_item in section.all_schedule_items:
-                if my_item.conflicts_with(test_item):
-                    return True
-        return False
-
     @property
     def section_tree_from_here(self):
         result_list = self._get_children()
         return result_list
 
     def _get_children(self):
+        """
+        Recursively populate a multi-level dict/list representing all the
+        sections attached to this section
+        """
         direct_descendants = [m._get_children() for m in self.section_set.all()]
         if len(direct_descendants) == 0:
             return self
@@ -75,7 +74,8 @@ class Section(models.Model):
             return {self: direct_descendants}
 
     def __unicode__(self):
-        return str(self.course.name) + " " + str(self.name) + " " + str(self.semester_year)
+        return "%s %s - %s %s - %s" % (self.course.course_letters,
+        self.course.course_numbers, self.sec_type, self.name, self.semester_year)
 
     class Meta:
         def __init__(self):

@@ -7,24 +7,24 @@ class SemesterSchedule:
         """:type :list[ScheduleItem]"""
         return
 
-    def has_no_conflict_with(self, section):
-        """
-        Checks if the section's lab and lectures and tutorials
-        have conflict with anything else in the schedule
-        @type section:Section
-        """
-        for existing_item in self.schedule_items:
-            for lecture in section.lectures:
-                if existing_item.conflicts_with(lecture):
-                    return False
-            for tutorial in section.tutorials:
-                if existing_item.conflicts_with(tutorial):
-                    return False
-            for lab in section.labs:
-                if existing_item.conflicts_with(lab):
-                    return False
-
-        return True
+    # def has_no_conflict_with(self, section):
+    #     """
+    #     Checks if the section's lab and lectures and tutorials
+    #     have conflict with anything else in the schedule
+    #     @type section:Section
+    #     """
+    #     for existing_item in self.schedule_items:
+    #         for sec in section.chi:
+    #             if existing_item.conflicts_with(lecture):
+    #                 return False
+    #         for tutorial in section.tutorials:
+    #             if existing_item.conflicts_with(tutorial):
+    #                 return False
+    #         for lab in section.labs:
+    #             if existing_item.conflicts_with(lab):
+    #                 return False
+    #
+    #     return True
 
     @property
     def mon_items(self):
@@ -79,18 +79,23 @@ class Schedule:
 
         self.schedule_by_semester[semester].schedule_items.append(item)
 
+    # def add_section(self, section):
+    #     """
+    #     Add all the lectures, tutorials and labs for a section
+    #     to the schedule
+    #     @type section:Section
+    #     """
+    #     for sec in section.section_tree:
+    #         self.add_schedule_item(sec, section.semester_year)
+
     def add_section(self, section):
         """
         Add all the lectures, tutorials and labs for a section
         to the schedule
         @type section:Section
         """
-        for lecture in section.lectures:
-            self.add_schedule_item(lecture, section.semester_year)
-        for tutorial in section.tutorials:
-            self.add_schedule_item(tutorial, section.semester_year)
-        for lab in section.labs:
-            self.add_schedule_item(lab, section.semester_year)
+        for sec in section.section_tree:
+            self.add_schedule_item(sec, section.semester_year)
 
     def has_no_conflict_with(self, section):
         """

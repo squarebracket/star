@@ -1,6 +1,4 @@
 from django.db import models
-from scheduler.choices import DAY_OF_WEEK_CHOICES
-from uni_info.models.facility import Facility
 from uni_info.models.section import Section
 
 
@@ -19,6 +17,9 @@ class ScheduleItem(models.Model):
                 break
         else:
             # if the for loop completes without breaking, the days don't overlap
+        """
+        Returns True if there is a conflict with passed thing
+        """
             return False
         if self.section.start_time <= other_item.start_time <= self.section.end_time:
             return True
