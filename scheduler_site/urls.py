@@ -34,8 +34,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     # Examples:
-    url(r'^$', 'scheduler.views.index', name='home'),
+    url(r'^$', 'user_stuff.views.index', name='home'),
 
+    url(r'^user_stuff/', include('user_stuff.urls', namespace="user_stuff")),
     url(r'^scheduler/', include('scheduler.urls', namespace="scheduler")),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static "user_stuff/style.css" %}"/>
+    <title>{% block title %}Welcome to STAR, Scheduling Tool for Academic Registration{% endblock %}</title>
+</head>
+
+<body>
+
+<div id="wrap">
+    <div id="header"><h1>Document Heading</h1></div>
+    <div id="nav">
+        {% block nav %}
+        {% endblock %}
+    </div>
+    <div id="main">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+    <div id="sidebar">
+        {% block sidebar %}
+            <ul>
+                <li><a href="/scheduler/">Home</a></li>
+                <li><a href="/blog/">Blog</a></li>
+            </ul>
+        {% endblock %}
+    </div>
+    <div id="footer">
+        <p>Footer</p>
+    </div>
+</div>
+</body>
+</html>
+
+
