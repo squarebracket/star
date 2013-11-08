@@ -6,6 +6,9 @@ class ScheduleItem(models.Model):
     section = models.ForeignKey(Section)
 
     def conflicts_with(self, other_item):
+        """
+        Returns True if there is a conflict with passed thing
+        """
         if type(other_item) is ScheduleItem:
             other_item = other_item.section
         elif type(other_item) is not Section:
@@ -17,9 +20,6 @@ class ScheduleItem(models.Model):
                 break
         else:
             # if the for loop completes without breaking, the days don't overlap
-        """
-        Returns True if there is a conflict with passed thing
-        """
             return False
         if self.section.start_time <= other_item.start_time <= self.section.end_time:
             return True

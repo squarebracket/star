@@ -94,7 +94,7 @@ class Schedule:
         to the schedule
         @type section:Section
         """
-        for sec in section.section_tree:
+        for sec in section.section_tree_from_here:
             self.add_schedule_item(sec, section.semester_year)
 
     def has_no_conflict_with(self, section):
