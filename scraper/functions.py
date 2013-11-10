@@ -48,6 +48,9 @@ SITE_URL = 'http://fcms.concordia.ca/fcms/asc002_stud_all.aspx'
 
 PREREQ_REGEX = "([A-Z]{4}) ([0-9A-Z]{3,6}(?:, ([0-9A-Z]{3,6}))*)"
 SECTION_REGEX = '([-MTWJFSD]{7}) \((\d\d:\d\d)-(\d\d:\d\d)\)'
+DESC_REGEX = """
+<b><font color="#303030">([A-Z]{4}) (\d{3})<\/font><\/b><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#303030">(.*)<\/font><\/b><\/i>\([0-9\.] credits\) <br \/>\nPrerequisite: (.*?)\. (.*)<br \/>
+"""
 
 current_section = None
 
@@ -70,7 +73,7 @@ def scrape_sections(**kwargs):
     site_tree = BeautifulSoup(urllib2.urlopen(SITE_URL))
 
     # TODO: implement error handling
-    if 'faculty' not in kwargs or 'department' not in kwargs:
+    if 'faculty' not in kwargs or 'departments' not in kwargs:
         get_departments(site_tree)
 
     # TODO: think of a better variable name / this is ugly
@@ -236,6 +239,7 @@ def scrape_sections(**kwargs):
                     location = current_row.contents[5].string
                     if len(location) > 3:
                         l = location[4:].split('-')
+                        # print l[0]
                         building = Building.objects.get(name=l[0])
                         room = re.sub('( ){1,10}', '-', l[1].strip(' '))
                         try:
