@@ -1,11 +1,27 @@
-class SemesterSchedule:
-    def __init__(self):
-        """
-        Constructor for creating a schedule specific to a semester
-        """
-        self.schedule_items = []
-        """:type :list[ScheduleItem]"""
-        return
+from django.db import models
+from django.core import serializers
+from uni_info.models import Semester
+import cPickle
+
+
+class SemesterSchedule(models.Model):
+
+    pickled_items = models.TextField()
+    semester = models.ForeignKey(Semester)
+
+    def __init__(self, *args, **kwargs):
+        if 'items' in kwargs:
+            keep_track = kwargs['items']
+            del kwargs['items']
+        super(SemesterSchedule, self).__init__(*args, **kwargs)
+        if keep_track:
+            self.schedule_items = keep_track
+        else:
+            self.schedule_items = cPickle.loads(str(self.pickled_items))
+
+    def save(self, *args, **kwargs):
+        self.pickled_items = cPickle.dumps(self.schedule_items)
+        super(SemesterSchedule, self).save(*args, **kwargs)
 
     # def has_no_conflict_with(self, section):
     #     """
@@ -25,6 +41,9 @@ class SemesterSchedule:
     #                 return False
     #
     #     return True
+
+    def construct_from_items(self, items):
+        self.schedule_items = items
 
     @property
     def mon_items(self):
@@ -60,6 +79,13 @@ class SemesterSchedule:
     def sun_items(self):
         return sorted([item for item in self.schedule_items if item.day_of_week == 'Sun'],
                       key=lambda x: x.start_time)
+
+    class Meta:
+
+        def __str__(self):
+            return self.semester
+
+        app_label = 'scheduler'
 
 
 class Schedule:
@@ -113,3 +139,9 @@ class Schedule:
     @property
     def semester_schedules(self):
         return self.schedule_by_semester.values()
+
+
+class SemSched():
+
+    def __init__(self, items):
+        self.items=items
