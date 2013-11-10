@@ -8,16 +8,18 @@ class SemesterSchedule(models.Model):
 
     pickled_items = models.TextField()
     semester = models.ForeignKey(Semester)
+    schedule_items = []
 
     def __init__(self, *args, **kwargs):
+        keep_track = None
         if 'items' in kwargs:
             keep_track = kwargs['items']
             del kwargs['items']
         super(SemesterSchedule, self).__init__(*args, **kwargs)
         if keep_track:
             self.schedule_items = keep_track
-        else:
-            self.schedule_items = cPickle.loads(str(self.pickled_items))
+        elif self.pickled_items != '':
+                self.schedule_items = cPickle.loads(str(self.pickled_items))
 
     def save(self, *args, **kwargs):
         self.pickled_items = cPickle.dumps(self.schedule_items)
