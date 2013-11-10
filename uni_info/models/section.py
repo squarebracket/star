@@ -1,5 +1,5 @@
 from django.db import models
-from uni_info.models import Facility
+from uni_info.models.facility import Facility
 from uni_info.models.course import Course
 from uni_info.models.semester import Semester
 from itertools import chain
@@ -68,14 +68,26 @@ class Section(models.Model):
         sections attached to this section
         """
         direct_descendants = [m._get_children() for m in self.section_set.all()]
+        try:
+            if type(direct_descendants[0]) == type(dict()):
+                d = {}
+                for a in direct_descendants:
+                    for (k, v) in a.iteritems():
+                        d[k] = v
+                return {self: d}
+        except IndexError:
+            pass
         if len(direct_descendants) == 0:
             return self
         else:
             return {self: direct_descendants}
 
+    def _has_children(self):
+        return self.section_set.count()
+
     def __unicode__(self):
-        return "%s %s - %s %s - %s" % (self.course.course_letters,
-        self.course.course_numbers, self.sec_type, self.name, self.semester_year)
+        return "%s%s: %s %s/%s" % (self.course.course_letters,
+            self.course.course_numbers, self.sec_type, self.name, self.semester_year)
 
     class Meta:
         def __init__(self):

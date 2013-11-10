@@ -50,9 +50,31 @@ class Course(models.Model):
         """
         get sessions matching semester
         """
-        sections_matching_semester = [s for s in self.section_set.all() if
-                                      s.semester_year.name == semester.name]
+        sections_matching_semester = [s for s in self.section_set.filter(semester_year=semester)]
         return sections_matching_semester
+
+    def get_section_tree_for_semester(self, semester):
+        """
+        Recursively populate a multi-level dict/list representing all the
+        sections attached to this section
+        """
+        from uni_info.models import Section
+        direct_descendants = [m._get_children() for m in self.section_set.filter(
+            sec_type=Section.LECTURE, semester_year=semester)]
+        try:
+            if type(direct_descendants[0]) == type(dict()):
+                d = {}
+                # print direct_descendants
+                for a in direct_descendants:
+                    for (k, v) in a.iteritems():
+                        d[k] = v
+                return d
+        except IndexError:
+            pass
+        if len(direct_descendants) == 0:
+            return self
+        else:
+            return {self: direct_descendants}
 
     def __unicode__(self):
         return "%s %s" % (self.course_letters, self.course_numbers)
