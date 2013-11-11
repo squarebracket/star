@@ -2,12 +2,13 @@ from django.db import models
 from uni_info.models import Section, Course, Semester
 
 
-class ScheduleItem():
+class ScheduleItem(object):
 
-    def __init__(self, section_list):
+    def __init__(self, section_list=None):
         self.sections = section_list
-        self.semester = section_list[0].semester_year
-        self.course = section_list[0].course
+        if self.sections is not None:
+            self.semester = section_list[0].semester_year
+            self.course = section_list[0].course
     
     def conflicts_with(self, other):
         # print type(other)
@@ -76,4 +77,4 @@ class ScheduleItem():
         def __init__(self):
             pass
 
-        # app_label = 'scheduler'
+        app_label = 'scheduler'
