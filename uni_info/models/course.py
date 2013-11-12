@@ -76,6 +76,20 @@ class Course(models.Model):
         else:
             return {self: direct_descendants}
 
+    @staticmethod
+    def search_by_regex(course_name):
+
+        courses = []
+
+        try:
+            for course in Course.objects.filter(name__regex=course_name):
+                courses.append(course)
+
+        except Course.DoesNotExist:
+            print('does not exist')
+
+        return courses
+
     def __unicode__(self):
         return "%s %s" % (self.course_letters, self.course_numbers)
 

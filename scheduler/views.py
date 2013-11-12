@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from uni_info.models import Course, Semester
+import json
 
 @login_required
 def register(request):
@@ -95,3 +96,17 @@ def add_course(request):
         messages.error(request, "course not found")
 
     return HttpResponseRedirect(reverse('scheduler:schedule'))
+
+def search_for_course_by_name_and_semester(request):
+
+    #method that accepts a request and then extracts the parameters of course _name_search and semester_list from the http request.
+    #Using those 2 parameters, access Django Course.objects and filter the ones that match by wild card the name.
+    #further reduce this list by checking that they are offered in at least one of the semesters in the semester_list, return the resulting data serialized as JSON
+
+    course_name = request.GET['course_name'].upper()
+    search_regex = r'' + course_name
+
+    result = Course.search_by_regex(search_regex)
+
+    json_result = json.dumps(result)
+    return HttpResponse(json_result, content_type="application/json")
