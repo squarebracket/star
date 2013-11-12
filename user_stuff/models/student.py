@@ -24,11 +24,12 @@ class Student(StarUser):
         return [sre.section.course for sre in self.studentrecord.studentrecordentry_set.all() if sre.is_complete_state]
 
     def create_schedule_from_registered_courses(self):
-        schedule = CalculatedSchedule()
-        for sec in self.registered_sections:
-            schedule.add_section(sec)
-
-        return schedule
+        #schedule = CalculatedSchedule()
+        #for sec in self.registered_sections:
+        #    schedule.add_section(sec)
+        #
+        #return schedule
+        pass
 
     def drop_course(self, course):
         """
@@ -127,7 +128,7 @@ class Student(StarUser):
         """
         Registers the student to a course in a semester
         """
-        from scheduler.models import StudentRecordEntry
+        from registrator.models import StudentRecordEntry
 
         self.validate_course_already_taken(course)
         if self.has_errors:
