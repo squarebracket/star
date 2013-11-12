@@ -149,5 +149,27 @@
             "groups": [],
             "faculty": 2
         }
+    },
+    {
+        "pk": 5,
+        "model": "user_stuff.student",
+        "fields": {
+            "user_permissions": [],
+            "program": 1,
+            "type": "U",
+            "groups": [],
+            "student_identifier": "1000003"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "user_stuff.student",
+        "fields": {
+            "user_permissions": [],
+            "program": 1,
+            "type": "U",
+            "groups": [],
+            "student_identifier": "1000004"
+        }
     }
 ]
