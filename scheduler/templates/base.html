@@ -2,7 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static "scheduler/style.css" %}"/>
+    {% block head %}
+        <link rel="stylesheet" href="{% static "scheduler/style.css" %}"/>
+    {% endblock %}
+
     <title>{% block title %}Welcome to STAR, Scheduling Tool for Academic Registration{% endblock %}</title>
 </head>
 
