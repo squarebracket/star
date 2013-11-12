@@ -107,6 +107,12 @@ def search_for_course_by_name_and_semester(request):
     search_regex = r'' + course_name
 
     result = Course.search_by_regex(search_regex)
+    course_list =[]
 
-    json_result = json.dumps(result)
+    for course in result:
+        course_list.append(course.name)
+
+
+    json_result = json.dumps(course_list)
+    #json_list = list(json_result)
     return HttpResponse(json_result, content_type="application/json")
