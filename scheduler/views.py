@@ -103,16 +103,31 @@ def search_for_course_by_name_and_semester(request):
     #Using those 2 parameters, access Django Course.objects and filter the ones that match by wild card the name.
     #further reduce this list by checking that they are offered in at least one of the semesters in the semester_list, return the resulting data serialized as JSON
 
+    #find course by name
     course_name = request.GET['course_name'].upper()
-    search_regex = r'' + course_name
 
+    #semester list
+    semesters = request.GET.getlist('semester')
+
+    year = request.GET['year']
+    search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
     course_list =[]
 
+    #convert queryset to list
     for course in result:
         course_list.append(course.name)
 
+    #convert queryset to list
+    semester_list = []
+    for semester in semesters:
+        semester_list.append(semester)
 
-    json_result = json.dumps(course_list)
-    #json_list = list(json_result)
+    sections_by_semester = []
+
+    for course in result:
+        for semester in semester_list:
+            sections_by_semester.extend(course.get_sections_for_semester(year))
+
+    json_result = json.dumps(sections_by_semester)
     return HttpResponse(json_result, content_type="application/json")

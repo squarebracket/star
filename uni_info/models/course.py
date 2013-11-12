@@ -78,7 +78,9 @@ class Course(models.Model):
 
     @staticmethod
     def search_by_regex(course_name):
-
+        """
+        Search for course by regex
+        """
         courses = []
 
         try:
