@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "pk": 1,
+        "model": "registrator.studentrecord",
+        "fields": {
+            "standing": "Good",
+            "gpa": "4",
+            "student": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "registrator.studentrecord",
+        "fields": {
+            "standing": "Good",
+            "gpa": "3.8",
+            "student": 2
+        }
+    }
+]
