@@ -7,18 +7,6 @@ from django.shortcuts import render
 from django.template import RequestContext
 from uni_info.models import Course, Semester
 
-
-def index(request):
-    """
-    The main front page, allowing login of the user
-    """
-    context = RequestContext(request, {
-        'welcome': 'welcome',
-    })
-    return render(request, 'scheduler/index.html', context)
-
-
-
 @login_required
 def register(request):
     """

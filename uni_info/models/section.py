@@ -1,5 +1,5 @@
 from django.db import models
-from uni_info.models import Facility
+from uni_info.models.facility import Facility
 from uni_info.models.course import Course
 from uni_info.models.semester import Semester
 from itertools import chain
@@ -8,6 +8,9 @@ from user_stuff.models import StarUser
 
 
 class Section(models.Model):
+    """
+    Describes a Section
+    """
 
     LECTURE = 1
     TUTORIAL = 2
@@ -54,28 +57,37 @@ class Section(models.Model):
             # so check if we've actually hit capacity
             return len(self.studentrecordentry_set.all()) < self.capacity
 
-    def conflicts_with(self, section):
-
-        for my_item in self.all_schedule_items:
-            for test_item in section.all_schedule_items:
-                if my_item.conflicts_with(test_item):
-                    return True
-        return False
-
     @property
     def section_tree_from_here(self):
         result_list = self._get_children()
         return result_list
 
     def _get_children(self):
+        """
+        Recursively populate a multi-level dict/list representing all the
+        sections attached to this section
+        """
         direct_descendants = [m._get_children() for m in self.section_set.all()]
+        try:
+            if type(direct_descendants[0]) == type(dict()):
+                d = {}
+                for a in direct_descendants:
+                    for (k, v) in a.iteritems():
+                        d[k] = v
+                return {self: d}
+        except IndexError:
+            pass
         if len(direct_descendants) == 0:
             return self
         else:
             return {self: direct_descendants}
 
+    def _has_children(self):
+        return self.section_set.count()
+
     def __unicode__(self):
-        return str(self.course.name) + " " + str(self.name) + " " + str(self.semester_year)
+        return "%s%s: %s %s/%s" % (self.course.course_letters,
+            self.course.course_numbers, self.sec_type, self.name, self.semester_year)
 
     class Meta:
         def __init__(self):

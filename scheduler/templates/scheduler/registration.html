@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %} Student Registration and Scheduling {% endblock %}
+
+{% block nav %}
+    <ul>
+        <li><a href="/scheduler/logout">Logout</a></li>
+        <li><a href="/scheduler/student">Home</a></li>
+        <li><a href="/scheduler/schedule">Schedule</a></li>
+        ...
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h3>
+        Your Schedule
+    </h3>
+
+    <form action="/scheduler/add_course" method="post">
+        {% csrf_token %}
+        <input type="text" name="course_name"/>
+        <select name="semester_name">
+            {% for semester in open_semesters %}
+                <option value="{{ semester }}"
+                    {% if semester == current_semester %}selected="selected"{% endif %}>
+                    {{ semester|capfirst }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Add"/>
+    </form>
+
+
+    <table>
+        <tr>
+            <td>Monday</td>
+            <td>
+                {% for item in schedule.mon_items %}
+                    {{ item }}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>
+                {% for item in schedule.tue_items %}
+                    {{ item }}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>
+                {% for item in schedule.wed_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>
+                {% for item in schedule.thu_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>
+                {% for item in schedule.fri_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Saturday</td>
+            <td>
+                {% for item in schedule.sat_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td>
+                {% for item in schedule.sun_items %}
+                    {{ item }},
+                {% endfor %}
+            </td>
+        </tr>
+
+    </table>
+
+{% endblock %}

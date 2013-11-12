@@ -1,68 +1,72 @@
-class SemesterSchedule:
-    def __init__(self):
-        """
-        Constructor for creating a schedule specific to a semester
-        """
-        self.schedule_items = []
-        """:type :list[ScheduleItem]"""
-        return
+from django.db import models
+from django.core import serializers
+from uni_info.models import Semester
+from scheduler.models.schedule_item import ScheduleItem
+import cPickle
 
-    def has_no_conflict_with(self, section):
-        """
-        Checks if the section's lab and lectures and tutorials
-        have conflict with anything else in the schedule
-        @type section:Section
-        """
-        for existing_item in self.schedule_items:
-            for lecture in section.lectures:
-                if existing_item.conflicts_with(lecture):
-                    return False
-            for tutorial in section.tutorials:
-                if existing_item.conflicts_with(tutorial):
-                    return False
-            for lab in section.labs:
-                if existing_item.conflicts_with(lab):
-                    return False
 
-        return True
+class SemesterSchedule(models.Model):
 
-    @property
-    def mon_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Mon'],
-                      key=lambda x: x.start_time)
+    pickled_items = models.TextField()
+    semester = models.ForeignKey(Semester)
+    schedule_items = []
 
-    @property
-    def tue_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Tue'],
-                      key=lambda x: x.start_time)
+    def __init__(self, *args, **kwargs):
+        keep_track = None
+        # print args
+        if 'schedule_items' in kwargs:
+            keep_track = kwargs['schedule_items']
+            del kwargs['schedule_items']
+        super(SemesterSchedule, self).__init__(*args, **kwargs)
+        if keep_track:
+            self.schedule_items = keep_track
+            self.semester = keep_track[0].semester
+        elif self.pickled_items != '':
+                self.schedule_items = cPickle.loads(str(self.pickled_items))
 
-    @property
-    def wed_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Wed'],
-                      key=lambda x: x.start_time)
+    def save(self, *args, **kwargs):
+        self.pickled_items = cPickle.dumps(self.schedule_items)
+        try:
+            self.semester
+        except Semester.DoesNotExist as e:
+            if len(self.schedule_items) > 0:
+                self.semester = self.schedule_items[0].semester
+            else:
+                raise e
+        super(SemesterSchedule, self).save(*args, **kwargs)
 
-    @property
-    def thu_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Thu'],
-                      key=lambda x: x.start_time)
+    def conflicts_with(self, check_against_item):
+        for schedule_item in self.schedule_items:
+            if schedule_item.conflicts_with(check_against_item):
+                return True
+        return False
 
-    @property
-    def fri_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Fri'],
-                      key=lambda x: x.start_time)
+    def add_schedule_item(self, schedule_item):
+        if self.conflicts_with(schedule_item):
+            return False
+        else:
+            self.schedule_items.append(schedule_item)
+            return True
 
     @property
-    def sat_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Sat'],
-                      key=lambda x: x.start_time)
+    def sections(self):
+        sections = []
+        for schedule_item in self.schedule_items:
+            for section in schedule_item.sections:
+                sections.append(section)
+        return sections
 
-    @property
-    def sun_items(self):
-        return sorted([item for item in self.schedule_items if item.day_of_week == 'Sun'],
-                      key=lambda x: x.start_time)
+    class Meta:
+        def __init__(self):
+            pass
+
+        def __str__(self):
+            return self.semester
+
+        app_label = 'scheduler'
 
 
-class Schedule:
+class Schedule():
     def __init__(self):
         self.schedule_by_semester = {}
         """:type :dict[Semester, SemesterSchedule]"""
@@ -79,18 +83,23 @@ class Schedule:
 
         self.schedule_by_semester[semester].schedule_items.append(item)
 
+    # def add_section(self, section):
+    #     """
+    #     Add all the lectures, tutorials and labs for a section
+    #     to the schedule
+    #     @type section:Section
+    #     """
+    #     for sec in section.section_tree:
+    #         self.add_schedule_item(sec, section.semester_year)
+
     def add_section(self, section):
         """
         Add all the lectures, tutorials and labs for a section
         to the schedule
         @type section:Section
         """
-        for lecture in section.lectures:
-            self.add_schedule_item(lecture, section.semester_year)
-        for tutorial in section.tutorials:
-            self.add_schedule_item(tutorial, section.semester_year)
-        for lab in section.labs:
-            self.add_schedule_item(lab, section.semester_year)
+        for sec in section.section_tree_from_here:
+            self.add_schedule_item(sec, section.semester_year)
 
     def has_no_conflict_with(self, section):
         """

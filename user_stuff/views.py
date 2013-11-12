@@ -9,6 +9,16 @@ from django.shortcuts import render
 from django.template import RequestContext
 from uni_info.models import Semester
 
+
+def index(request):
+    """
+    The main front page, allowing login of the user
+    """
+    context = RequestContext(request, {
+        'welcome': 'welcome',
+    })
+    return render(request, 'user_stuff/index.html', context)
+
 # TODO: Can this made generic?
 @login_required
 def student(request):
@@ -35,13 +45,13 @@ def login(request):
         if user.is_active:
             auth_login(request, user)
             # Redirect to a success page.
-            return HttpResponseRedirect(reverse('scheduler:student'))
+            return HttpResponseRedirect(reverse('user_stuff:student'))
         else:
             # Return a 'disabled account' error message
-            return HttpResponseRedirect(reverse('scheduler:index'))
+            return HttpResponseRedirect(reverse('user_stuff:index'))
     else:
         # Return an 'invalid login' error message.
-        return HttpResponseRedirect(reverse('scheduler:index'))
+        return HttpResponseRedirect(reverse('user_stuff:index'))
 
 
 def logout(request):
@@ -49,5 +59,5 @@ def logout(request):
     Logout, takes user out of session
     """
     auth_logout(request)
-    return HttpResponseRedirect(reverse('scheduler:index'))
+    return HttpResponseRedirect(reverse('user_stuff:index'))
 
