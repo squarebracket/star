@@ -106,11 +106,8 @@ def search_for_course_by_name_and_semester(request):
     """
     #find course by name
     course_name = request.GET['course_name'].upper()
-
     #semester list
     semester_id = request.GET.getlist('semester_id')
-
-    #year = request.GET['year'].getlist('year')
     search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
     course_list =[]
