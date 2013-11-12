@@ -99,31 +99,18 @@ def add_course(request):
     return HttpResponseRedirect(reverse('scheduler:schedule'))
 
 def search_for_course_by_name_and_semester(request):
-
-    #method that accepts a request and then extracts the parameters of course _name_search and semester_list from the http request.
-    #Using those 2 parameters, access Django Course.objects and filter the ones that match by wild card the name.
-    #further reduce this list by checking that they are offered in at least one of the semesters in the semester_list, return the resulting data serialized as JSON
-
-    #class CourseNameDescription():
-
-        #def __init__(self,name,description):
-        #    self.name = name
-        #    self.description = description
-        #
-        #def to_dictionary(self):
-        #    return {'ClassNameWhatever':{
-        #        'name':self.name,
-        #        'description':self.description
-        #                                }
-        #    }
-
+    """
+    Method that accepts a request and then extracts the parameters of course _name_search and semester_list
+    Using those 2 parameters, accesses Django Course.objects and filter the ones that match by wild card the name.
+    Further reduces this list by checking that they are offered in at least one of the semesters in the semester_list.
+    """
     #find course by name
     course_name = request.GET['course_name'].upper()
 
     #semester list
-    semesters = request.GET.getlist('semester')
+    semester_id = request.GET.getlist('semester_id')
 
-    year = request.GET['year']
+    #year = request.GET['year'].getlist('year')
     search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
     course_list =[]
@@ -133,20 +120,34 @@ def search_for_course_by_name_and_semester(request):
         course_list.append(course.name)
 
     #convert queryset to list
-    semester_list = []
-    for semester in semesters:
-        semester_list.append(semester)
+    id_list = []
+    for semester in semester_id:
+        id_list.append(semester)
 
     sections_by_semester = []
 
     for course in result:
-        for semester in semester_list:
-            sections_by_semester.extend(course.get_sections_for_semester(year))
+        for id in id_list:
+            sections_by_semester.extend(course.get_sections_for_semester(id))
 
     result_list = []
     for s in sections_by_semester:
-        temp = {'name':s.course.name,'description':s.course.description}
-        result_list.append(temp)
+        entry = {'name':s.course.name,'description':s.course.description}
+        result_list.append(entry)
 
     json_result = json.dumps(result_list)
+    return HttpResponse(json_result, content_type="application/json")
+
+def open_semesters(request):
+    """
+    Returns a list of open semesters (id, name, and year)
+    """
+    open_semesters = []
+
+    for semester in Semester.objects.all():
+        if semester.is_open:
+            entry = {'name':semester.period,'year':semester.year,'id':semester.id}
+            open_semesters.append(entry)
+
+    json_result = json.dumps(open_semesters)
     return HttpResponse(json_result, content_type="application/json")
