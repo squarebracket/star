@@ -13,4 +13,4 @@ class CourseTest(TestCase):
             for semester in semester_list:
                 sections_by_semester.extend(course.get_sections_for_semester(semester))
 
-        print course_list
+        print sections_by_semester

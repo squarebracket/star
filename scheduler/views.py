@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
+from django.utils import simplejson
 from uni_info.models import Course, Semester
 import json
 
@@ -103,6 +104,19 @@ def search_for_course_by_name_and_semester(request):
     #Using those 2 parameters, access Django Course.objects and filter the ones that match by wild card the name.
     #further reduce this list by checking that they are offered in at least one of the semesters in the semester_list, return the resulting data serialized as JSON
 
+    #class CourseNameDescription():
+
+        #def __init__(self,name,description):
+        #    self.name = name
+        #    self.description = description
+        #
+        #def to_dictionary(self):
+        #    return {'ClassNameWhatever':{
+        #        'name':self.name,
+        #        'description':self.description
+        #                                }
+        #    }
+
     #find course by name
     course_name = request.GET['course_name'].upper()
 
@@ -129,5 +143,10 @@ def search_for_course_by_name_and_semester(request):
         for semester in semester_list:
             sections_by_semester.extend(course.get_sections_for_semester(year))
 
-    json_result = json.dumps(sections_by_semester)
+    result_list = []
+    for s in sections_by_semester:
+        temp = {'name':s.course.name,'description':s.course.description}
+        result_list.append(temp)
+
+    json_result = json.dumps(result_list)
     return HttpResponse(json_result, content_type="application/json")
