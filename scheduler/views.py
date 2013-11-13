@@ -1,13 +1,12 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from django.utils import simplejson
 from uni_info.models import Course, Semester
 import json
+
 
 @login_required
 def register(request):
@@ -98,6 +97,7 @@ def add_course(request):
 
     return HttpResponseRedirect(reverse('scheduler:schedule'))
 
+
 def search_for_course_by_name_and_semester(request):
     """
     Method that accepts a request and then extracts the parameters of course _name_search and semester_list
@@ -110,7 +110,7 @@ def search_for_course_by_name_and_semester(request):
     semester_id = request.GET.getlist('semester_id')
     search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
-    course_list =[]
+    course_list = []
 
     #convert queryset to list
     for course in result:
@@ -129,22 +129,23 @@ def search_for_course_by_name_and_semester(request):
 
     result_list = []
     for s in sections_by_semester:
-        entry = {'name':s.course.name,'description':s.course.description}
+        entry = {'label': s.course.name, 'desc': s.course.description}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
     return HttpResponse(json_result, content_type="application/json")
 
+
 def open_semesters(request):
     """
     Returns a list of open semesters (id, name, and year)
     """
-    open_semesters = []
+    result_open_semesters = []
 
     for semester in Semester.objects.all():
         if semester.is_open:
-            entry = {'name':semester.period,'year':semester.year,'id':semester.id}
-            open_semesters.append(entry)
+            entry = {'name': semester.period, 'year': semester.year, 'id': semester.id}
+            result_open_semesters.append(entry)
 
     json_result = json.dumps(open_semesters)
     return HttpResponse(json_result, content_type="application/json")
