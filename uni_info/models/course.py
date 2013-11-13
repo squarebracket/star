@@ -28,7 +28,7 @@ class Course(models.Model):
                   'priority is given to students in the program, or only '
                   'open to students enrolled in the program.', choices=
                   OPENNESS_CHOICES)
-    name = models.CharField(max_length=20, verbose_name='Course title')
+    name = models.CharField(max_length=40, verbose_name='Course title')
     description = models.CharField(max_length=256,
                                    help_text='Description as it appears in '
                                              'the academic calendar')
