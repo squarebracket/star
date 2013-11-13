@@ -39,7 +39,7 @@
         $(function () {
             $("#search").autocomplete(
                     {
-                        source: "search_for_course_by_name_and_semester?course_name=SO&semester_id=4",
+                        source: "search_for_course_by_name_and_semester?course_name=&semester_id=3",
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);
                             return false;
