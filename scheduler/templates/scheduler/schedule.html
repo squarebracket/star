@@ -4,7 +4,6 @@
 
 {% block head %}
 
-    <link rel="stylesheet" href="{% static "scheduler/ui_style.css" %}" type="text/css"/>
     <link rel="stylesheet" href="{% static "scheduler/style.css" %}" type="text/css"/>
     <link rel='stylesheet' href="{% static "scheduler/fullcalendar.css" %}" type="text/css"/>
     <link rel="stylesheet" href="{% static "scheduler/jquery-ui-1.8.16.custom.css" %}" type="text/css"/>
@@ -40,7 +39,7 @@
         $(function () {
             $("#search").autocomplete(
                     {
-                        source: data,
+                        source: "",
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);
                             return false;
@@ -124,8 +123,8 @@
 
 {% block nav %}
     <ul>
-        <li><a href="/scheduler/logout">Logout</a></li>
-        <li><a href="/scheduler/student">Home</a></li>
+        <li><a href="/user_stuff/logout">Logout</a></li>
+        <li><a href="/user_stuff/student">Home</a></li>
         <li><a href="/scheduler/schedule">Schedule</a></li>
         ...
     </ul>
