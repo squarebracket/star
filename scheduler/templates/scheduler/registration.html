@@ -21,9 +21,8 @@
         <input type="text" name="course_name"/>
         <select name="semester_name">
             {% for semester in open_semesters %}
-                <option value="{{ semester }}"
-                    {% if semester == current_semester %}selected="selected"{% endif %}>
-                    {{ semester|capfirst }}
+                <option value="{{ semester.id }}"
+                    {{ semester.name|capfirst }}
                 </option>
             {% endfor %}
         </select>

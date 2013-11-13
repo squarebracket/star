@@ -39,7 +39,7 @@
         $(function () {
             $("#search").autocomplete(
                     {
-                        source: "search_for_course_by_name_and_semester?course_name=SOEN&semester_id=4",
+                        source: "search_for_course_by_name_and_semester?course_name=SO&semester_id=4",
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);
                             return false;
@@ -215,9 +215,11 @@
                     <!--<form>!-->
                     <br/><br/><br/>
                     School Term:
-                    <input type="radio" id="FallTerm" name="Term" value="Fall"/>Fall
-                    <input type="radio" id="WinterTerm" name="Term" value="Winter"/>Winter
-                    <input type="radio" id="SummerTerm" name="Term" value="Summer"/>Summer
+
+                    {% for semester in open_semesters %}
+                        <input type="radio" name="semester_id" value="{{ semester.id }}"/>{{ semester.name|capfirst }}
+                    {% endfor %}
+
                     <br/><br/>
 
                     <div style="margin:0 auto;text-align:center;background-color:lightblue;width:550px;">

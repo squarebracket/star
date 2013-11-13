@@ -66,7 +66,7 @@ def schedule(request):
 
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
         'schedule': request.session['schedule']
     })
     return render(request, 'scheduler/schedule.html', context)
@@ -133,19 +133,4 @@ def search_for_course_by_name_and_semester(request):
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
-    return HttpResponse(json_result, content_type="application/json")
-
-
-def open_semesters(request):
-    """
-    Returns a list of open semesters (id, name, and year)
-    """
-    result_open_semesters = []
-
-    for semester in Semester.objects.all():
-        if semester.is_open:
-            entry = {'name': semester.period, 'year': semester.year, 'id': semester.id}
-            result_open_semesters.append(entry)
-
-    json_result = json.dumps(open_semesters)
     return HttpResponse(json_result, content_type="application/json")
