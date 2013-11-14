@@ -4,11 +4,70 @@
 
 {% block head %}
 
-    <link rel="stylesheet" href="{% static "scheduler/ui_style.css" %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static "scheduler/style.css" %}" type="text/css"/>
+    <link rel='stylesheet' href="{% static "scheduler/fullcalendar.css" %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static "scheduler/jquery-ui-1.8.16.custom.css" %}" type="text/css"/>
 
-    <script src="{% static "scheduler/jquery.js" %}"></script>
-    <script src="{% static "scheduler/jquery.idTabs.js" %}"></script>
+    <script src="{% static "scheduler/jquery.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery.idTabs.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/scheduler.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery-1.7.1.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery.ui.core.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery.ui.widget.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery.ui.position.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/jquery.ui.autocomplete.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "scheduler/fullcalendar.min.js" %}" type="text/javascript" ></script>
+
     <script type="text/javascript">
+
+        //the search data in json objects
+        var data = [
+            { "label": "COMP232", "desc": "Introduction"},
+            { "label": "COMP233", "desc": "Probability" },
+            { "label": "ENGR213", "desc": "Mathclass" },
+            { "label": "ENGR233", "desc": "Triple integral" },
+            { "label": "ENGR371", "desc": "Stats for engr" },
+            { "label": "ELEC275", "desc": "electricity fus" },
+            { "label": "ELEC371", "desc": "advance elec" },
+            { "label": "ENGR201", "desc": "theoryclass" },
+            { "label": "ENGR202", "desc": "naturetheory" },
+            { "label": "ENGR333", "desc": "dontknowclass" },
+            { "label": "SOEN341", "desc": "thisclass" },
+            { "label": "SOEN342", "desc": "titlegoeshere" }
+        ];
+
+        $(function () {
+            $("#search").autocomplete(
+                    {
+                        source: "search_for_course_by_name_and_semester?course_name=S&semester_id=3",
+                        select: function (event, ui) {
+                            $("#search").val(ui.item.label);
+                            return false;
+                        }
+                    })
+                    .data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append("<a><strong>" + item.label + "</strong><br />" + item.desc + "</a>")
+                        .appendTo(ul);
+            };
+
+        });
+        // search completed here
+
+        //storing the semester in a json object
+        function storeTerm() {
+            var radioSemester = document.getElementsByName('Term');
+            var semesterChosen = '';
+            for (var i = 0; i < radioSemester.length; i++) {
+                if (radioSemester[i].checked)
+                    semesterChosen = radioSemester[i].value;
+            }
+            var JSONObject = {
+                "semester": semesterChosen
+            };
+        }
+
 
         function clearBox() { //clear the addclass box
             if (document.getElementById("addBox").value == "Enter Class") {
@@ -16,24 +75,25 @@
             }
         }
 
-        function addClass() {//testing to add a class
-            var addedClass = document.getElementById("addBox").value;
-            if (addedClass != "") {// check if the class is valid amongst the scheduler...
-                document.getElementById("AddSchGeneratedContent").innerHTML += "<div style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + addedClass + "</div>";
-            }
-
-            else
-                alert("This class does not exist, please re-try");
+        function removeClass(id) {
+            $(document).ready(function () {
+                $(id).remove();
+            });
         }
+
 
         function searchCourse() {
-            var searchedCourse = document.getElementById("searchBox").value;
-            if (searchedCourse != "")
-                document.getElementById("SearchSchGeneratedContent").innerHTML = "<div style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + searchedCourse + " <br />Details here bro</div>";
+            var searchedCourse = document.getElementById("search").value;
+            if (searchedCourse != "" && document.getElementById(searchedCourse) == null) {
+                //we can create a counter for the courses so instead we can just assign with the counter such as a variable course1, course2 blabla
+                document.getElementById("SearchSchGeneratedContent").innerHTML +=
+                        "<div id=" + searchedCourse + " style='width:95%;background-color:#B0E0E6;border:1px solid black;margin:2px;height:50px;'>" + searchedCourse +
+                                "<a href='#' onclick='removeClass(" + searchedCourse + ")'><img style='float:right' src='images/close-button.png' height='25px' width='25px' /></a><br />Details retrieved from JSON?</div>";
+            }
             else
-                alert("Please enter a class");
-
+                alert("Please enter a class or do not duplicate a class");
         }
+
 
         function registerCourse() {
             var registeredCourse = document.getElementById("registerBox").value;
@@ -46,15 +106,25 @@
 
         }
 
-    </script>
+        $(document).ready(function () {
 
+            // page is now ready, initialize the calendar...
+
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                weekends: false // will hide Saturdays and Sundays
+            })
+
+        });
+
+    </script>
 {% endblock %}
 {% block title %} Student Registration and Scheduling {% endblock %}
 
 {% block nav %}
     <ul>
-        <li><a href="/scheduler/logout">Logout</a></li>
-        <li><a href="/scheduler/student">Home</a></li>
+        <li><a href="/user_stuff/logout">Logout</a></li>
+        <li><a href="/user_stuff/student">Home</a></li>
         <li><a href="/scheduler/schedule">Schedule</a></li>
         ...
     </ul>
@@ -63,9 +133,6 @@
 {% block content %}
 
     <div class="container">
-        <div class="header"><a href="#" style="float:right;color:White;">logout</a>
-            <br/>HEADER HERE
-        </div>
 
         <div class="leftNav">
             Progression Chart
@@ -137,69 +204,46 @@
         <div class="rightNav">
             <div class="idTabs">
                 <ul>
-                    <li><a href="#AddSch">Add to schedule</a></li>
-                    <li><a href="#ViewSch">View Schedule</a></li>
                     <li><a href="#SearchSch">Search for Course</a></li>
+                    <li><a href="#ViewSch">View Schedule</a></li>
                     <li><a href="#RegisterSch">Register for Course</a></li>
                 </ul>
             </div>
-            <div class="items">
-                <div id="AddSch" style="">
-                    <br/><br/><br/>
 
-                    <form action="">School Term:
-                        <input type="radio" name="Term" value="Fall"/>Fall
-                        <input type="radio" name="Term" value="Winter"/>Winter
-                        <input type="radio" name="Term" value="Summer"/>Summer
-                    </form>
+            <div class="items">
+                <div id="SearchSch">
+                    <!--<form>!-->
+                    <br/><br/><br/>
+                    School Term:
+
+                    {% for semester in open_semesters %}
+                        <input type="radio" name="semester_id" value="{{ semester.id }}"/>{{ semester.name|capfirst }}
+                    {% endfor %}
+
                     <br/><br/>
 
-                    <div style="margin:0 auto;text-align:center;background-color:lightblue;width:250px;">
-                        Add course <input type="text" id="addBox" value="Enter Class" onclick="clearBox();"/>
-                        <br/>
-                        <button id="addSchedule" class="clean-gray" onclick="addClass()">Add</button>
+                    <div style="margin:0 auto;text-align:center;background-color:lightblue;width:550px;">
+                        Search for a course
+                        <input type="text" id="search"/>
+                        <button id="searchBtn" class="clean-gray" onclick="searchCourse()">Add</button>
                     </div>
                     <br/><br/>
 
-                    <div id="AddSchGeneratedContent">
+                    <div id="SearchSchGeneratedContent">
                     </div>
                     <center>
-                        <button class="btn" onclick="">Generate Schedule</button>
+                        <button class="btn" type="submit" value="Generate Schedule">Generate Schedule</button>
                     </center>
+                    <!-- </form>!-->
                 </div>
+
 
                 <div id="ViewSch">
                     <br/><br/><br/>
 
-                    <form action="">School Term:
-                        <input type="radio" name="Term" value="Fall"/>Fall
-                        <input type="radio" name="Term" value="Winter"/>Winter
-                        <input type="radio" name="Term" value="Summer"/>Summer
-                    </form>
                     Generated Schedule Content
                     <div id="ViewSchGeneratedContent">
-                    </div>
-                </div>
-
-                <div id="SearchSch">
-                    <br/><br/><br/>
-
-                    <form action="">School Term:
-                        <input type="radio" name="Term" value="Fall"/>Fall
-                        <input type="radio" name="Term" value="Winter"/>Winter
-                        <input type="radio" name="Term" value="Summer"/>Summer
-                    </form>
-                    <br/><br/>
-
-                    <div style="margin:0 auto;text-align:center;background-color:lightblue;width:250px;">
-                        Search for a course <input type="text" id="searchBox" value="Enter Class"
-                                                   onclick="clearBox();"/>
-                        <br/>
-                        <button id="searchBtn" class="clean-gray" onclick="searchCourse()">Search</button>
-                    </div>
-                    <br/>
-
-                    <div id="SearchSchGeneratedContent">
+                        <div id='calendar'></div>
                     </div>
                 </div>
 
@@ -223,7 +267,6 @@
 
                     <div id="RegisterSchGeneratedContent"></div>
                 </div>
-
             </div>
 
         </div>

@@ -21,3 +21,4 @@ class ScheduleTest(TestCase):
 
         #Check we have an item in that semester
         #self.assertEqual(1, len(self.schedule.semester_schedules[0].schedule_items))
+

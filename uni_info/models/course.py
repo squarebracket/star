@@ -28,7 +28,7 @@ class Course(models.Model):
                   'priority is given to students in the program, or only '
                   'open to students enrolled in the program.', choices=
                   OPENNESS_CHOICES)
-    name = models.CharField(max_length=20, verbose_name='Course title')
+    name = models.CharField(max_length=40, verbose_name='Course title')
     description = models.CharField(max_length=256,
                                    help_text='Description as it appears in '
                                              'the academic calendar')
@@ -75,6 +75,22 @@ class Course(models.Model):
             return self
         else:
             return {self: direct_descendants}
+
+    @staticmethod
+    def search_by_regex(course_name):
+        """
+        Search for course by regex
+        """
+        courses = []
+
+        try:
+            for course in Course.objects.filter(name__regex=course_name):
+                courses.append(course)
+
+        except Course.DoesNotExist:
+            print('does not exist')
+
+        return courses
 
     def __unicode__(self):
         return "%s %s" % (self.course_letters, self.course_numbers)
