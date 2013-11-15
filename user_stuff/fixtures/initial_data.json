@@ -1,202 +1,11 @@
 [
     {
-        "pk": 1,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_1",
-            "first_name": "student",
-            "last_name": "user_1",
-            "date_of_birth": "2013-09-25",
-            "gender": "M",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-10-16T20:51:15.334Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_1@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:09:24Z"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_2",
-            "first_name": "student",
-            "last_name": "user_2",
-            "date_of_birth": "2013-09-25",
-            "gender": "F",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 3,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "admin",
-            "first_name": "admin",
-            "last_name": "admin",
-            "date_of_birth": "2013-01-01",
-            "gender": "F",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2013-10-16T20:49:21.236Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "admin@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
         "pk": 4,
-        "model": "auth.staruser",
+        "model": "user_stuff.professor",
         "fields": {
-            "username": "fancott",
-            "first_name": "Professor",
-            "last_name": "Fancott",
-            "date_of_birth": "2013-10-16",
-            "gender": "M",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-10-16T19:56:38Z",
-            "groups": [],
             "user_permissions": [],
-            "password": "password",
-            "email": "",
-            "date_joined": "2013-10-16T19:56:38Z"
-        }
-    },
-    {
-        "pk": 5,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_3",
-            "first_name": "student",
-            "last_name": "user_3",
-            "date_of_birth": "2013-09-25",
-            "gender": "F",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
             "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 6,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_4",
-            "first_name": "student",
-            "last_name": "user_4",
-            "date_of_birth": "2013-09-25",
-            "gender": "M",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 7,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_5",
-            "first_name": "student",
-            "last_name": "user_5",
-            "date_of_birth": "2013-09-25",
-            "gender": "F",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 8,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_6",
-            "first_name": "student",
-            "last_name": "user_6",
-            "date_of_birth": "2013-09-25",
-            "gender": "M",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 9,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_7",
-            "first_name": "student",
-            "last_name": "user_7",
-            "date_of_birth": "2013-09-25",
-            "gender": "F",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
-        }
-    },
-    {
-        "pk": 10,
-        "model": "auth.staruser",
-        "fields": {
-            "username": "student_user_8",
-            "first_name": "student",
-            "last_name": "user_8",
-            "date_of_birth": "2013-09-25",
-            "gender": "M",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2013-09-25T20:13:30Z",
-            "groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$z5uIsXnVpI6i$aDA6OW1ajKUBODzIljsIbniw7QPT1/8DWaY4UljLMVo=",
-            "email": "student_user_2@encs.concordia.ca",
-            "date_joined": "2013-09-25T20:13:30Z"
+            "faculty": 2
         }
     },
     {
@@ -215,19 +24,10 @@
         "model": "user_stuff.student",
         "fields": {
             "user_permissions": [],
-            "program": 1,
-            "type": "U",
+            "program": 4,
+            "type": "G",
             "groups": [],
             "student_identifier": "1000002"
-        }
-    },
-    {
-        "pk": 4,
-        "model": "user_stuff.professor",
-        "fields": {
-            "user_permissions": [],
-            "groups": [],
-            "faculty": 2
         }
     },
     {
@@ -246,7 +46,7 @@
         "model": "user_stuff.student",
         "fields": {
             "user_permissions": [],
-            "program": 1,
+            "program": 3,
             "type": "U",
             "groups": [],
             "student_identifier": "1000004"
@@ -268,8 +68,8 @@
         "model": "user_stuff.student",
         "fields": {
             "user_permissions": [],
-            "program": 1,
-            "type": "U",
+            "program": 2,
+            "type": "G",
             "groups": [],
             "student_identifier": "1000006"
         }
@@ -279,8 +79,8 @@
         "model": "user_stuff.student",
         "fields": {
             "user_permissions": [],
-            "program": 1,
-            "type": "U",
+            "program": 2,
+            "type": "G",
             "groups": [],
             "student_identifier": "1000007"
         }
@@ -290,10 +90,21 @@
         "model": "user_stuff.student",
         "fields": {
             "user_permissions": [],
-            "program": 1,
+            "program": 3,
             "type": "U",
             "groups": [],
             "student_identifier": "1000008"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "user_stuff.student",
+        "fields": {
+            "user_permissions": [],
+            "program": 1,
+            "type": "U",
+            "groups": [],
+            "student_identifier": "1000011"
         }
     }
 ]
