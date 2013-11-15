@@ -41,7 +41,7 @@
         var number = storeTerm();
             $("#search").autocomplete(
                     {
-                        source: "search_for_course_by_name_and_semester?course_name=S&semester_id=2",
+                        source: "search_for_course_by_name_and_semester?semester_id=2",
                         //minLength:2,
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);

@@ -105,7 +105,7 @@ def search_for_course_by_name_and_semester(request):
     Further reduces this list by checking that they are offered in at least one of the semesters in the semester_list.
     """
     #find course by name
-    course_name = request.GET['course_name'].upper()
+    course_name = request.GET['term'].upper()
     #semester list
     semester_id = request.GET.getlist('semester_id')
     search_regex = r'' + course_name
