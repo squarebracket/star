@@ -262,3 +262,9 @@ h2 {
 * html #footer {
     height: 1px;
 }
+
+
+	#calendar {
+		width: 620px;
+		margin: 0 auto;
+		}

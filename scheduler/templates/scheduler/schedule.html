@@ -36,10 +36,13 @@
             { "label": "SOEN342", "desc": "titlegoeshere" }
         ];
 
+
         $(function () {
+        var number = storeTerm();
             $("#search").autocomplete(
                     {
-                        source: "search_for_course_by_name_and_semester?course_name=S&semester_id=3",
+                        source: "search_for_course_by_name_and_semester?course_name=S&semester_id=2",
+                        //minLength:2,
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);
                             return false;
@@ -57,16 +60,25 @@
 
         //storing the semester in a json object
         function storeTerm() {
-            var radioSemester = document.getElementsByName('Term');
+            var radioSemester = document.getElementsByName('semester_id');
+            var semesterNumber = 0;
             var semesterChosen = '';
             for (var i = 0; i < radioSemester.length; i++) {
-                if (radioSemester[i].checked)
+                if (radioSemester[i].checked){
                     semesterChosen = radioSemester[i].value;
+                    semesterNumber = i+2;
+                   //alert(semesterNumber);
+                }
             }
-            var JSONObject = {
-                "semester": semesterChosen
-            };
+             return semesterNumber;
+
+
         }
+            //var JSONObject = {
+          //      "semester": semesterChosen
+        //    };
+
+
 
 
         function clearBox() { //clear the addclass box
@@ -80,7 +92,6 @@
                 $(id).remove();
             });
         }
-
 
         function searchCourse() {
             var searchedCourse = document.getElementById("search").value;
@@ -106,16 +117,25 @@
 
         }
 
-        $(document).ready(function () {
+          $(document).ready(function () {
 
-            // page is now ready, initialize the calendar...
+        // page is now ready, initialize the calendar...
 
-            $('#calendar').fullCalendar({
-                // put your options and callbacks here
-                weekends: false // will hide Saturdays and Sundays
-            })
+        $('#calendar').fullCalendar({
+            // put your options and callbacks here
 
-        });
+            editable: true,
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+            weekends: false,
+			defaultView: 'agendaWeek',
+        })
+
+    });
+
 
     </script>
 {% endblock %}
@@ -212,10 +232,9 @@
 
             <div class="items">
                 <div id="SearchSch">
-                    <!--<form>!-->
+                    <form action="" method="get">
                     <br/><br/><br/>
                     School Term:
-
                     {% for semester in open_semesters %}
                         <input type="radio" name="semester_id" value="{{ semester.id }}"/>{{ semester.name|capfirst }}
                     {% endfor %}
@@ -234,7 +253,7 @@
                     <center>
                         <button class="btn" type="submit" value="Generate Schedule">Generate Schedule</button>
                     </center>
-                    <!-- </form>!-->
+                    </form>
                 </div>
 
 
