@@ -138,6 +138,14 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'scraper': {
+            'format': '%(levelname)s @ %(asctime)-15s : %(message)s'
+        },
+        'tester': {
+            'format': "%(levelname)s @ %(asctime)-15s : %(message)s \ncalled from %(pathname)s at line %(lineno)d"
+        }
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -148,6 +156,18 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'scraper_handler': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'scraper',
+            'filename': 'scraper.log'
+        },
+        'tests_handler': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'tester',
+            'filename': 'test_logging.log'
         }
     },
     'loggers': {
@@ -156,6 +176,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'scraper': {
+            'handlers': ['scraper_handler'],
+            'level': 'INFO',
+            'propagate': True,
+        }
     }
 }
 
@@ -193,14 +218,3 @@ else:
 
     EXTRA_APPS = ()
     FIXTURE_DIRS = ()
-
-# Setup logging
-import logging
-import os
-# create a logfile in the current directory
-logfilename = os.path.join(os.getcwd(), 'log.log')
-# configure the logging
-FORMAT = \
-    """%(levelname)s @ %(asctime)-15s : %(message)s
-    called from %(pathname)s at line %(lineno)d"""
-logging.basicConfig(filename=logfilename, level=logging.DEBUG, format=FORMAT)
