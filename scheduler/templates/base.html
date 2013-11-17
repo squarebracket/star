@@ -3,7 +3,20 @@
 <html lang="en">
 <head>
     {% block head %}
-        <link rel="stylesheet" href="{% static "scheduler/style.css" %}"/>
+        <link rel="stylesheet" href="{% static "scheduler/style.css" %}" type="text/css"/>
+        <link rel='stylesheet' href="{% static "scheduler/fullcalendar.css" %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static "scheduler/jquery-ui-1.8.16.custom.css" %}" type="text/css"/>
+
+        <script src="{% static "scheduler/jquery.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery.idTabs.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/scheduler.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery-1.7.1.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery.ui.core.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery.ui.widget.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery.ui.position.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/jquery.ui.autocomplete.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "scheduler/fullcalendar.min.js" %}" type="text/javascript"></script>
+
     {% endblock %}
 
     <title>{% block title %}Welcome to STAR, Scheduling Tool for Academic Registration{% endblock %}</title>
@@ -15,7 +28,7 @@
     <div id="header"><h1>STAR</h1></div>
     {% if user.is_authenticated %}
         <div id="user_info">
-            Logged in as: {{ user.first_name }} {{ user.last_name }}
+            Welcome, {{ user.first_name }} {{ user.last_name }}
         </div>
     {% endif %}
 
@@ -25,8 +38,9 @@
                 <ul>
                     <li><a href="/user_stuff/logout">Logout</a></li>
                     <li><a href="/user_stuff/student">Home</a></li>
+                    <li><a href="/scheduler/search">Search</a></li>
                     <li><a href="/scheduler/schedule">Schedule</a></li>
-                    ...
+                    <li><a href="/scheduler/registration">Registration</a></li>
                 </ul>
             {% endblock %}
         {% endif %}
