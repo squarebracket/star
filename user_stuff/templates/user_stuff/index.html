@@ -2,22 +2,29 @@
 
 {% load staticfiles %}
 
+{% block sidebar %}
+    <ul>
+        <li><a href="/scheduler/">Help</a></li>
+        <li><a href="/blog/">Source</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
     <div id="login">
         <div>
-            Welcome to STAR *
+            <h2>Login</h2>
         </div>
         <form action="/user_stuff/login" method="post">
             {% csrf_token %}
             <div>
-                User Name:
+                username:
             </div>
             <div>
                 <input type="text" name="username"/>
             </div>
 
             <div>
-                Password:
+                password:
             </div>
             <div>
                 <input type="password" name="password"/>

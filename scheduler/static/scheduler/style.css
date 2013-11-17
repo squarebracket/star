@@ -222,7 +222,7 @@ button.clean-gray:active {
     width: 800px;
     height: 600px;
     margin: 0 auto;
-    background: #99c;
+    background: #ccc;
 }
 
 #header {
@@ -253,10 +253,10 @@ h1 {
 
 #main {
     float: left;
-    height: 600px;
+    height: 100%;
     width: 480px;
     padding: 10px;
-    background: #9c9;
+    background: #ccc;
 }
 
 h2 {
@@ -266,8 +266,9 @@ h2 {
 #sidebar {
     float: right;
     width: 280px;
+    height: 100%;
     padding: 10px;
-    background: #99c;
+    background: #ccc;
 }
 
 #footer {
@@ -294,7 +295,5 @@ h2 {
 }
 
 #login {
-    width: 300px ;
-  margin-left: auto ;
-  margin-right: auto ;
+  margin-left: 30px;
 }
