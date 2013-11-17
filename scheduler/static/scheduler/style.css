@@ -1,58 +1,94 @@
-﻿body 
-{
-    background-image:url("images/grey.jpg");
-        border-color:Black;
-     font-family:Calibri;
-     font-size:20px;
-     height:100%;
-    
+﻿body,
+html {
+    border-color: Black;
+    font-family: Calibri;
+    font-size: 20px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    background: #a7a09a;
 }
-   /*The css for the jquery tabs*/
-      .idTabs { margin:5px; }
-      .idTabs ul { background:black; padding:5px; float:left; }
-      .idTabs li { list-style:none;  /*Try deleting this float*/float:left; }
-      .idTabs a { display:block; background:#fff; color:black; padding:0 10px; font:bold 10pt aRIAL; text-decoration:none; }
-      .idTabs a.selected { background:lightblue; color:#000; }
-      .items>div { display:none; margin:0 auto; }
-      .idTabs ul, .idTabs a { border-radius:4px; -moz-border-radius:4px; }
-      
-      
-  /* the css for the button taken online*/    
-  .btn {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 10;
-  -moz-border-radius: 10;
-  border-radius: 10px;
-  font-family: Calibri;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
+
+
+/*The css for the jquery tabs*/
+.idTabs {
+    margin: 5px;
+}
+
+.idTabs ul {
+    background: black;
+    padding: 5px;
+    float: left;
+}
+
+.idTabs li {
+    list-style: none; /*Try deleting this float*/
+    float: left;
+}
+
+.idTabs a {
+    display: block;
+    background: #fff;
+    color: black;
+    padding: 0 10px;
+    font: bold 10pt aRIAL;
+    text-decoration: none;
+}
+
+.idTabs a.selected {
+    background: lightblue;
+    color: #000;
+}
+
+.items > div {
+    display: none;
+    margin: 0 auto;
+}
+
+.idTabs ul, .idTabs a {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+/* the css for the button taken online*/
+.btn {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Calibri;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
 }
 
 button.clean-gray {
-  background-color: #eeeeee;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #cccccc));
-  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: linear-gradient(top, #eeeeee, #cccccc);
-  border: 1px solid #ccc;
-  border-bottom: 1px solid #bbb;
-  border-radius: 3px;
-  color: #333;
-  font: bold 11px/1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-  padding: 8px 0;
-  text-align: center;
-  text-shadow: 0 1px 0 #eee;
-  width: 150px; }
-  button.clean-gray:hover {
+    background-color: #eeeeee;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #cccccc));
+    background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: linear-gradient(top, #eeeeee, #cccccc);
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    border-radius: 3px;
+    color: #333;
+    font: bold 11px/1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    padding: 8px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 #eee;
+    width: 150px;
+}
+
+button.clean-gray:hover {
     background-color: #dddddd;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #bbbbbb));
     background-image: -webkit-linear-gradient(top, #dddddd, #bbbbbb);
@@ -63,127 +99,117 @@ button.clean-gray {
     border: 1px solid #bbb;
     border-bottom: 1px solid #999;
     cursor: pointer;
-    text-shadow: 0 1px 0 #ddd; }
-  button.clean-gray:active {
+    text-shadow: 0 1px 0 #ddd;
+}
+
+button.clean-gray:active {
     border: 1px solid #aaa;
     border-bottom: 1px solid #888;
     -webkit-box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee;
-    box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee; }
-
-
-
+    box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee;
+}
 
 .btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
 }
-
 
 /******************************************/
-.header
-{
-    border-style:solid;
-    border-color:Black;
-    border-radius:3px;
-    background-color:#123456;
-    color:White;
-    position:relative;
-    height:15%;
+.header {
+    border-style: solid;
+    border-color: Black;
+    border-radius: 3px;
+    background-color: #123456;
+    color: White;
+    position: relative;
+    height: 15%;
 }
 
-.container
-{
-    left:10%;
-    position:absolute;
-    width:80%;
-    height:100%;
+.container {
+    left: 10%;
+    position: absolute;
+    width: 80%;
+    height: 100%;
 }
 
-.leftNav
-{
-    height:100%;
-    border-radius:2px;
-    background-color:white;
-    border-style:solid;
-    position:relative;
-    float:left;
-    width:30%;
+.leftNav {
+    height: 100%;
+    border-radius: 2px;
+    background-color: white;
+    border-style: solid;
+    position: relative;
+    float: left;
+    width: 30%;
 }
 
-.rightNav
-{
-    background-color:white;
-    height:100%;
-    border-style:solid;
-    position:relative;
-    float:right;
-    width:68.5%;
-    
+.rightNav {
+    background-color: white;
+    height: 100%;
+    border-style: solid;
+    position: relative;
+    float: right;
+    width: 68.5%;
+
     /*background-color:Blue;*/
 }
 
-.classCompleted
-{
-   margin:2px;
-   width:50%;
-   padding:8px;
-   border-style:solid;
-   border-color:Green;
-   background-color:lightgreen;
-   border-radius:4px;
+.classCompleted {
+    margin: 2px;
+    width: 50%;
+    padding: 8px;
+    border-style: solid;
+    border-color: Green;
+    background-color: lightgreen;
+    border-radius: 4px;
 }
 
-.classNotCompleted
-{
-    margin:2px;
-    width:50%;
-    border-radius:4px;
-    padding:8px;
-    border-style:solid;
-    border-color:Red;
-    background-color:#FF9999;
+.classNotCompleted {
+    margin: 2px;
+    width: 50%;
+    border-radius: 4px;
+    padding: 8px;
+    border-style: solid;
+    border-color: Red;
+    background-color: #FF9999;
 }
 
-.footer
-{
-    border:2px;
-    border-style:solid;
+.footer {
+    border: 2px;
+    border-style: solid;
 }
-
 
 /* highlight results */
 .ui-autocomplete span.hl_results {
     background-color: #ffff66;
 }
- 
+
 /* loading - the AJAX indicator */
 .ui-autocomplete-loading {
     background: white url('../img/ui-anim_basic_16x16.gif') right center no-repeat;
 }
- 
+
 /* scroll results */
-.ui-autocomplete 
-{
+.ui-autocomplete {
 
     max-height: 250px;
-    width:200px;
-    border-style:solid;
+    width: 200px;
+    border-style: solid;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
-    overflow-x:auto;
+    overflow-x: auto;
     /* add padding for vertical scrollbar */
     padding-right: 5px;
 }
- 
+
 .ui-autocomplete li {
     font-size: 16px;
 }
- 
+
 /* IE 6 doesn't support max-height
 * we use height instead, but this forces the menu to always be this tall
 */
@@ -191,16 +217,10 @@ button.clean-gray {
     height: 250px;
 }
 
-body,
-html {
-    margin: 0;
-    padding: 0;
-    color: #000;
-    background: #a7a09a;
-}
 
 #wrap {
-    width: 750px;
+    width: 800px;
+    height: 600px;
     margin: 0 auto;
     background: #99c;
 }
@@ -216,7 +236,7 @@ h1 {
 
 #nav {
     padding: 5px 10px;
-    background: #c99;
+    background: #bbb;
 }
 
 #nav ul {
@@ -233,6 +253,7 @@ h1 {
 
 #main {
     float: left;
+    height: 600px;
     width: 480px;
     padding: 10px;
     background: #9c9;
@@ -244,7 +265,7 @@ h2 {
 
 #sidebar {
     float: right;
-    width: 230px;
+    width: 280px;
     padding: 10px;
     background: #99c;
 }
@@ -252,7 +273,7 @@ h2 {
 #footer {
     clear: both;
     padding: 5px 10px;
-    background: #cc9;
+    background: #ddd;
 }
 
 #footer p {
@@ -263,8 +284,17 @@ h2 {
     height: 1px;
 }
 
+#calendar {
+    width: 620px;
+    margin: 0 auto;
+}
 
-	#calendar {
-		width: 620px;
-		margin: 0 auto;
-		}
+#user_info {
+    float: right;
+}
+
+#login {
+    width: 300px ;
+  margin-left: auto ;
+  margin-right: auto ;
+}
