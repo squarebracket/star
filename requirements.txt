@@ -2,4 +2,3 @@ django
 sphinx
 south
 beautifulsoup4
-combinatorics
