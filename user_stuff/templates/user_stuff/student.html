@@ -3,37 +3,20 @@
 {% block title %} Student Registration and Scheduling {% endblock %}
 
 {% block content %}
-    Welcome {{ user.first_name }} {{ user.last_name }}
 
-    <h3>
-        Register for a course
-    </h3>
+    <h2>
+    Your Student Record
+    </h2>
 
-    <form action="/scheduler/register" method="post">
-        {% csrf_token %}
-        <input type="text" name="course_name"/>
-        <select name="semester_name">
-            {% for semester in open_semesters %}
-                <option value="{{ semester }}"
-                        {% if semester == current_semester %}selected="selected"{% endif %}>
-                    {{ semester|capfirst }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <input type="submit" value="Register"/>
-    </form>
-    <h3>
-        You are currently registered for the following courses
-    </h3>
-    <table>
-        {% for course in user.student.registered_courses %}
-            <tr>
-                <td>{{ course.name }}</td>
-                <td><a href="/scheduler/drop?course_name={{ course.name }}">drop</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div>
+    Student Id:
+    </div>
+    <div>
+    Grade Point Average:
+    </div>
+    <div>
+    Standing:
+    </div>
 
     <h3>
         You have completed the following courses

@@ -52,6 +52,16 @@ def drop(request):
     return HttpResponseRedirect(reverse('scheduler:student'))
 
 
+def search(request):
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        'schedule': request.session['schedule']
+    })
+
+    return render(request, 'scheduler/search.html', context)
+
+
 @login_required
 def schedule(request):
     """
