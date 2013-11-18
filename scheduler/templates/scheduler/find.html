@@ -66,7 +66,7 @@
             <table id="course_list">
                 {% for course in course_list %}
                     <tr>
-                        <td class="course_list_item">
+                        <td class="course_list_item" width="80%">
                             <input type="hidden" name="course_{{ forloop.counter }}"/>
                             {{ course.name }}
                             <div class="description">{{ course.description }}</div>
