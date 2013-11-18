@@ -49,7 +49,7 @@
 
     <form action="add_course" method="post">
         {% csrf_token %}
-        <div>
+        <div id="add_course_wrap">
             {% for semester in open_semesters %}
                 <input type="checkbox" name="semester_id" value="{{ semester.id }}" checked/>
                 {{ semester.name|capfirst }}
@@ -69,7 +69,7 @@
                         <td class="course_list_item">
                             <input type="hidden" name="course_{{ forloop.counter }}"/>
                             {{ course.name }}
-                            {{ course.description }}
+                            <div class="description">{{ course.description }}</div>
                         </td>
                         <td class="course_list_item">
                             <select name="select_{{ forloop.counter }}">
@@ -84,10 +84,15 @@
                         </td>
                     </tr>
                 {% endfor %}
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <button type="submit" value="Generate Schedule">Generate Schedule</button>
+                    </td>
+                </tr>
             </table>
         </div>
 
-        <button type="submit" value="Generate Schedule">Generate Schedule</button>
     </form>
 
 {% endblock %}

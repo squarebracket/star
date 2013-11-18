@@ -311,8 +311,8 @@ h2 {
 #course_list_wrap {
     padding: 5px 5px;
     margin: 5px 5px;
-    height: 300px;
-    background: #bbb;
+    height: 450px;
+    background: #eee;
 }
 
 .course_list_item a:link {
@@ -330,7 +330,17 @@ h2 {
     color: #FFF;
 }
 
+.description {
+    font-size: 12px;
+}
+
 /* mouse over link */
 .course_list_item a:active {
     color: #AAA;
+}
+
+#add_course_wrap {
+    padding: 5px 5px;
+    margin: 5px 5px;
+    background: #eee;
 }
