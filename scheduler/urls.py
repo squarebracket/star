@@ -12,4 +12,6 @@ urlpatterns = patterns('',
                        url(r'^drop', views.drop, name='drop'),
                        url(r'search_for_course_by_name_and_semester', views.search_for_course_by_name_and_semester,
                            name='search_for_course_by_name_and_semester'),
+                       url(r'^section_permutation_by_course_name',views.section_permutation_by_course_name,
+                           name='section_permutation_by_course_name')
 )

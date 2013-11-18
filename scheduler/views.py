@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
+from scheduler.models.schedule_generator import ScheduleGenerator, get_section_permutations
 from uni_info.models import Course, Semester
 import json
 
@@ -175,4 +176,43 @@ def search_for_course_by_name_and_semester(request):
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
+    return HttpResponse(json_result, content_type="application/json")
+
+def section_permutation_by_course_name(request):
+    #Method that accepts a request and then extracts the parameters of course_name and semester_list.
+    #Use Django Course.objects to find the course and then find all the sections for all the semesters in semester_list.
+    #Now use python combinatorics module https://pypi.python.org/pypi/Combinatorics and generate all the valid and non conflicting Lecture/Lab/Tutorial combination, serialize result into JSON and return request.
+    #The resulting combined object's JSON data should contain a unique identifier created by the sections so that it can be passed back to the server to specify if it is to be included in schedule generation.
+
+
+    #find course by name
+    course_name = request.GET['course_name'].upper()
+    #semester list
+    semester_id = request.GET.getlist('semester_id')
+
+    search_regex = r'' + course_name
+    result = Course.search_by_regex(search_regex)
+    course_list = []
+    id_list = []
+
+    #convert queryset to list
+    for course in result:
+        course_list.append(course.name)
+
+    #convert queryset to list
+    for semester in semester_id:
+        id_list.append(semester)
+
+    sections_by_semester = []
+    for course in result:
+        for id in id_list:
+            sections_by_semester.extend(course.get_sections_for_semester(id))
+
+    permutation_list = []
+
+    for section in sections_by_semester:
+        permutation_list.append(get_section_permutations(section))
+
+    result_list = []
+    json_result = []
     return HttpResponse(json_result, content_type="application/json")
