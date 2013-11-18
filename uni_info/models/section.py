@@ -39,6 +39,8 @@ class Section(models.Model):
     days = models.CharField(max_length=7)
     location = models.ForeignKey(Facility, null=True)
     _instructor = models.ForeignKey(StarUser, null=True)
+    instructor_text = models.CharField(max_length=256, null=True, blank=True)
+    week = models.PositiveSmallIntegerField(null=True, blank=True)
 
     cancelled = models.BooleanField(default=False)
 
