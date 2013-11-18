@@ -45,24 +45,17 @@
 
 {% block content %}
 
-    <div>
-        <h2>Search</h2>
-    </div>
+    <h2>Search</h2>
 
     <form action="" method="get">
-        <br/><br/><br/>
-        School Term:
-        {% for semester in open_semesters %}
-            <input type="radio" name="semester_id" value="{{ semester.id }}"/>
-            {{ semester.name|capfirst }}
-        {% endfor %}
+        <div>
+            {% for semester in open_semesters %}
+                <input type="radio" name="semester_id" value="{{ semester.id }}"/>
+                {{ semester.name|capfirst }}
+            {% endfor %}
 
-        <br/><br/>
-
-        <div style="margin:0 auto;text-align:center;background-color:lightblue;width:550px;">
-            Search for a course
             <input type="text" id="search"/>
-            <button id="searchBtn" class="clean-gray" onclick="searchCourse()">Add</button>
+            <button id="searchBtn" onclick="searchCourse()">Add</button>
         </div>
         <br/><br/>
 
