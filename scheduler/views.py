@@ -168,7 +168,8 @@ def search_for_course_by_name_and_semester(request):
 
     result_list = []
     for s in sections_by_semester:
-        entry = {'label': s.course.name, 'desc': s.course.description}
+
+        entry = {"label": s.course.name, "desc": s.course.description}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
