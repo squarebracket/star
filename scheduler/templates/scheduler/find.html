@@ -103,12 +103,14 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if course_list %}
                 <tr>
                     <td></td>
                     <td colspan="2">
                         <button type="submit" value="Generate Schedule">Generate Schedule</button>
                     </td>
                 </tr>
+                {% endif %}
             </table>
         </div>
     </form>

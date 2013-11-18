@@ -7,11 +7,7 @@
 {% block head %}
 
     <script type="text/javascript">
-
         $(document).ready(function () {
-
-            // page is now ready, initialize the calendar...
-
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
 
@@ -28,17 +24,13 @@
             })
 
         });
-
-
     </script>
 {% endblock %}
 
 {% block content %}
 
     <h3>Generated Schedule</h3>
-    <div id="ViewSchGeneratedContent">
-        <div id='calendar'></div>
-    </div>
+    <div id='calendar'></div>
 
 {% endblock %}
 

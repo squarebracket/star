@@ -26,11 +26,13 @@
 
 <div id="wrap">
     <div id="header"><h1>STAR</h1></div>
-    {% if user.is_authenticated %}
-        <div id="user_info">
-            Welcome, {{ user.first_name }} {{ user.last_name }}
-        </div>
-    {% endif %}
+    {% block user_info %}
+        {% if user.is_authenticated %}
+            <div id="user_info">
+                Welcome, {{ user.first_name }} {{ user.last_name }}
+            </div>
+        {% endif %}
+    {% endblock %}
 
     <div id="nav">
         {% if user.is_authenticated %}
