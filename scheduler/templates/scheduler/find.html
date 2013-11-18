@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "scheduler/style.css" %}" type="text/css"/>
+    <link rel='stylesheet' href="{% static "scheduler/fullcalendar.css" %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static "scheduler/jquery-ui-1.8.16.custom.css" %}" type="text/css"/>
+
+    <script src="{% static "scheduler/jquery-1.7.1.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/jquery.idTabs.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/scheduler.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/jquery.ui.core.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/jquery.ui.widget.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/jquery.ui.position.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/jquery.ui.autocomplete.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "scheduler/fullcalendar.min.js" %}" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            $("#search").autocomplete(
+                    {
+                        source: "search_for_course_by_name_and_semester?semester_id=2",
+                        minLength: 2,
+                        select: function (event, ui) {
+                            $("#search").val(ui.item.label);
+                            return false;
+                        }
+                    })
+                    .data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append("<a><strong>" + item.label + "</strong><br />" + item.desc + "</a>")
+                        .appendTo(ul);
+            };
+        });
+
+    </script>
+{% endblock %}
+{% block title %} Search for course {% endblock %}
+
+{% block content %}
+
+    <div>
+        <h2>Search</h2>
+    </div>
+
+    <form action="" method="get">
+        <br/><br/><br/>
+        School Term:
+        {% for semester in open_semesters %}
+            <input type="radio" name="semester_id" value="{{ semester.id }}"/>
+            {{ semester.name|capfirst }}
+        {% endfor %}
+
+        <br/><br/>
+
+        <div style="margin:0 auto;text-align:center;background-color:lightblue;width:550px;">
+            Search for a course
+            <input type="text" id="search"/>
+            <button id="searchBtn" class="clean-gray" onclick="searchCourse()">Add</button>
+        </div>
+        <br/><br/>
+
+        <div id="SearchSchGeneratedContent">
+        </div>
+        <center>
+            <button class="btn" type="submit" value="Generate Schedule">Generate Schedule</button>
+        </center>
+    </form>
+
+{% endblock %}
+
+{% block sidebar %}
+    Progression Chart
+    <div class="idTabs">
+        <ul>
+            <li><a href="#yearone">Year 1</a></li>
+            <li><a href="#yeartwo">Year 2</a></li>
+            <li><a href="#yearthree">Year 3</a></li>
+            <li><a href="#yearfour">Year 4</a></li>
+        </ul>
+    </div>
+    <br/><br/>
+
+    <div class="items">
+        <br/>
+
+        <div id="yearone">
+            <div class="classCompleted">COMP 232</div>
+            <div class="classCompleted"> COMP 248</div>
+            <div class="classCompleted"> ENGR 201</div>
+            <div class="classCompleted"> ENGR 213</div>
+            <div class="classCompleted"> General Elective</div>
+            <div class="classCompleted"> COMP 249</div>
+            <div class="classCompleted"> ENGR 233</div>
+            <div class="classCompleted"> SOEN 228</div>
+            <div class="classCompleted"> SOEN 287</div>
+            <div class="classCompleted"> Basic Science</div>
+        </div>
+        <div id="yeartwo">
+            <div class="classCompleted">COMP 348</div>
+            <div class="classCompleted">COMP 352</div>
+            <div class="classCompleted">ENCS 282</div>
+            <div class="classCompleted">ENGR 202</div>
+            <div class="classCompleted">Basic Science</div>
+            <div class="classCompleted">COMP 346</div>
+            <div class="classCompleted">ELEC 275</div>
+            <div class="classCompleted">ENGR 371</div>
+            <div class="classNotCompleted">SOEN 331</div>
+            <div class="classCompleted">SOEN 341</div>
+        </div>
+
+        <div id="yearthree">
+            <div class="classNotCompleted">COMP 335</div>
+            <div class="classNotCompleted">SOEN 342</div>
+            <div class="classNotCompleted">SOEN 343</div>
+            <div class="classNotCompleted">SOEN 384</div>
+            <div class="classNotCompleted">Technical Elective</div>
+            <div class="classNotCompleted">SOEN 344</div>
+            <div class="classNotCompleted">SOEN 345</div>
+            <div class="classNotCompleted">SOEN 357</div>
+            <div class="classNotCompleted">SOEN 390</div>
+            <div class="classNotCompleted">SOEN 385</div>
+        </div>
+        <div class="yearfour">
+            <div class="classNotCompleted">SOEN 490</div>
+            <div class="classNotCompleted">ENGR 391</div>
+            <div class="classNotCompleted">Technical Elective</div>
+            <div class="classNotCompleted">Technical Elective</div>
+            <div class="classNotCompleted">Technical Elective</div>
+            <div class="classNotCompleted">SOEN 385</div>
+            <div class="classNotCompleted">ENGR 392</div>
+            <div class="classNotCompleted">SOEN 490</div>
+            <div class="classNotCompleted">Technical Elective</div>
+            <div class="classNotCompleted">Technical Elective</div>
+        </div>
+    </div>
+
+{% endblock %}
