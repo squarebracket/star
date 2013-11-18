@@ -1,20 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %} Student Registration and Scheduling {% endblock %}
-
-{% block nav %}
-    <ul>
-        <li><a href="/scheduler/logout">Logout</a></li>
-        <li><a href="/scheduler/student">Home</a></li>
-        <li><a href="/scheduler/schedule">Schedule</a></li>
-        ...
-    </ul>
-{% endblock %}
+{% block title %} Registration {% endblock %}
 
 {% block content %}
 
 
-        <h3>
+    <h3>
         Register for a course
     </h3>
 
@@ -54,7 +45,7 @@
         <select name="semester_name">
             {% for semester in open_semesters %}
                 <option value="{{ semester.id }}"
-                    {{ semester.name|capfirst }}
+                {{ semester.name|capfirst }}
                 </option>
             {% endfor %}
         </select>
