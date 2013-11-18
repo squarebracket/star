@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from scraper import functions
 from scraper.models import ConcordiaScraper
 
 
