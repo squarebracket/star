@@ -58,29 +58,33 @@
             <input name="course_name" type="text" id="search"/>
             <button id="searchBtn">Add</button>
         </div>
-        <br/><br/>
+    </form>
 
-        <div>
-
-        <table id="course_list">
-            {% for course in course_list %}
-                <tr>
-                <td class="course_list_item">
-                    <input type="hidden" name="course_{{ forloop.counter }}"/>
-                    {{ course.name }}
-                    {{ course.description }}
-                </td>
-                <td class="course_list_item">
-                    <select name="select_{{ forloop.counter }}">
-                        <option>Any</option>
-                        <option>Mornings</option>
-                        <option>Afternoons</option>
-                        <option>Evenings</option>
-                    </select>
-                </td>
-                </tr>
-            {% endfor %}
-        </table>
+    <form action="schedule" method="post">
+        {% csrf_token %}
+        <div id="course_list_wrap">
+            <table id="course_list">
+                {% for course in course_list %}
+                    <tr>
+                        <td class="course_list_item">
+                            <input type="hidden" name="course_{{ forloop.counter }}"/>
+                            {{ course.name }}
+                            {{ course.description }}
+                        </td>
+                        <td class="course_list_item">
+                            <select name="select_{{ forloop.counter }}">
+                                <option>Any</option>
+                                <option>Mornings</option>
+                                <option>Afternoons</option>
+                                <option>Evenings</option>
+                            </select>
+                        </td>
+                        <td class="course_list_item">
+                            <a class="remove_link" href="remove_course">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
 
         <button type="submit" value="Generate Schedule">Generate Schedule</button>

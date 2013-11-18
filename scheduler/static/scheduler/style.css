@@ -298,13 +298,39 @@ h2 {
 }
 
 .course_list_item {
-    padding: 5px 10px;
+    padding: 5px 5px;
     margin: 5px 5px;
     background: #ddd;
 }
 
 #course_list {
+    background: #bbb;
+    width: 100%;
+}
+
+#course_list_wrap {
     padding: 5px 5px;
     margin: 5px 5px;
+    height: 300px;
     background: #bbb;
+}
+
+.course_list_item a:link {
+    color: #FF0000;
+    font-size: 12px;
+}
+
+/* unvisited link */
+.course_list_item a:visited {
+    color: #FF0000;
+}
+
+/* visited link */
+.course_list_item a:hover {
+    color: #FFF;
+}
+
+/* mouse over link */
+.course_list_item a:active {
+    color: #AAA;
 }
