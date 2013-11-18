@@ -106,15 +106,21 @@ def stream_schedule(request):
     a = {'id': 1,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Mon, 18 Nov 2013 13:00:00 EST'}
+         'start': 'Mon, 18 Nov 2013 13:00:00 EST',
+         'end': 'Mon, 18 Nov 2013 14:00:00 EST'
+         }
     b = {'id': 2,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Wed, 20 Nov 2013 12:00:00 EST'}
+         'start': 'Wed, 20 Nov 2013 12:00:00 EST',
+         'end': 'Wed, 20 Nov 2013 14:00:00 EST',
+        }
     c = {'id': 3,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Fri, 22 Nov 2013 11:00:00 EST'}
+         'start': 'Fri, 22 Nov 2013 11:00:00 EST',
+         'end': 'Fri, 22 Nov 2013 15:00:00 EST'
+         }
 
     stream_result.append(a)
     stream_result.append(b)
