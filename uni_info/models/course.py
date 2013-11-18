@@ -76,6 +76,12 @@ class Course(models.Model):
         else:
             return {self: direct_descendants}
 
+    @property
+    def section_perms(self):
+        from scheduler.models.schedule_generator import get_section_permutations
+        perms = get_section_permutations(self)
+        return perms
+
     @staticmethod
     def search_by_regex(course_name):
         """

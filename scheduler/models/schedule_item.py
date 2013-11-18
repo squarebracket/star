@@ -1,6 +1,3 @@
-from django.db import models
-from uni_info.models import Section, Course, Semester
-
 
 class ScheduleItem(object):
 

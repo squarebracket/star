@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from scheduler.models.schedule_generator import ScheduleGenerator, get_section_permutations
+from scheduler.models.schedule_generator import get_section_permutations
 from uni_info.models import Course, Semester
 import json
 
@@ -172,6 +172,7 @@ def remove_course(request):
 
     return HttpResponseRedirect(reverse('scheduler:find'))
 
+
 def search_for_course_by_name_and_semester(request):
     """
     Method that accepts a request and then extracts the parameters of course _name_search and semester_list
@@ -209,6 +210,7 @@ def search_for_course_by_name_and_semester(request):
 
     json_result = json.dumps(result_list)
     return HttpResponse(json_result, content_type="application/json")
+
 
 def section_permutation_by_course_name(request):
     #Method that accepts a request and then extracts the parameters of course_name and semester_list.
@@ -248,4 +250,3 @@ def section_permutation_by_course_name(request):
     result_list = []
     json_result = []
     return HttpResponse(json_result, content_type="application/json")
-#helloworld

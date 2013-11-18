@@ -63,13 +63,10 @@
     <form action="add_course" method="post">
         {% csrf_token %}
         <div id="add_course_wrap">
-        <!--<select id="selectType" name="semester_id">!-->
             {% for semester in open_semesters %}
                 <input type="checkbox" name="semester_id" value="{{ semester.id }}" checked/>
-                <!--<option value="{{ semester.id }}">{{ semester.name|capfirst }}</option>!-->
                 {{ semester.name|capfirst }}
             {% endfor %}
-        <!--</select>!-->
             <input name="course_name" type="text" id="search"/>
             <button id="searchBtn">Add</button>
         </div>
@@ -92,6 +89,13 @@
                                 <option>Mornings</option>
                                 <option>Afternoons</option>
                                 <option>Evenings</option>
+                                {% for perm in course.section_perms %}
+                                    <option>
+                                    {% for section in perm %}
+                                        <p>{{ section.name }}</p>
+                                    {% endfor %}
+                                    </option>
+                                {% endfor %}
                             </select>
                         </td>
                         <td class="course_list_item">
