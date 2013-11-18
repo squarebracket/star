@@ -248,3 +248,4 @@ def section_permutation_by_course_name(request):
     result_list = []
     json_result = []
     return HttpResponse(json_result, content_type="application/json")
+#helloworld
