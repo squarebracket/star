@@ -10,6 +10,7 @@ urlpatterns = patterns('',
                        url(r'^add_course', views.add_course, name='add_course'),
                        url(r'^register', views.register, name='register'),
                        url(r'^drop', views.drop, name='drop'),
+                       url(r'^remove_course', views.remove_course, name='remove_course'),
                        url(r'search_for_course_by_name_and_semester', views.search_for_course_by_name_and_semester,
                            name='search_for_course_by_name_and_semester'),
 )

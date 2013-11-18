@@ -154,6 +154,22 @@ def add_course(request):
 
     return HttpResponseRedirect(reverse('scheduler:find'))
 
+@login_required
+def remove_course(request):
+
+    course_name = request.GET['course_name'].upper()
+    course_list = request.session['course_list']
+    found_to_delete = None
+    for course in course_list:
+        if course.name == course_name:
+            found_to_delete = course
+
+    if found_to_delete is not None:
+        course_list.remove(found_to_delete)
+
+    request.session['course_list'] = course_list
+
+    return HttpResponseRedirect(reverse('scheduler:find'))
 
 def search_for_course_by_name_and_semester(request):
     """

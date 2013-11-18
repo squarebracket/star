@@ -31,8 +31,6 @@
                 allVals.push($(this).val());
             });
                 if(allVals.length = 1)
-
-
                     var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0];
                 else
                     var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0]+"?semester_id="+ allVals[1];
@@ -97,7 +95,7 @@
                             </select>
                         </td>
                         <td class="course_list_item">
-                            <a class="remove_link" href="remove_course">Remove</a>
+                            <a class="remove_link" href="remove_course?course_name={{ course.name }}">Remove</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -109,7 +107,6 @@
                 </tr>
             </table>
         </div>
-
     </form>
 
 {% endblock %}
