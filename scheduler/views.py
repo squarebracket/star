@@ -53,7 +53,6 @@ def drop(request):
 
 
 def find(request):
-
     if request.session.get('course_list', False):
         pass
     else:
@@ -86,6 +85,19 @@ def schedule(request):
         #'schedule': request.session['schedule']
     })
     return render(request, 'scheduler/schedule.html', context)
+
+
+@login_required
+def stream_schedule(request):
+    stream_result = []
+
+    a = {'id': 1,
+         'title': 'SOEN 341',
+         'start': 'Mon, 18 Nov 2013 13:00:00 EST"'}
+
+    stream_result.append(a)
+    stream_json_result = json.dumps(stream_result)
+    return HttpResponse(stream_json_result, content_type="application/json")
 
 
 @login_required
