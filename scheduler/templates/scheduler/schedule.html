@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% block title %} Schedule {% endblock %}
+
 {% block head %}
 
     <script type="text/javascript">
@@ -15,12 +17,13 @@
 
                 editable: true,
                 header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+                    left: '',
+                    center: '',
+                    right: ''
                 },
                 weekends: false,
-                defaultView: 'agendaWeek'
+                defaultView: 'agendaWeek',
+                columnFormat: 'ddd'
             })
 
         });
@@ -28,7 +31,6 @@
 
     </script>
 {% endblock %}
-{% block title %} Student Registration and Scheduling {% endblock %}
 
 {% block content %}
 
@@ -37,4 +39,7 @@
         <div id='calendar'></div>
     </div>
 
+{% endblock %}
+
+{% block sidebar %}
 {% endblock %}
