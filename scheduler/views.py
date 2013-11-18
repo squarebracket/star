@@ -182,30 +182,21 @@ def search_for_course_by_name_and_semester(request):
     #find course by name
     course_name = request.GET['term'].upper()
     #semester list
-    semester_id = request.GET.getlist('semester_id')
+    semester_id_list = request.GET.getlist('semester_id')
     search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
-    course_list = []
-
-    #convert queryset to list
-    for course in result:
-        course_list.append(course.name)
-
-    #convert queryset to list
-    id_list = []
-    for semester in semester_id:
-        id_list.append(semester)
 
     sections_by_semester = []
 
     for course in result:
-        for id in id_list:
-            sections_by_semester.extend(course.get_sections_for_semester(id))
+        for semester_id in semester_id_list:
+            sections_by_semester.extend(course.get_sections_for_semester(semester_id))
+
+    course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: c.name)
 
     result_list = []
-    for s in sections_by_semester:
-
-        entry = {"label": s.course.name, "desc": s.course.description}
+    for course in course_set:
+        entry = {"label": course.name, "desc": course.description}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
