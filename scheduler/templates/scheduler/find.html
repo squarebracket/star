@@ -20,11 +20,23 @@
 
     <script type="text/javascript">
 
+        $(function() {
+             //for drop down menu in case if the check box doesn't work properly
+             //var select = $( "#selectType" ),
+             //options = select.find( "option" );
+             //var selectType = options.filter( ":selected" ).attr( "value" );
 
-        $(function () {
+            var allVals = [];
+            $('#add_course_wrap :checked').each(function(){
+                allVals.push($(this).val());
+            });
+                if(allVals.length = 1)
+                    var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0];
+                else
+                    var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0]+"?semester_id="+ allVals[1];
             $("#search").autocomplete(
                     {
-                        source: "search_for_course_by_name_and_semester?semester_id=2",
+                        source: sourceFind,
                         minLength: 2,
                         select: function (event, ui) {
                             $("#search").val(ui.item.label);
@@ -39,6 +51,7 @@
             };
         });
 
+
     </script>
 {% endblock %}
 {% block title %} Search for course {% endblock %}
@@ -50,11 +63,13 @@
     <form action="add_course" method="post">
         {% csrf_token %}
         <div id="add_course_wrap">
+        <!--<select id="selectType" name="semester_id">!-->
             {% for semester in open_semesters %}
                 <input type="checkbox" name="semester_id" value="{{ semester.id }}" checked/>
+                <!--<option value="{{ semester.id }}">{{ semester.name|capfirst }}</option>!-->
                 {{ semester.name|capfirst }}
             {% endfor %}
-
+        <!--</select>!-->
             <input name="course_name" type="text" id="search"/>
             <button id="searchBtn">Add</button>
         </div>
@@ -80,7 +95,7 @@
                             </select>
                         </td>
                         <td class="course_list_item">
-                            <a class="remove_link" href="remove_course">Remove</a>
+                            <a class="remove_link" href="remove_course?course_name={{ course.name }}">Remove</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -92,7 +107,6 @@
                 </tr>
             </table>
         </div>
-
     </form>
 
 {% endblock %}

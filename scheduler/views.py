@@ -11,6 +11,15 @@ import json
 
 @login_required
 def register(request):
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open]
+    })
+
+    return render(request, 'scheduler/register.html', context)
+
+@login_required
+def do_register(request):
     """
     Registers a course for a student by name for semester by name
     """
@@ -98,15 +107,21 @@ def stream_schedule(request):
     a = {'id': 1,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Mon, 18 Nov 2013 13:00:00 EST'}
+         'start': 'Mon, 18 Nov 2013 13:00:00 EST',
+         'end': 'Mon, 18 Nov 2013 14:00:00 EST'
+         }
     b = {'id': 2,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Wed, 20 Nov 2013 13:00:00 EST'}
+         'start': 'Wed, 20 Nov 2013 12:00:00 EST',
+         'end': 'Wed, 20 Nov 2013 14:00:00 EST',
+        }
     c = {'id': 3,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Fri, 22 Nov 2013 13:00:00 EST'}
+         'start': 'Fri, 22 Nov 2013 11:00:00 EST',
+         'end': 'Fri, 22 Nov 2013 15:00:00 EST'
+         }
 
     stream_result.append(a)
     stream_result.append(b)
@@ -140,6 +155,22 @@ def add_course(request):
 
     return HttpResponseRedirect(reverse('scheduler:find'))
 
+@login_required
+def remove_course(request):
+
+    course_name = request.GET['course_name'].upper()
+    course_list = request.session['course_list']
+    found_to_delete = None
+    for course in course_list:
+        if course.name == course_name:
+            found_to_delete = course
+
+    if found_to_delete is not None:
+        course_list.remove(found_to_delete)
+
+    request.session['course_list'] = course_list
+
+    return HttpResponseRedirect(reverse('scheduler:find'))
 
 def search_for_course_by_name_and_semester(request):
     """
@@ -172,7 +203,8 @@ def search_for_course_by_name_and_semester(request):
 
     result_list = []
     for s in sections_by_semester:
-        entry = {'label': s.course.name, 'desc': s.course.description}
+
+        entry = {"label": s.course.name, "desc": s.course.description}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
