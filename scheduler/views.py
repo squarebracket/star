@@ -1,13 +1,12 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from django.utils import simplejson
 from uni_info.models import Course, Semester
 import json
+
 
 @login_required
 def register(request):
@@ -53,24 +52,66 @@ def drop(request):
     return HttpResponseRedirect(reverse('scheduler:student'))
 
 
+def find(request):
+    if request.session.get('course_list', False):
+        pass
+    else:
+        request.session['course_list'] = []
+
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        'course_list': request.session['course_list']
+    })
+
+    return render(request, 'scheduler/find.html', context)
+
+
 @login_required
 def schedule(request):
     """
     Gets the current schedule
     """
 
-    if request.session.get('schedule', False):
-        pass
-    else:
-        reg_schedule = request.user.student.create_schedule_from_registered_courses()
-        request.session['schedule'] = reg_schedule
+    #if request.session.get('schedule', False):
+    #    pass
+    #else:
+    #    reg_schedule = request.user.student.create_schedule_from_registered_courses()
+    #    request.session['schedule'] = reg_schedule
 
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
-        'schedule': request.session['schedule']
+        #'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        #'schedule': request.session['schedule']
     })
     return render(request, 'scheduler/schedule.html', context)
+
+
+@login_required
+def stream_schedule(request):
+    """
+    Stream the schedule
+    """
+    stream_result = []
+
+    a = {'id': 1,
+         'title': 'SOEN 341',
+         'allDay': False,
+         'start': 'Mon, 18 Nov 2013 13:00:00 EST'}
+    b = {'id': 2,
+         'title': 'SOEN 341',
+         'allDay': False,
+         'start': 'Wed, 20 Nov 2013 13:00:00 EST'}
+    c = {'id': 3,
+         'title': 'SOEN 341',
+         'allDay': False,
+         'start': 'Fri, 22 Nov 2013 13:00:00 EST'}
+
+    stream_result.append(a)
+    stream_result.append(b)
+    stream_result.append(c)
+    stream_json_result = json.dumps(stream_result)
+    return HttpResponse(stream_json_result, content_type="application/json")
 
 
 @login_required
@@ -79,24 +120,25 @@ def add_course(request):
     Registers a course for a student by name for semester by name
     """
     course_name = request.POST['course_name'].upper()
-    semester_name = request.POST['semester_name']
-    request_schedule = request.session['schedule']
+    semester_id = request.POST['semester_id']
     request_student = request.user.student
 
     try:
         #find course by name
         course = Course.objects.get(name=course_name)
         #find semester by name
-        semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
+        #semester = [sem for sem in Semester.objects.all() if sem.id == semester_id][0]
 
-        new_schedule = request_student.add_to_schedule(request_schedule, course, semester)
-        request.session['schedule'] = new_schedule
+        course_list = request.session['course_list']
+        course_list.append(course)
+        request.session['course_list'] = course_list
 
     except Course.DoesNotExist:
         #error, course not found
         messages.error(request, "course not found")
 
-    return HttpResponseRedirect(reverse('scheduler:schedule'))
+    return HttpResponseRedirect(reverse('scheduler:find'))
+
 
 def search_for_course_by_name_and_semester(request):
     """
@@ -105,12 +147,12 @@ def search_for_course_by_name_and_semester(request):
     Further reduces this list by checking that they are offered in at least one of the semesters in the semester_list.
     """
     #find course by name
-    course_name = request.GET['course_name'].upper()
+    course_name = request.GET['term'].upper()
     #semester list
     semester_id = request.GET.getlist('semester_id')
     search_regex = r'' + course_name
     result = Course.search_by_regex(search_regex)
-    course_list =[]
+    course_list = []
 
     #convert queryset to list
     for course in result:
@@ -129,34 +171,8 @@ def search_for_course_by_name_and_semester(request):
 
     result_list = []
     for s in sections_by_semester:
-        entry = {'name':s.course.name,'description':s.course.description}
+        entry = {'label': s.course.name, 'desc': s.course.description}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
     return HttpResponse(json_result, content_type="application/json")
-
-def open_semesters(request):
-    """
-    Returns a list of open semesters (id, name, and year)
-    """
-    open_semesters = []
-
-    for semester in Semester.objects.all():
-        if semester.is_open:
-            entry = {'name':semester.period,'year':semester.year,'id':semester.id}
-            open_semesters.append(entry)
-
-    json_result = json.dumps(open_semesters)
-    return HttpResponse(json_result, content_type="application/json")
-
-def section_permutation_by_course_name(request):
-
-    #find course by name
-    course_name = request.GET['course_name'].upper()
-    #semester list
-    semester_id = request.GET.getlist('semester_id')
-
-    search_regex = r'' + course_name
-    result = Course.search_by_regex(course_name)
-
-    section_list = []
