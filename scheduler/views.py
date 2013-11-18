@@ -89,6 +89,9 @@ def schedule(request):
 
 @login_required
 def stream_schedule(request):
+    """
+    Stream the schedule
+    """
     stream_result = []
 
     a = {'id': 1,
