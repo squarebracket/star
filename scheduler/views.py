@@ -10,6 +10,15 @@ import json
 
 @login_required
 def register(request):
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open]
+    })
+
+    return render(request, 'scheduler/register.html', context)
+
+@login_required
+def do_register(request):
     """
     Registers a course for a student by name for semester by name
     """
@@ -101,11 +110,11 @@ def stream_schedule(request):
     b = {'id': 2,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Wed, 20 Nov 2013 13:00:00 EST'}
+         'start': 'Wed, 20 Nov 2013 12:00:00 EST'}
     c = {'id': 3,
          'title': 'SOEN 341',
          'allDay': False,
-         'start': 'Fri, 22 Nov 2013 13:00:00 EST'}
+         'start': 'Fri, 22 Nov 2013 11:00:00 EST'}
 
     stream_result.append(a)
     stream_result.append(b)
