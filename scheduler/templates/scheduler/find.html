@@ -47,23 +47,43 @@
 
     <h2>Search</h2>
 
-    <form action="" method="get">
+    <form action="add_course" method="post">
+        {% csrf_token %}
         <div>
             {% for semester in open_semesters %}
-                <input type="radio" name="semester_id" value="{{ semester.id }}"/>
+                <input type="checkbox" name="semester_id" value="{{ semester.id }}" checked/>
                 {{ semester.name|capfirst }}
             {% endfor %}
 
-            <input type="text" id="search"/>
-            <button id="searchBtn" onclick="searchCourse()">Add</button>
+            <input name="course_name" type="text" id="search"/>
+            <button id="searchBtn">Add</button>
         </div>
         <br/><br/>
 
-        <div id="SearchSchGeneratedContent">
+        <div>
+
+        <table id="course_list">
+            {% for course in course_list %}
+                <tr>
+                <td class="course_list_item">
+                    <input type="hidden" name="course_{{ forloop.counter }}"/>
+                    {{ course.name }}
+                    {{ course.description }}
+                </td>
+                <td class="course_list_item">
+                    <select name="select_{{ forloop.counter }}">
+                        <option>Any</option>
+                        <option>Mornings</option>
+                        <option>Afternoons</option>
+                        <option>Evenings</option>
+                    </select>
+                </td>
+                </tr>
+            {% endfor %}
+        </table>
         </div>
-        <center>
-            <button class="btn" type="submit" value="Generate Schedule">Generate Schedule</button>
-        </center>
+
+        <button type="submit" value="Generate Schedule">Generate Schedule</button>
     </form>
 
 {% endblock %}

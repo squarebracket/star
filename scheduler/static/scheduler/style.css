@@ -10,7 +10,6 @@ html {
     background: #a7a09a;
 }
 
-
 /*The css for the jquery tabs*/
 .idTabs {
     margin: 5px;
@@ -217,7 +216,6 @@ button.clean-gray:active {
     height: 250px;
 }
 
-
 #wrap {
     width: 800px;
     height: 600px;
@@ -296,5 +294,17 @@ h2 {
 }
 
 #login {
-  margin-left: 30px;
+    margin-left: 30px;
+}
+
+.course_list_item {
+    padding: 5px 10px;
+    margin: 5px 5px;
+    background: #ddd;
+}
+
+#course_list {
+    padding: 5px 5px;
+    margin: 5px 5px;
+    background: #bbb;
 }

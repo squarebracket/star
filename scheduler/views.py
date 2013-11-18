@@ -53,9 +53,16 @@ def drop(request):
 
 
 def find(request):
+
+    if request.session.get('course_list', False):
+        pass
+    else:
+        request.session['course_list'] = []
+
     context = RequestContext(request, {
         'user': request.user,
         'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        'course_list': request.session['course_list']
     })
 
     return render(request, 'scheduler/find.html', context)
@@ -67,16 +74,16 @@ def schedule(request):
     Gets the current schedule
     """
 
-    if request.session.get('schedule', False):
-        pass
-    else:
-        reg_schedule = request.user.student.create_schedule_from_registered_courses()
-        request.session['schedule'] = reg_schedule
+    #if request.session.get('schedule', False):
+    #    pass
+    #else:
+    #    reg_schedule = request.user.student.create_schedule_from_registered_courses()
+    #    request.session['schedule'] = reg_schedule
 
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
-        'schedule': request.session['schedule']
+        #'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        #'schedule': request.session['schedule']
     })
     return render(request, 'scheduler/schedule.html', context)
 
@@ -87,24 +94,24 @@ def add_course(request):
     Registers a course for a student by name for semester by name
     """
     course_name = request.POST['course_name'].upper()
-    semester_name = request.POST['semester_name']
-    request_schedule = request.session['schedule']
+    semester_id = request.POST['semester_id']
     request_student = request.user.student
 
     try:
         #find course by name
         course = Course.objects.get(name=course_name)
         #find semester by name
-        semester = [sem for sem in Semester.objects.all() if sem.name == semester_name][0]
+        #semester = [sem for sem in Semester.objects.all() if sem.id == semester_id][0]
 
-        new_schedule = request_student.add_to_schedule(request_schedule, course, semester)
-        request.session['schedule'] = new_schedule
+        course_list = request.session['course_list']
+        course_list.append(course)
+        request.session['course_list'] = course_list
 
     except Course.DoesNotExist:
         #error, course not found
         messages.error(request, "course not found")
 
-    return HttpResponseRedirect(reverse('scheduler:schedule'))
+    return HttpResponseRedirect(reverse('scheduler:find'))
 
 
 def search_for_course_by_name_and_semester(request):
