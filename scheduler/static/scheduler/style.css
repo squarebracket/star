@@ -159,7 +159,7 @@ button.clean-gray:active {
 
 .classCompleted {
     margin: 2px;
-    width: 50%;
+    width: 80%;
     padding: 8px;
     border-style: solid;
     border-color: Green;
@@ -169,7 +169,7 @@ button.clean-gray:active {
 
 .classNotCompleted {
     margin: 2px;
-    width: 50%;
+    width: 80%;
     border-radius: 4px;
     padding: 8px;
     border-style: solid;
