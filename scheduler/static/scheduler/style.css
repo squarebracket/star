@@ -28,26 +28,16 @@ html {
 
 .idTabs a {
     display: block;
-    background: #fff;
+    background: #ddd;
     color: black;
-    padding: 0 10px;
-    font: bold 10pt aRIAL;
+    padding: 5px;
+    font-size: 16px;
     text-decoration: none;
 }
 
 .idTabs a.selected {
     background: lightblue;
     color: #000;
-}
-
-.items > div {
-    display: none;
-    margin: 0 auto;
-}
-
-.idTabs ul, .idTabs a {
-    border-radius: 4px;
-    -moz-border-radius: 4px;
 }
 
 /* the css for the button taken online*/
@@ -158,23 +148,21 @@ button.clean-gray:active {
 }
 
 .classCompleted {
-    margin: 2px;
-    width: 80%;
-    padding: 8px;
-    border-style: solid;
-    border-color: Green;
+    margin: 3px;
+    padding: 5px;
     background-color: lightgreen;
-    border-radius: 4px;
 }
 
 .classNotCompleted {
-    margin: 2px;
-    width: 80%;
-    border-radius: 4px;
-    padding: 8px;
-    border-style: solid;
-    border-color: Red;
+    margin: 3px;
+    padding: 5px;
     background-color: #FF9999;
+}
+
+#progression {
+    margin: 5px;
+    padding: 5px;
+    height: 23px;
 }
 
 .footer {
@@ -344,3 +332,4 @@ h2 {
     margin: 5px 5px;
     background: #eee;
 }
+

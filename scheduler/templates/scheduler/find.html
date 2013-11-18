@@ -20,20 +20,20 @@
 
     <script type="text/javascript">
 
-        $(function() {
-             //for drop down menu in case if the check box doesn't work properly
-             //var select = $( "#selectType" ),
-             //options = select.find( "option" );
-             //var selectType = options.filter( ":selected" ).attr( "value" );
+        $(function () {
+            //for drop down menu in case if the check box doesn't work properly
+            //var select = $( "#selectType" ),
+            //options = select.find( "option" );
+            //var selectType = options.filter( ":selected" ).attr( "value" );
 
             var allVals = [];
-            $('#add_course_wrap :checked').each(function(){
+            $('#add_course_wrap :checked').each(function () {
                 allVals.push($(this).val());
             });
-                if(allVals.length = 1)
-                    var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0];
-                else
-                    var sourceFind = "search_for_course_by_name_and_semester?semester_id="+ allVals[0]+"?semester_id="+ allVals[1];
+            if (allVals.length = 1)
+                var sourceFind = "search_for_course_by_name_and_semester?semester_id=" + allVals[0];
+            else
+                var sourceFind = "search_for_course_by_name_and_semester?semester_id=" + allVals[0] + "?semester_id=" + allVals[1];
             $("#search").autocomplete(
                     {
                         source: sourceFind,
@@ -91,9 +91,9 @@
                                 <option>Evenings</option>
                                 {% for perm in course.section_perms %}
                                     <option>
-                                    {% for section in perm %}
-                                        <p>{{ section.name }}</p>
-                                    {% endfor %}
+                                        {% for section in perm %}
+                                            <p>{{ section.name }}</p>
+                                        {% endfor %}
                                     </option>
                                 {% endfor %}
                             </select>
@@ -104,12 +104,12 @@
                     </tr>
                 {% endfor %}
                 {% if course_list %}
-                <tr>
-                    <td></td>
-                    <td colspan="2">
-                        <button type="submit" value="Generate Schedule">Generate Schedule</button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2">
+                            <button type="submit" value="Generate Schedule">Generate Schedule</button>
+                        </td>
+                    </tr>
                 {% endif %}
             </table>
         </div>
@@ -119,28 +119,26 @@
 
 {% block sidebar %}
     <h3>Progression Chart</h3>
-    <div class="idTabs">
-        <ul>
+    <div>
+
+        <ul class="idTabs" id="progression">
             <li><a href="#yearone">Year 1</a></li>
             <li><a href="#yeartwo">Year 2</a></li>
             <li><a href="#yearthree">Year 3</a></li>
             <li><a href="#yearfour">Year 4</a></li>
         </ul>
-    </div>
-    <br/><br/>
 
-    <div class="items">
         <div id="yearone">
             <div class="classCompleted">COMP 232</div>
-            <div class="classCompleted"> COMP 248</div>
-            <div class="classCompleted"> ENGR 201</div>
-            <div class="classCompleted"> ENGR 213</div>
-            <div class="classCompleted"> General Elective</div>
-            <div class="classCompleted"> COMP 249</div>
-            <div class="classCompleted"> ENGR 233</div>
-            <div class="classCompleted"> SOEN 228</div>
-            <div class="classCompleted"> SOEN 287</div>
-            <div class="classCompleted"> Basic Science</div>
+            <div class="classCompleted">COMP 248</div>
+            <div class="classCompleted">ENGR 201</div>
+            <div class="classCompleted">ENGR 213</div>
+            <div class="classCompleted">General Elective</div>
+            <div class="classCompleted">COMP 249</div>
+            <div class="classCompleted">ENGR 233</div>
+            <div class="classCompleted">SOEN 228</div>
+            <div class="classCompleted">SOEN 287</div>
+            <div class="classCompleted">Basic Science</div>
         </div>
         <div id="yeartwo">
             <div class="classCompleted">COMP 348</div>
