@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models import Q
 from uni_info.models.department import Department
+
+import re
 
 NUMBER_OF_CREDITS_COMPLETED = 1
 
@@ -79,6 +82,43 @@ class Course(models.Model):
         return perms
 
     @staticmethod
+    def full_search(text):
+        m = re.match('([A-Z]{1,4}) ?(\d{3}[A-Z]?)', text, re.I)
+        if m:
+            if m.group(2):
+                results = Course.objects.filter(
+                    Q(course_letters__icontains=m.group(1)) &
+                    Q(course_numbers__icontains=m.group(2))
+                )
+            #elif not m.group(2):
+            #    results = Course.objects.filter(
+            #        Q(course_letters__icontains=m.group(1)) |
+            #        Q(name__icontains=m.group(1)) |
+            #        Q(name__icontains=m.group(3))
+            #    )
+        else:
+            results = Course.objects.filter(
+                Q(course_letters__icontains=text) |
+                Q(course_numbers__icontains=text) |
+                Q(name__icontains=text)
+            )
+        if len(results) > 0:
+            return results
+        else:
+            raise Course.DoesNotExist
+
+    @staticmethod
+    def searcher(text):
+        m = re.match('([A-Z]) ?(\d{3}[A-Z]?)', text, re.I)
+        if m:
+            try:
+                course = Course.objects.get(course_letters=m.group(1),
+                                            course_numbers=m.group(2))
+                return course
+            except Course.DoesNotExist as error:
+                raise error
+
+    @staticmethod
     def search_by_regex(course_name):
         """
         Search for course by regex
@@ -90,7 +130,7 @@ class Course(models.Model):
                 courses.append(course)
 
         except Course.DoesNotExist:
-            print('does not exist')
+            return 'does not exist'
 
         return courses
 

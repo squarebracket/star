@@ -7,6 +7,7 @@ from django.template import RequestContext
 from scheduler.models.schedule_generator import get_section_permutations
 from uni_info.models import Course, Semester
 import json
+import re
 
 
 @login_required
@@ -133,15 +134,19 @@ def stream_schedule(request):
 @login_required
 def add_course(request):
     """
-    Registers a course for a student by name for semester by name
+    Adds a course to a schedule stored in an authenticated users' session
     """
-    course_name = request.POST['course_name'].upper()
+    course_search = request.POST['course_name']
     semester_id = request.POST['semester_id']
     request_student = request.user.student
 
     try:
-        #find course by name
-        course = Course.objects.get(name=course_name)
+        #find course(s) matching query
+        results = Course.full_search(course_search)
+        if len(results) == 1:
+            course = results[0]
+        else:
+            messages.error(request, "multiple courses found")
         #find semester by name
         #semester = [sem for sem in Semester.objects.all() if sem.id == semester_id][0]
 
@@ -150,7 +155,7 @@ def add_course(request):
         request.session['course_list'] = course_list
 
     except Course.DoesNotExist:
-        #error, course not found
+        #error, no courses found
         messages.error(request, "course not found")
 
     return HttpResponseRedirect(reverse('scheduler:find'))
@@ -175,6 +180,8 @@ def remove_course(request):
 
 def search_for_course_by_name_and_semester(request):
     """
+    Uses course_name and semester_list of request to return a list of courses
+
     Method that accepts a request and then extracts the parameters of course _name_search and semester_list
     Using those 2 parameters, accesses Django Course.objects and filter the ones that match by wild card the name.
     Further reduces this list by checking that they are offered in at least one of the semesters in the semester_list.
@@ -184,19 +191,21 @@ def search_for_course_by_name_and_semester(request):
     #semester list
     semester_id_list = request.GET.getlist('semester_id')
     search_regex = r'' + course_name
-    result = Course.search_by_regex(search_regex)
+    result = Course.full_search(search_regex)
 
-    sections_by_semester = []
+    offered_courses = []
 
     for course in result:
         for semester_id in semester_id_list:
-            sections_by_semester.extend(course.get_sections_for_semester(semester_id))
+            if course.section_set.filter(semester_year=semester_id).count > 0:
+                offered_courses.append(course)
+                break
 
-    course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: c.name)
+    #course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: c.name)
 
     result_list = []
-    for course in course_set:
-        entry = {"label": course.name, "desc": course.description}
+    for course in offered_courses:
+        entry = {"label": str(course), "desc": course.name}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
@@ -206,7 +215,7 @@ def search_for_course_by_name_and_semester(request):
 def section_permutation_by_course_name(request):
     #Method that accepts a request and then extracts the parameters of course_name and semester_list.
     #Use Django Course.objects to find the course and then find all the sections for all the semesters in semester_list.
-    #Now use python combinatorics module https://pypi.python.org/pypi/Combinatorics and generate all the valid and non conflicting Lecture/Lab/Tutorial combination, serialize result into JSON and return request.
+    #Now generate all the valid and non conflicting Lecture/Lab/Tutorial combination, serialize result into JSON and return request.
     #The resulting combined object's JSON data should contain a unique identifier created by the sections so that it can be passed back to the server to specify if it is to be included in schedule generation.
 
 
