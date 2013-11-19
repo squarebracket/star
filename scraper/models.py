@@ -51,10 +51,10 @@ class ConcordiaScraper():
 
 
 
-    PREREQ_REGEX = "([A-Z]{4}) ([0-9A-Z]{3,6}(?:, ([0-9A-Z]{3,6}))*)"
-    SECTION_REGEX = '([-MTWJFSD]{7}) \((\d\d:\d\d)-(\d\d:\d\d)\)'
-    SEC_REGEX = '.*(\/\d) ([^\*]+) ([^\*]+) (\*Canceled\* )?([-MTWJFSD]{7}) \((\d\d:\d\d)-(\d\d:\d\d)\)(?: Week\((\d)\))? (LOY|SGW)? (?:([A-Z]*)-([A-Z]?[\d\. ]*) )?(.*)'
-    DESC_REGEX = """
+    PREREQ_REGEX = r"([A-Z]{4}) ([0-9A-Z]{3,6}(?:, ([0-9A-Z]{3,6}))*)"
+    SECTION_REGEX = r'([-MTWJFSD]{7}) \((\d\d:\d\d)-(\d\d:\d\d)\)'
+    SEC_REGEX = r'.*(\/\d) ([^\*]+) ([^\*]+) (\*Canceled\* )?([-MTWJFSD]{7}) \((\d\d:\d\d)-(\d\d:\d\d)\)(?: Week\((\d)\))? (LOY|SGW)? (?:([A-Z]*)-([A-Z]?[\d\. ]*) )?(.*)'
+    DESC_REGEX = r"""
     <b><font color="#303030">([A-Z]{4}) (\d{3})<\/font><\/b><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#303030">(.*)<\/font><\/b><\/i>\([0-9\.] credits\) <br \/>\nPrerequisite: (.*?)\. (.*)<br \/>
     """
 
