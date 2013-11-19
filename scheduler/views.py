@@ -192,11 +192,11 @@ def search_for_course_by_name_and_semester(request):
         for semester_id in semester_id_list:
             sections_by_semester.extend(course.get_sections_for_semester(semester_id))
 
-    course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: c.name)
+    course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: str(c))
 
     result_list = []
     for course in course_set:
-        entry = {"label": course.name, "desc": course.description}
+        entry = {"label": str(course), "desc": course.name}
         result_list.append(entry)
 
     json_result = json.dumps(result_list)
