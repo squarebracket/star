@@ -6,7 +6,7 @@ class ScheduleItem(object):
         if self.sections is not None:
             self.semester = section_list[0].semester_year
             self.course = section_list[0].course
-    
+
     def conflicts_with(self, other):
         # print type(other)
         # if type(other) is not ScheduleSlice:
