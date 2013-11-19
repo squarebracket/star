@@ -197,11 +197,9 @@ def search_for_course_by_name_and_semester(request):
 
     for course in result:
         for semester_id in semester_id_list:
-            if course.section_set.filter(semester_year=semester_id).count > 0:
+            if course.section_set.filter(semester_year=semester_id).count() > 0:
                 offered_courses.append(course)
                 break
-
-    #course_set = sorted(set([s.course for s in sections_by_semester]), key=lambda c: c.name)
 
     result_list = []
     for course in offered_courses:
