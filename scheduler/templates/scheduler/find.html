@@ -80,8 +80,8 @@
                     <tr>
                         <td class="course_list_item" width="80%">
                             <input type="hidden" name="course_{{ forloop.counter }}"/>
-                            {{ course.name }}
-                            <div class="description">{{ course.description }}</div>
+                            {{ course }}
+                            <div class="description">{{ course.name }}</div>
                         </td>
                         <td class="course_list_item">
                             <select name="select_{{ forloop.counter }}">
