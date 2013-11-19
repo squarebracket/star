@@ -47,10 +47,10 @@ def login(request):
             # Redirect to a success page.
             return HttpResponseRedirect(reverse('user_stuff:student'))
         else:
-            # Return a 'disabled account' error message
+            messages.error(request, "account disabled")
             return HttpResponseRedirect(reverse('user_stuff:index'))
     else:
-        # Return an 'invalid login' error message.
+        messages.error(request, "invalid username or password")
         return HttpResponseRedirect(reverse('user_stuff:index'))
 
 

@@ -334,3 +334,6 @@ h2 {
     background: #eee;
 }
 
+.error {
+    color: red;
+}
