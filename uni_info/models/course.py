@@ -126,7 +126,7 @@ class Course(models.Model):
         courses = []
 
         try:
-            for course in Course.objects.filter(name__regex=course_name):
+            for course in Course.objects.filter(course_letters__regex=course_name):
                 courses.append(course)
 
         except Course.DoesNotExist:
