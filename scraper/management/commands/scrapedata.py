@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from scraper import functions
+from scraper.models import ConcordiaScraper
 
 
 class Command(BaseCommand):
@@ -8,6 +8,7 @@ class Command(BaseCommand):
     args = 'none'
 
     def handle(self, *args, **options):
-        functions.scrape_sections()
+        scraper = ConcordiaScraper()
+        scraper.scrape_sections()
 
         self.stdout.write('Scraped classes')

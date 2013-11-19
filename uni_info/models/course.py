@@ -33,18 +33,14 @@ class Course(models.Model):
                                    help_text='Description as it appears in '
                                              'the academic calendar')
     course_credits = models.IntegerField(default=0.0)
-    prerequisite_courses = models.ManyToManyField('self', symmetrical=False,
-                                           related_name="pre+")
-    corequisite_courses = models.ManyToManyField('self', symmetrical=False,
-                                          related_name="co+")
-    # this will be used until a better implementation exists for storing
-    # other kinds of requirements
-    # other_requirements = models.TextField(verbose_name=
-    #                                       "Other prerequisite information",
-    #                                       null=True, blank=True)
 
     # for debug purposes, provide a string to store the scraped prerequisites
     _scraped_prerequisite_text = models.TextField(null=True, blank=True)
+    requirements = models.ManyToManyField('Requirement', symmetrical=False, related_name='+')
+
+    def save_scraped_prerequisite_text(self, text):
+        self._scraped_prerequisite_text = text
+        self.save()
 
     def get_sections_for_semester(self, semester):
         """
