@@ -19,6 +19,9 @@
                     weekends: true,
                     defaultView: 'agendaWeek',
                     columnFormat: 'ddd',
+                    year: 2013,
+                    month: 9,
+                    date: 1,
                     events: "stream_schedule?index={{ forloop.counter }}"
                 })
             {% endfor %}
@@ -30,7 +33,9 @@
 {% block content %}
     <h2>Schedule</h2>
     {% for index in schedule_count %}
-        <div id='calendar{{ forloop.counter }}'></div>
+        <div class="calendar_wrap">
+            <div id='calendar{{ forloop.counter }}'></div>
+        </div>
     {% endfor %}
 {% endblock %}
 

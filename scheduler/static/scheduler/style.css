@@ -337,3 +337,7 @@ h2 {
 .error {
     color: red;
 }
+
+.calendar_wrap {
+    padding: 10px 10px;
+}
