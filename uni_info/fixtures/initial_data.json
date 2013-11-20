@@ -9023,6 +9023,321 @@
         }
     },
     {
+        "pk": 7,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2014
+        }
+    },
+    {
+        "pk": 8,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2014
+        }
+    },
+    {
+        "pk": 9,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2014
+        }
+    },
+    {
+        "pk": 10,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2014
+        }
+    },
+    {
+        "pk": 11,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2014
+        }
+    },
+    {
+        "pk": 12,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2015
+        }
+    },
+    {
+        "pk": 13,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2015
+        }
+    },
+    {
+        "pk": 14,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2015
+        }
+    },
+    {
+        "pk": 15,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2015
+        }
+    },
+    {
+        "pk": 16,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2015
+        }
+    },
+    {
+        "pk": 17,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2016
+        }
+    },
+    {
+        "pk": 18,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2016
+        }
+    },
+    {
+        "pk": 19,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2016
+        }
+    },
+    {
+        "pk": 20,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2016
+        }
+    },
+    {
+        "pk": 21,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2016
+        }
+    },
+    {
+        "pk": 22,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2017
+        }
+    },
+    {
+        "pk": 23,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2017
+        }
+    },
+    {
+        "pk": 24,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2017
+        }
+    },
+    {
+        "pk": 25,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2017
+        }
+    },
+    {
+        "pk": 26,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2017
+        }
+    },
+    {
+        "pk": 27,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2018
+        }
+    },
+    {
+        "pk": 28,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2018
+        }
+    },
+    {
+        "pk": 29,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2018
+        }
+    },
+    {
+        "pk": 30,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2018
+        }
+    },
+    {
+        "pk": 31,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2018
+        }
+    },
+    {
+        "pk": 32,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2019
+        }
+    },
+    {
+        "pk": 33,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2019
+        }
+    },
+    {
+        "pk": 34,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2019
+        }
+    },
+    {
+        "pk": 35,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2019
+        }
+    },
+    {
+        "pk": 36,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2019
+        }
+    },
+    {
+        "pk": 37,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "F",
+            "year": 2020
+        }
+    },
+    {
+        "pk": 38,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "W",
+            "year": 2020
+        }
+    },
+    {
+        "pk": 39,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "Y",
+            "year": 2020
+        }
+    },
+    {
+        "pk": 40,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S1",
+            "year": 2020
+        }
+    },
+    {
+        "pk": 41,
+        "model": "uni_info.semester",
+        "fields": {
+            "is_open": false,
+            "period": "S2",
+            "year": 2020
+        }
+    },
+    {
         "pk": 1,
         "model": "uni_info.section",
         "fields": {
