@@ -343,3 +343,43 @@ h2 {
 .calendar_wrap {
     padding: 10px 10px;
 }
+
+.course1,
+.course1 div,
+.course1 span {
+    background-color: red; /* background color */
+    border-color: red;     /* border color */
+    color: white;           /* text color */
+}
+
+.course2,
+.course2 div,
+.course2 span {
+    background-color: yellow; /* background color */
+    border-color: yellow;     /* border color */
+    color: black;           /* text color */
+}
+
+.course3,
+.course3 div,
+.course3 span {
+    background-color: green; /* background color */
+    border-color: green;     /* border color */
+    color: white;           /* text color */
+}
+
+.course4,
+.course4 div,
+.course4 span {
+    background-color: orange; /* background color */
+    border-color: orange;     /* border color */
+    color: black;           /* text color */
+}
+
+.course5,
+.course5 div,
+.course5 span {
+    background-color: purple; /* background color */
+    border-color: purple;     /* border color */
+    color: white;           /* text color */
+}

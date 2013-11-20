@@ -17,8 +17,8 @@ MAPPER = {
     'D': 6,
 }
 
-class SemesterSchedule(models.Model):
 
+class SemesterSchedule(models.Model):
     pickled_items = models.TextField()
     semester = models.ForeignKey(Semester)
     schedule_items = []
@@ -34,7 +34,7 @@ class SemesterSchedule(models.Model):
             self.schedule_items = keep_track
             self.semester = keep_track[0].semester
         elif self.pickled_items != '':
-                self.schedule_items = cPickle.loads(str(self.pickled_items))
+            self.schedule_items = cPickle.loads(str(self.pickled_items))
 
     def save(self, *args, **kwargs):
         self.pickled_items = cPickle.dumps(self.schedule_items)
@@ -71,14 +71,16 @@ class SemesterSchedule(models.Model):
     def schedule_json(self):
         jsons = []
         today = datetime(2013, 9, 1)
+        course_index = 0
         for schedule_item in self.schedule_items:
+            course_index += 1
             for section in schedule_item.sections:
                 for day in section.days:
-                    start_datetime = today.replace(day=today.day+MAPPER[day],
+                    start_datetime = today.replace(day=today.day + MAPPER[day],
                                                    hour=section.start_time.hour,
                                                    minute=section.start_time.minute,
                                                    second=0)
-                    end_datetime = today.replace(day=today.day+MAPPER[day],
+                    end_datetime = today.replace(day=today.day + MAPPER[day],
                                                  hour=section.end_time.hour,
                                                  minute=section.end_time.minute,
                                                  second=0)
@@ -87,7 +89,8 @@ class SemesterSchedule(models.Model):
                         'title': str(section),
                         'allDay': False,
                         'start': start_datetime.strftime('%a, %d %b %Y %H:%M:%S EST'),
-                        'end': end_datetime.strftime('%a, %d %b %Y %H:%M:%S EST')
+                        'end': end_datetime.strftime('%a, %d %b %Y %H:%M:%S EST'),
+                        'className': 'course' + str(course_index)
                     }
                     jsons.append(obj)
         return json.dumps(jsons)
