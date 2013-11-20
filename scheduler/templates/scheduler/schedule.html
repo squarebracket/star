@@ -1,24 +1,27 @@
-﻿{%  extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block head %}
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#calendar').fullCalendar({
-                // put your options and callbacks here
 
-                editable: true,
-                header: {
-                    left: '',
-                    center: '',
-                    right: ''
-                },
-                weekends: true,
-                defaultView: 'agendaWeek',
-                columnFormat: 'ddd',
-                events: "stream_schedule"
-            })
+            {% for index in schedule_count %}
 
+                $('#calendar{{ forloop.counter }}').fullCalendar({
+                    // put your options and callbacks here
+
+                    editable: true,
+                    header: {
+                        left: '',
+                        center: '',
+                        right: ''
+                    },
+                    weekends: true,
+                    defaultView: 'agendaWeek',
+                    columnFormat: 'ddd',
+                    events: "stream_schedule?index={{ forloop.counter }}"
+                })
+            {% endfor %}
         });
     </script>
 
@@ -26,7 +29,9 @@
 
 {% block content %}
     <h2>Schedule</h2>
-    <div id='calendar'></div>
+    {% for index in schedule_count %}
+        <div id='calendar{{ forloop.counter }}'></div>
+    {% endfor %}
 {% endblock %}
 
 {% block sidebar %}

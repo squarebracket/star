@@ -85,8 +85,15 @@ def generate_schedule(request):
     courses = request.session.get('course_list')
     semester = Semester.objects.get(year=2013, period=Semester.FALL)
     gen_r = ScheduleGenerator(courses, semester)
-    request.session['schedule'] = gen_r.generate_schedules()[0]
-    return HttpResponseRedirect(reverse('scheduler:schedule'))
+    request.session['schedule'] = gen_r.generate_schedules()
+
+    context = RequestContext(request, {
+        'user': request.user,
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        'schedule_count': range(4)
+    })
+
+    return render(request, 'scheduler/schedule.html', context)
 
 
 @login_required
