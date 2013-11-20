@@ -1,4 +1,3 @@
-
 class ScheduleItem(object):
 
     def __init__(self, section_list=None):
@@ -11,8 +10,8 @@ class ScheduleItem(object):
         # print type(other)
         # if type(other) is not ScheduleSlice:
         #     raise TypeError
-        if self.course == other.course:
-            return True
+        #if self.course == other.course:
+        #    return True
         for this_section in self.sections:
             for other_section in other.sections:
                 # print 'comparing', this_section, 'and', other_section

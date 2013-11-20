@@ -2,8 +2,20 @@ from django.db import models
 from django.core import serializers
 from uni_info.models import Semester
 from scheduler.models.schedule_item import ScheduleItem
+from datetime import datetime
+from datetime import timedelta
+import json
 import cPickle
 
+MAPPER = {
+    'M': 0,
+    'T': 1,
+    'W': 2,
+    'J': 3,
+    'F': 4,
+    'S': 5,
+    'D': 6,
+}
 
 class SemesterSchedule(models.Model):
 
@@ -55,6 +67,31 @@ class SemesterSchedule(models.Model):
             for section in schedule_item.sections:
                 sections.append(section)
         return sections
+
+    def schedule_json(self):
+        jsons = []
+        today = datetime.today()
+        today += timedelta(days=-today.weekday())
+        for schedule_item in self.schedule_items:
+            for section in schedule_item.sections:
+                for day in section.days:
+                    start_datetime = today.replace(day=today.day+MAPPER[day],
+                                                   hour=section.start_time.hour,
+                                                   minute=section.start_time.minute,
+                                                   second=0)
+                    end_datetime = today.replace(day=today.day+MAPPER[day],
+                                                 hour=section.end_time.hour,
+                                                 minute=section.end_time.minute,
+                                                 second=0)
+                    obj = {
+                        'id': '%s_%s' % (section.pk, day),
+                        'title': str(section),
+                        'allDay': False,
+                        'start': start_datetime.strftime('%a, %d %b %Y %H:%M:%S EST'),
+                        'end': end_datetime.strftime('%a, %d %b %Y %H:%M:%S EST')
+                    }
+                    jsons.append(obj)
+        return json.dumps(jsons)
 
     class Meta:
         def __init__(self):

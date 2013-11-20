@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from scheduler.models.schedule_generator import get_section_permutations
+from scheduler.models.schedule_generator import *
 from uni_info.models import Course, Semester
 import json
 import re
@@ -79,6 +79,17 @@ def find(request):
 
 
 @login_required
+def generate_schedule(request):
+    """
+    """
+    courses = request.session.get('course_list')
+    semester = Semester.objects.get(year=2013, period=Semester.FALL)
+    gen_r = ScheduleGenerator(courses, semester)
+    request.session['schedule'] = gen_r.generate_schedules()[0]
+    return HttpResponseRedirect(reverse('scheduler:schedule'))
+
+
+@login_required
 def schedule(request):
     """
     Gets the current schedule
@@ -103,31 +114,35 @@ def stream_schedule(request):
     """
     Stream the schedule
     """
-    stream_result = []
+    #stream_result = []
+    #
+    #a = {'id': 1,
+    #     'title': 'SOEN 341',
+    #     'allDay': False,
+    #     'start': 'Mon, 18 Nov 2013 13:00:00 EST',
+    #     'end': 'Mon, 18 Nov 2013 14:00:00 EST'
+    #     }
+    #b = {'id': 2,
+    #     'title': 'SOEN 341',
+    #     'allDay': False,
+    #     'start': 'Wed, 20 Nov 2013 12:00:00 EST',
+    #     'end': 'Wed, 20 Nov 2013 14:00:00 EST',
+    #    }
+    #c = {'id': 3,
+    #     'title': 'SOEN 341',
+    #     'allDay': False,
+    #     'start': 'Fri, 22 Nov 2013 11:00:00 EST',
+    #     'end': 'Fri, 22 Nov 2013 15:00:00 EST'
+    #     }
+    #
+    #stream_result.append(a)
+    #stream_result.append(b)
+    #stream_result.append(c)
+    #stream_json_result = json.dumps(stream_result)
+    #stream_json_result = '[{"start": "Wed, 20 Nov 2013 11:45:00 EST", "allDay": false, "end": "Wed, 20 Nov 2013 13:00:00 EST", "id": "840_W", "title": "ENGR213: 1 U/Fall 2013"}, {"start": "Fri, 22 Nov 2013 11:45:00 EST", "allDay": false, "end": "Fri, 22 Nov 2013 13:00:00 EST", "id": "840_F", "title": "ENGR213: 1 U/Fall 2013"}, {"start": "Fri, 22 Nov 2013 14:15:00 EST", "allDay": false, "end": "Fri, 22 Nov 2013 15:55:00 EST", "id": "841_F", "title": "ENGR213: 2 UA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 10:15:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 11:30:00 EST", "id": "904_T", "title": "ENGR242: 1 X/Fall 2013"}, {"start": "Thu, 21 Nov 2013 10:15:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 11:30:00 EST", "id": "904_J", "title": "ENGR242: 1 X/Fall 2013"}, {"start": "Thu, 21 Nov 2013 17:45:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 19:25:00 EST", "id": "905_J", "title": "ENGR242: 2 XA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 08:45:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 10:00:00 EST", "id": "1592_T", "title": "MECH215: 1 T/Fall 2013"}, {"start": "Thu, 21 Nov 2013 08:45:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 10:00:00 EST", "id": "1592_J", "title": "MECH215: 1 T/Fall 2013"}, {"start": "Thu, 21 Nov 2013 16:15:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 17:05:00 EST", "id": "1593_J", "title": "MECH215: 2 TA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 17:15:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 18:05:00 EST", "id": "1594_T", "title": "MECH215: 3 TI/Fall 2013"}]'
 
-    a = {'id': 1,
-         'title': 'SOEN 341',
-         'allDay': False,
-         'start': 'Mon, 18 Nov 2013 13:00:00 EST',
-         'end': 'Mon, 18 Nov 2013 14:00:00 EST'
-         }
-    b = {'id': 2,
-         'title': 'SOEN 341',
-         'allDay': False,
-         'start': 'Wed, 20 Nov 2013 12:00:00 EST',
-         'end': 'Wed, 20 Nov 2013 14:00:00 EST',
-        }
-    c = {'id': 3,
-         'title': 'SOEN 341',
-         'allDay': False,
-         'start': 'Fri, 22 Nov 2013 11:00:00 EST',
-         'end': 'Fri, 22 Nov 2013 15:00:00 EST'
-         }
+    stream_json_result = request.session['schedule'].schedule_json()
 
-    stream_result.append(a)
-    stream_result.append(b)
-    stream_result.append(c)
-    stream_json_result = json.dumps(stream_result)
     return HttpResponse(stream_json_result, content_type="application/json")
 
 
