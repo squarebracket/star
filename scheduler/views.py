@@ -87,11 +87,11 @@ def generate_schedule(request):
     gen_r = ScheduleGenerator(courses, semester)
     schedules = gen_r.generate_schedules()
     request.session['schedule'] = schedules
-    count = len(schedules)
+    schedule_semesters = [schedule_item.semester for schedule_item in schedules]
     context = RequestContext(request, {
         'user': request.user,
         'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
-        'schedule_count': range(count)
+        'schedule_count': schedule_semesters
     })
 
     return render(request, 'scheduler/schedule.html', context)
@@ -102,14 +102,16 @@ def schedule(request):
     """
     Gets the current schedule
     """
-    count = 0
+    schedule_semesters = []
     if request.session.get('schedule', False):
-        count = len(request.session['schedule'])
+        schedules = request.session['schedule']
+        schedule_semesters = [schedule_item.semester for schedule_item in schedules]
+
 
     context = RequestContext(request, {
         'user': request.user,
         'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
-        'schedule_count': range(count)
+        'schedule_count': schedule_semesters
     })
     return render(request, 'scheduler/schedule.html', context)
 
