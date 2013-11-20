@@ -145,8 +145,11 @@ def stream_schedule(request):
     #stream_result.append(c)
     #stream_json_result = json.dumps(stream_result)
     #stream_json_result = '[{"start": "Wed, 20 Nov 2013 11:45:00 EST", "allDay": false, "end": "Wed, 20 Nov 2013 13:00:00 EST", "id": "840_W", "title": "ENGR213: 1 U/Fall 2013"}, {"start": "Fri, 22 Nov 2013 11:45:00 EST", "allDay": false, "end": "Fri, 22 Nov 2013 13:00:00 EST", "id": "840_F", "title": "ENGR213: 1 U/Fall 2013"}, {"start": "Fri, 22 Nov 2013 14:15:00 EST", "allDay": false, "end": "Fri, 22 Nov 2013 15:55:00 EST", "id": "841_F", "title": "ENGR213: 2 UA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 10:15:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 11:30:00 EST", "id": "904_T", "title": "ENGR242: 1 X/Fall 2013"}, {"start": "Thu, 21 Nov 2013 10:15:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 11:30:00 EST", "id": "904_J", "title": "ENGR242: 1 X/Fall 2013"}, {"start": "Thu, 21 Nov 2013 17:45:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 19:25:00 EST", "id": "905_J", "title": "ENGR242: 2 XA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 08:45:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 10:00:00 EST", "id": "1592_T", "title": "MECH215: 1 T/Fall 2013"}, {"start": "Thu, 21 Nov 2013 08:45:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 10:00:00 EST", "id": "1592_J", "title": "MECH215: 1 T/Fall 2013"}, {"start": "Thu, 21 Nov 2013 16:15:00 EST", "allDay": false, "end": "Thu, 21 Nov 2013 17:05:00 EST", "id": "1593_J", "title": "MECH215: 2 TA/Fall 2013"}, {"start": "Tue, 19 Nov 2013 17:15:00 EST", "allDay": false, "end": "Tue, 19 Nov 2013 18:05:00 EST", "id": "1594_T", "title": "MECH215: 3 TI/Fall 2013"}]'
-
-    stream_json_result = request.session['schedule'].schedule_json()
+    schedule_index = request.GET['index']
+    schedules = request.session['schedule']
+    index = int(schedule_index)
+    schedule_result = schedules[index]
+    stream_json_result = schedule_result.schedule_json()
 
     return HttpResponse(stream_json_result, content_type="application/json")
 
