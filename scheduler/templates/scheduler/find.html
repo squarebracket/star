@@ -46,7 +46,7 @@
                     .data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li></li>")
                         .data("item.autocomplete", item)
-                        .append("<a><strong>" + item.label + "</strong><br />" + item.desc + "</a>")
+                        .append("<a><strong>" + item.label + "</strong><p class='description'>" + item.desc + "</p></a>")
                         .appendTo(ul);
             };
         });

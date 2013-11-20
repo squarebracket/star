@@ -185,7 +185,7 @@ button.clean-gray:active {
 .ui-autocomplete {
 
     max-height: 250px;
-    width: 200px;
+    width: 250px;
     border-style: solid;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
@@ -202,7 +202,7 @@ button.clean-gray:active {
 * we use height instead, but this forces the menu to always be this tall
 */
 * html .ui-autocomplete {
-    height: 250px;
+    height: 200px;
 }
 
 #wrap {
