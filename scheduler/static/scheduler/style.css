@@ -207,7 +207,8 @@ button.clean-gray:active {
 
 #wrap {
     width: 800px;
-    height: 600px;
+    min-height:600px;
+    height:auto;
     margin: 0 auto;
     background: #ccc;
 }
@@ -240,6 +241,7 @@ h1 {
 
 #main {
     float: left;
+    min-height: 600px;
     height: 100%;
     width: 480px;
     padding: 10px;

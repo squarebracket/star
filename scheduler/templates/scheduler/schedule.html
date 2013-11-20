@@ -23,8 +23,11 @@
                     month: 8,
                     date: 1,
                     timeFormat: '',
+                    minTime: 8,
+                    allDaySlot: false,
                     events: "stream_schedule?index={{ forloop.counter }}"
-                })
+                });
+
             {% endfor %}
         });
     </script>
