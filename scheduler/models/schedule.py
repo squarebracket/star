@@ -70,8 +70,7 @@ class SemesterSchedule(models.Model):
 
     def schedule_json(self):
         jsons = []
-        today = datetime.today()
-        today += timedelta(days=-today.weekday())
+        today = datetime(2013, 9, 1)
         for schedule_item in self.schedule_items:
             for section in schedule_item.sections:
                 for day in section.days:
