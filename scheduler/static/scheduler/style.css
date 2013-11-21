@@ -282,6 +282,7 @@ h2 {
 #user_info {
     float: right;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 #login {
