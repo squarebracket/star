@@ -165,7 +165,7 @@ def remove_course(request):
     course_list = request.session['course_list']
     found_to_delete = None
     for course in course_list:
-        if course.name == course_name:
+        if str(course) == course_name:
             found_to_delete = course
 
     if found_to_delete is not None:
