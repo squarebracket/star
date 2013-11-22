@@ -10,6 +10,17 @@ import json
 import re
 
 
+def help_page(request):
+    return render(request, 'scheduler/help.html')
+
+
+def source(request):
+    return render(request, 'scheduler/source.html')
+
+
+def team(request):
+    return render(request, 'scheduler/team.html')
+
 @login_required
 def register(request):
     context = RequestContext(request, {
