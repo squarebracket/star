@@ -1,0 +1,99 @@
+.button, .button:visited {
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	-moz-border-top-left-radius: 6px;
+	-moz-border-top-right-radius: 6px;
+	-moz-border-bottom-left-radius: 6px;
+	-moz-border-bottom-right-radius: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	box-shadow:  0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+	position: relative;
+    cursor: pointer;
+    font-family:'Calibri';
+}
+
+.button.leftside
+{
+	-moz-border-top-right-radius: 0px;
+	-moz-border-bottom-right-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-right: 0px;
+}
+
+.button.rightside
+{
+	-moz-border-top-left-radius: 0px;
+	-moz-border-bottom-left-radius: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-left: 0px;
+}
+.button.group
+{
+    float: left;
+}
+button:hover { background-color: #111; color: #fff; }
+.button:active { top: 1px; }
+.small.button, .small.button:visited { font-size: 11px}
+.xsmall.button, .xsmall.button:visited { font-size: 11px;padding: 3px 6px 4px;}
+.button, .button:visited,
+.medium.button, .medium.button:visited 	{ font-size: 12px;
+										  line-height: 1;
+										  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+									    }
+
+	.large.button, .large.button:visited 			{ font-size: 14px;
+													  padding: 8px 14px 9px; }
+
+	.super.button, .super.button:visited 			{ font-size: 34px;
+													  padding: 8px 14px 9px; }
+
+	.pink.button, .magenta.button:visited		{ background-color: #e22092; }
+	.pink.button:hover							{ background-color: #c81e82; }
+	.green.button, .green.button:visited		{ background-color: #91bd09; }
+	.green.button:hover						    { background-color: #749a02; }
+	.red.button, .red.button:visited			{ background-color: #e62727; }
+	.red.button:hover							{ background-color: #cf2525; }
+	.orange.button, .orange.button:visited		{ background-color: #ff5c00; }
+	.orange.button:hover						{ background-color: #d45500; }
+	.blue.button, .blue.button:visited		    { background-color: #2981e4; }
+	.blue.button:hover							{ background-color: #2575cf; }
+	.yellow.button, .yellow.button:visited		{ background-color: #ffb515; }
+	.yellow.button:hover						{ background-color: #fc9200; }
+
+.checkbox { display:none;}
+
+.toggle{
+    display: inline-block;
+    width:14px;
+    height:14px;
+    -moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+    border-radius: 7px;
+    background-color: #e62727;
+}
+
+.toggle.checked{
+    background-color: #91bd09;
+}
