@@ -16,3 +16,7 @@ class SectionTest(TestCase):
         sec.sec_type = 1
         sec.semester_year = self.fall_2013_semester
         sec.save()
+
+    def test_should_find_by_id(self):
+        sec = Section.objects.filter(id=1)
+        self.assertIsNotNone(sec)
