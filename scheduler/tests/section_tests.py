@@ -3,7 +3,6 @@ from uni_info.models import Semester, Section, Course
 
 
 class SectionTest(TestCase):
-
     fixtures = ['/scheduler/fixtures/initial_data.json']
 
     def setUp(self):
