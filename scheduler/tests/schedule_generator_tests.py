@@ -46,3 +46,24 @@ class ScheduleGeneratorTest(TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(0, len(result))
+
+    def test_should_generate_schedule_for_3_course_no_conflict(self):
+        soen341 = [s for s in Course.objects.all() if
+                   s.course_letters == 'SOEN' and
+                   s.course_numbers == '341'][0]
+
+        soen343 = [s for s in Course.objects.all() if
+                   s.course_letters == 'SOEN' and
+                   s.course_numbers == '343'][0]
+
+        soen287 = [s for s in Course.objects.all() if
+                   s.course_letters == 'SOEN' and
+                   s.course_numbers == '287'][0]
+
+        course_list = [soen287, soen341, soen343]
+
+        generator = ScheduleGenerator(course_list, self.fall_2013_semester)
+        result = generator.generate_schedules()
+
+        self.assertIsNotNone(result)
+        self.assertEqual(4, len(result))
