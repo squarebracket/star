@@ -1,1 +1,1 @@
-__author__ = 'chuck'
+from semester_schedule_tests import *
