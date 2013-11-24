@@ -10,7 +10,7 @@ class CourseTest(TestCase):
 
     def setUp(self):
         """
-        Set up common data needed in each unit test
+        Setup common data needed in each unit test
         """
         self.fall_2013_semester = [sem for sem in Semester.objects.all()
                                    if sem.name == 'Fall 2013'][0]
@@ -35,7 +35,7 @@ class CourseTest(TestCase):
         course.openness = 0
         course.save()
         self.assertIsNotNone(course.id)
-        check = Course.objects.get(course.id)
+        check = Course.objects.get(id=course.id)
         self.assertIsNotNone(check)
 
     def test_should_update_course(self):

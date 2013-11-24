@@ -25,7 +25,7 @@ class ScheduleGenerator(object):
         """
 
         if not self.courses:
-            raise StandardError  # TODO: make this a real exception
+            return []  # TODO: make this a real exception
 
         # reset instance data used in schedule generation
         self.possibilities = []
