@@ -154,8 +154,12 @@ def build_possible_schedules(list_of_slices):
     TODO: make this docstring proper
     """
     top_levels = []
-    for m in list_of_slices[0]:
-        top_levels.extend(_build_possible_schedules(m, list_of_slices, 1))
+    if len(list_of_slices) == 1:
+        for m in list_of_slices[0]:
+            top_levels.append([m])
+    else:
+        for m in list_of_slices[0]:
+            top_levels.extend(_build_possible_schedules(m, list_of_slices, 1))
 
     return top_levels
 
@@ -217,7 +221,7 @@ def recursively_try_items(blah):
                 return False
         else:
             return recursively_try_items(blah[1:])
-    else:
+    elif len(blah) == 2:
         if blah[0].conflicts_with(blah[1]):
             # CONFLICT!
             return False
