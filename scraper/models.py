@@ -42,6 +42,11 @@ class ConcordiaScraper():
         'OnLine': Section.ONLINE,
         'Prac/Int/WTerm': Section.UNSCHEDULED,
         'Sem': Section.SEMINAR,
+        'WShop': Section.WORKSHOP,
+        'Conf': Section.CONFERENCE,
+        'Read': Section.SEMINAR,
+        'Studio': Section.STUDIO,
+        'FWork': Section.FWORK,
     }
 
     REQUIREMENTS_MAPPER = {
@@ -66,7 +71,7 @@ class ConcordiaScraper():
         'course_numbers': '',
         'year': date.today().year,  # This is flawed
         'session': 'A',  # default is all sessions
-        'departments': Department.objects.filter(code__startswith=04),  # default for now is ENCS
+        'departments': Department.objects.all().exclude(code=608),  # default for now is ENCS
         'department': None,  # TODO: explain this
         'level': 'U',
         'title': ''
@@ -83,11 +88,12 @@ class ConcordiaScraper():
         self.num_courses = 0
         self.num_sections = 0
         self.num_cancelled = 0
-        self.parent_section = [None] *3
+        self.parent_section = [None] * 3
         self.current_course = None
         self.current_section = None
         self.current_row = None
         self.current_department = None
+        self.year = None
 
     def get_site_tree(self, payload_data=None):
         # URL-encode payload for sending
@@ -127,7 +133,7 @@ class ConcordiaScraper():
         course_numbers = code[5:]
         name = name.font.b.string  # grab the data
         credits_ = float(credits_.font.b.string[:-7])  # grab the data, convert to float
-        logger.info("found course %s %s" % (course_letters, course_numbers))
+        logger.debug("found course %s %s" % (course_letters, course_numbers))
 
         try:
             course = Course.objects.get(course_letters=course_letters,
@@ -157,13 +163,17 @@ class ConcordiaScraper():
         The information it extracts is inserted into :model:`uni_info.Course` and
         :model:`uni_info.Section` instances.
         """
-
+        logger.info('*********')
+        logger.info('scraping started')
+        logger.info('*********')
         # TODO: implement error handling
         if 'faculty' not in kwargs or 'departments' not in kwargs:
             self.get_departments()
 
-        params = dict([(k, v) for k, v in kwargs.items() if '__' not in k])
-        params.update(self.defaults)
+        params = self.defaults
+        params.update(kwargs)
+        #params = dict([(k, v) for k, v in kwargs.items() if '__' not in k])
+        #params.update(self.defaults)
 
         print "Scraping course data for %d departments" % len(params['departments'])
 
@@ -191,35 +201,58 @@ class ConcordiaScraper():
                 # update courses on terminal
                 sys.stdout.write('Number of courses found: %d \r' % self.num_courses)
                 sys.stdout.flush()
-
-                self.current_course = self.process_course()
+                try:
+                    self.current_course = self.process_course()
+                except StandardError as e:
+                    print self.current_course
+                    print self.current_row
+                    raise e
 
                 self.current_row = self.current_row.nextSibling
                 # should be a while test_thing()
                 while isinstance(self.current_row, Tag) and \
-                                self.current_row['bgcolor'] != 'LightBlue':
-
+                                self.current_row.get('bgcolor') != 'LightBlue':
+                    current_type = None
                     try:
+
                         row_as_string = self.gen_string_from_current_row()
-                        logger.info('row as string: %s' % row_as_string)
+                        logger.debug('row as string: %s' % row_as_string)
+
                         # if prereq row
                         if 'Prerequisite:' in row_as_string:
+                            current_type = 'prereq'
                             prereq_string = row_as_string[15:]
                             self.current_course.save_scraped_prerequisite_text(prereq_string)
                             requirements = self.process_requirements_string(prereq_string)
+                            #end of prereq handling
 
+                        # if section info
+                        m = re.search(self.SECTION_REGEX, unicode(self.current_row))
+                        if m is not None:
+                            current_type = 'section data'
+                            self.process_section()
+
+                        if current_type is None:
+                            abc = self.current_row.get_text()
+                            if 'Fall' in abc or 'Winter' in abc or 'Summer' in abc:
+                                pass
+                            else:
+                                logger.warning('Unhandled row in course %s: %s' % (self.current_course,
+                                                                                   self.current_row))
+
+                        # process next row
                         self.current_row = self.current_row.nextSibling
                         self.current_course.save()
-                        #end of prereq handling
-                    except StandardError:
-                        # print current_row
+
+                    except KeyError as e:
+                        logger.error('Exception encountered for row: %s' % self.current_row)
                         self.current_row = self.current_row.nextSibling
-                        pass
-                    # if section info
-                    m = re.search(self.SECTION_REGEX, unicode(self.current_row))
-                    if m is not None:
-                        self.process_section()
+                        raise e
+                        #pass
                 #move on to next course
+                #except KeyError as e:
+                #    logger.warning('Anomolous row in course %s: %s' % (self.current_course, self.current_row))
+                #    self.current_row = self.current_row.nextSibling
 
             print "Scraped data for %d courses in %d sections, %d of which were cancelled" % (self.num_courses, self.num_sections,
                                                                                               self.num_cancelled)
@@ -258,26 +291,29 @@ class ConcordiaScraper():
 
     def process_requirements_string(self, req_string):
 
-        logger.info("Prerequisite string: %s" % req_string)
+        logger.debug("Prerequisite string: %s" % req_string)
 
         prereq_courses_list = []
         coreq_courses_list = []
         other_requirements_list = []
 
+        course_letters = None
+
         split_string = req_string.split('; ')
         for requirement_set in split_string:
-            logger.info('testing string (split by ;) %s' % requirement_set)
+            logger.debug('testing string (split by ;) %s' % requirement_set)
             # if it starts with [A-Z]{4}, it's a set of courses
             if re.match('^[A-Z]{4}(.)*', requirement_set):
                 for c in requirement_set.split(', '):
-                    logger.info('testing string (split by ,) %s' % c)
-                    m = re.match('([A-Z]{4} )?(\d{3})(.*)', c)
+                    logger.debug('testing string (split by ,) %s' % c)
+                    m = re.match('([A-Z]{4}\.? )?(\d{3})(.*)', c)
                     if m is not None:
                         if m.group(1) is not None:
-                            course_letters = m.group(1).strip(' ')
+                            course_letters = m.group(1).strip('. ')
                         course_numbers = m.group(2)
-                        prereq_courses_list.append((course_letters, course_numbers))
-                        logger.info('testing remainder string %s' % m.group(3).lower().strip(' .'))
+                        if course_letters is not None:
+                            prereq_courses_list.append((course_letters, course_numbers))
+                        logger.debug('testing remainder string %s' % m.group(3).lower().strip(' .'))
                         if m.group(3).lower().strip(' .') == "previously or concurrently":
                             coreq_courses_list.append(prereq_courses_list.pop())
                             pass
@@ -293,8 +329,9 @@ class ConcordiaScraper():
                         break
                 else:
                     # other_requirements_list.append('unknown other requirement')
-                    print "unhandled other requirement of %s" % requirement_set
-        logger.info("Prereqs found: %s; Coreqs found: %s; Other requirements found: %s" %
+                    print "unhandled other requirement of %s" % requirement_set.encode('unicode-escape')
+                    logger.warning("unhandled other requirement of %s" % requirement_set)
+        logger.debug("Prereqs found: %s; Coreqs found: %s; Other requirements found: %s" %
                      (prereq_courses_list, coreq_courses_list, other_requirements_list))
 
         all_requirements = []
@@ -309,6 +346,7 @@ class ConcordiaScraper():
                 all_requirements.append(r)
             except Course.DoesNotExist:
                 print 'course %s %s does not exist' % (prereq[0], prereq[1])
+                logger.error('course %s %s does not exist' % (prereq[0], prereq[1]))
         for coreq in coreq_courses_list:
             try:
                 coreq_course = Course.objects.get(course_letters=coreq[0],
@@ -319,6 +357,7 @@ class ConcordiaScraper():
                 all_requirements.append(r)
             except Course.DoesNotExist:
                 print 'course %s %s does not exist' % (coreq[0], coreq[1])
+                logger.error('course %s %s does not exist' % (coreq[0], coreq[1]))
         for other_req in other_requirements_list:
             value = other_req[1]['value']
             try:
@@ -338,7 +377,7 @@ class ConcordiaScraper():
         self.num_sections += 1
 
         section_string = self.gen_string_from_current_row()
-        logger.info(section_string)
+        #logger.debug(section_string)
 
         # execute gigantic regex
         m = re.match(self.SEC_REGEX, section_string)
@@ -346,7 +385,10 @@ class ConcordiaScraper():
         sem = self.SEMESTER_MAPPER[m.group(1)]
         semester = Semester.objects.get(period=sem, year=self.year)
 
-        sec_type = self.SECTION_TYPE_MAPPER[m.group(2)]
+        try:
+            sec_type = self.SECTION_TYPE_MAPPER[m.group(2)]
+        except KeyError:
+            sec_type = Section.LECTURE
         name = m.group(3)
 
         cancelled = m.group(4) == '*Canceled*'
@@ -384,10 +426,21 @@ class ConcordiaScraper():
         self.current_section.instructor_text = instructor
 
         if bldg:
-            building = Building.objects.get(name=bldg)
+            try:
+                building = Building.objects.get(name=bldg)
+            except Building.DoesNotExist:
+                if campus == 'LOY':
+                    address = '7141 Sherbrooke Street W'
+                    postcode = 'H4B 1R6'
+                else:
+                    address = '1455 de Maisonneuve Blvd. W'
+                    postcode = 'H3G 1M8'
+                building = Building(name=bldg, address=address, postal_code=postcode, city='Montreal',
+                                    province='Quebec', country='Canada', campus=campus)
+                building.save()
+                logger.debug('Building created: %s' % bldg)
             (location, created) = \
-                Facility.objects.get_or_create(name=room.replace(' ', '-'),
-                                               building=building)
+                Facility.objects.get_or_create(name=room.replace(' ', '-'), building=building)
             self.current_section.location = location
 
         string = self.current_row.get_text().encode('unicode-escape')
@@ -406,7 +459,7 @@ class ConcordiaScraper():
 
         self.current_section.save()
 
-        logger.info('Parsed section as: %s' % Section.objects.filter(
+        logger.debug('Parsed section as: %s' % Section.objects.filter(
             pk=self.current_section.pk).values())
 
         self.parent_section[depth] = self.current_section

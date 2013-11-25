@@ -4,7 +4,7 @@ from uni_info.models.building import Building
 
 
 class Facility(models.Model):
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20)
     building = models.ForeignKey(Building)
     capacity = models.IntegerField(default=0)
     available_start_time = models.TimeField('available start time',

@@ -18,6 +18,10 @@ class Section(models.Model):
     SEMINAR = 4
     ONLINE = 5
     UNSCHEDULED = 6
+    WORKSHOP = 7
+    CONFERENCE = 8
+    STUDIO = 9
+    FWORK = 10
 
     SECTION_TYPES = (
         (LECTURE, 'Lecture'),
@@ -26,6 +30,10 @@ class Section(models.Model):
         (UNSCHEDULED, 'Unscheduled'),
         (ONLINE, 'Online'),
         (SEMINAR, 'Seminar'),
+        (WORKSHOP, 'Workshop'),
+        (CONFERENCE, 'Conference'),
+        (STUDIO, 'Studio'),
+        (FWORK, 'Field Work'),
     )
 
     course = models.ForeignKey(Course)

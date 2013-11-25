@@ -158,7 +158,7 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'scraper_handler': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'formatter': 'scraper',
             'filename': 'scraper.log'
@@ -178,7 +178,7 @@ LOGGING = {
         },
         'scraper': {
             'handlers': ['scraper_handler'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         }
     }
