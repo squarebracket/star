@@ -148,24 +148,23 @@ def add_course(request):
     course_search = request.POST['course_name']
     semester_id = request.POST['semester_id']
     request_student = request.user.student
+    course_list = request.session['course_list']
 
     try:
         #find course(s) matching query
         results = Course.full_search(course_search)
         if len(results) == 1:
             course = results[0]
+            course_list.append(course)
+            request.session['course_list'] = course_list
         else:
-            messages.error(request, "multiple courses found")
+            messages.error(request, "Multiple courses found - please select one from the dropdown list")
         #find semester by name
         #semester = [sem for sem in Semester.objects.all() if sem.id == semester_id][0]
 
-        course_list = request.session['course_list']
-        course_list.append(course)
-        request.session['course_list'] = course_list
-
     except Course.DoesNotExist:
         #error, no courses found
-        messages.error(request, "course not found")
+        messages.error(request, "Course not found")
 
     return HttpResponseRedirect(reverse('scheduler:find'))
 

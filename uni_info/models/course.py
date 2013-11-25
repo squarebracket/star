@@ -83,24 +83,18 @@ class Course(models.Model):
 
     @staticmethod
     def full_search(text):
-        m = re.match('([A-Z]{1,4}) ?(\d{3}[A-Z]?)', text, re.I)
+        results = []
+        m = re.match('([A-Z]{1,4}) ?(\d{1,3}[A-Z]?)', text, re.I)
         if m:
-            if m.group(2):
-                results = Course.objects.filter(
-                    Q(course_letters__icontains=m.group(1)) &
-                    Q(course_numbers__icontains=m.group(2))
-                )
-            #elif not m.group(2):
-            #    results = Course.objects.filter(
-            #        Q(course_letters__icontains=m.group(1)) |
-            #        Q(name__icontains=m.group(1)) |
-            #        Q(name__icontains=m.group(3))
-            #    )
+            results = Course.objects.filter(
+                Q(course_letters__icontains=m.group(1)) &
+                Q(course_numbers__icontains=m.group(2))
+            )
         else:
             results = Course.objects.filter(
-                Q(course_letters__icontains=text) |
-                Q(course_numbers__icontains=text) |
-                Q(name__icontains=text)
+                Q(course_letters__icontains=text.strip()) |
+                Q(course_numbers__icontains=text.strip()) |
+                Q(name__icontains=text.strip())
             )
         if len(results) > 0:
             return results
