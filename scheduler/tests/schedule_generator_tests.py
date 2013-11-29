@@ -25,21 +25,21 @@ class ScheduleGeneratorTest(TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(0, len(result))
 
-    #def test_should_generate_with_1_course(self):
-    #    """
-    #    Test generator with only 1 course as edge case
-    #    """
-    #    soen341 = [s for s in Course.objects.all() if
-    #               s.course_letters == 'SOEN' and
-    #               s.course_numbers == '341'][0]
-    #
-    #    course_list = [soen341]
-    #
-    #    generator = ScheduleGenerator(course_list, self.fall_2013_semester)
-    #    result = generator.generate_schedules()
-    #
-    #    self.assertIsNotNone(result)
-    #    self.assertEqual(4, len(result))
+    def test_should_generate_with_1_course(self):
+        """
+        Test generator with only 1 course as edge case
+        """
+        soen341 = [s for s in Course.objects.all() if
+                   s.course_letters == 'SOEN' and
+                   s.course_numbers == '341'][0]
+
+        course_list = [soen341]
+
+        generator = ScheduleGenerator(course_list, self.fall_2013_semester)
+        result = generator.generate_schedules()
+
+        self.assertIsNotNone(result)
+        self.assertEqual(2, len(result))
 
     def test_should_generate_schedule_for_2_course(self):
         """
