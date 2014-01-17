@@ -1,14 +1,12 @@
 # Django settings for scheduler_site project.
 import os
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 AUTH_USER_MODEL = 'auth.StarUser'
+AUTHENTICATION_BACKENDS = ('user_stuff.MyConcordiaBackend.MyConcordiaBackend',)
 
 MANAGERS = ADMINS
 
@@ -72,9 +70,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '_7wep_rxz!&yes$a5l3!_pdp+lw7ql_7j)n*#s2@y352w(fie#'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -189,7 +184,7 @@ LOGGING = {
 # This is probably an inappropriate use of an exception, since it will be
 # fairly common for no env_settings file to exist.
 cur_path = os.path.dirname(os.path.realpath(__file__))
-if os.path.isfile(os.path.join(cur_path,'env_settings.py')):
+if os.path.isfile(os.path.join(cur_path, 'env_settings.py')):
     from scheduler_site.env_settings import *
 
     # If there are extra apps to be added, turn INSTALLED_APPS into a list so
@@ -218,3 +213,6 @@ else:
 
     EXTRA_APPS = ()
     FIXTURE_DIRS = ()
+
+    DEBUG = False
+    TEMPLATE_DEBUG = False

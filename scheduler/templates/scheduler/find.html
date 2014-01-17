@@ -75,6 +75,9 @@
     <form action="generate_schedule" method="post">
         {% csrf_token %}
         <div id="course_list_wrap">
+        <input type="checkbox" name="morning" value="1" />Do not schedule morning classes
+        <br><input type="checkbox" name="afternoon" value="1" />Do not schedule afternoon classes
+        <br><input type="checkbox" name="evening" value="1" />Do not schedule evening classes
             <table id="course_list">
                 {% for course in course_list %}
                     <tr>

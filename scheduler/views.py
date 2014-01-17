@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from scheduler.models.schedule_generator import *
+from scheduler.models.schedule_constraint import ScheduleConstraint
 from uni_info.models import Course, Semester
 import json
 import re
@@ -95,7 +96,33 @@ def generate_schedule(request):
     """
     courses = request.session.get('course_list')
     semester = Semester.objects.get(year=2013, period=Semester.FALL)
-    gen_r = ScheduleGenerator(courses, semester)
+    block_morning = request.POST['morning']
+    block_afternoon = request.POST['afternoon']
+    block_evening = request.POST['evening']
+
+    constraint_set = ScheduleConstraintSet(name='whatever')
+    constraint_set.save()
+
+    if block_morning:
+        mo = ScheduleConstraint(start_time=ScheduleConstraint.MORNING_START,
+                                end_time=ScheduleConstraint.MORNING_END,
+                                days='MTWJFSD',
+                                con_set=constraint_set)
+        mo.save()
+    if block_afternoon:
+        af = ScheduleConstraint(start_time=ScheduleConstraint.AFTERNOON_START,
+                                end_time=ScheduleConstraint.AFTERNOON_END,
+                                days='MTWJFSD',
+                                con_set=constraint_set)
+        af.save()
+    if block_evening:
+        ev = ScheduleConstraint(start_time=ScheduleConstraint.EVENING_START,
+                                end_time=ScheduleConstraint.EVENING_END,
+                                days='MTWJFSD',
+                                con_set=constraint_set)
+        ev.save()
+
+    gen_r = ScheduleGenerator(courses, semester, constraint_set)
     schedules = gen_r.generate_schedules()
     request.session['schedule'] = schedules
     schedule_semesters = [schedule_item.semester for schedule_item in schedules]

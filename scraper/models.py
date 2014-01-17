@@ -154,7 +154,7 @@ class ConcordiaScraper():
     def scrape_sections(self, **kwargs):
         """
         Scrapes Concordia's class schedule page and puts the info into the
-        models defined by `uni_info`
+        myconcordia defined by `uni_info`
 
         Under the hood, it makes a request to the class schedule page, pulls out
         session variables, and makes a request for course schedules based on the

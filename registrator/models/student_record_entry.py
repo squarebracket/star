@@ -17,7 +17,7 @@ class StudentRecordEntry(models.Model):
     section = models.ForeignKey(Section, null=True)
     state = models.CharField(max_length=1, choices=REGISTRATION_STATE_CHOICES)
     result_grade = models.DecimalField(default=0.00, decimal_places=2,
-                                       max_digits=10)
+                                       max_digits=10, null=True)
 
     def __unicode__(self):
         return "id:%s, section:%s, grade:%s" % (self.student_record.student.student_identifier,

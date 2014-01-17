@@ -1,15 +1,15 @@
 from django.db import models
 from scheduler.choices import STUDENT_TYPE_CHOICES
 from uni_info.models.academic_program import AcademicProgram
-#from scheduler.models.schedule import CalculatedSchedule
+#from scheduler.myconcordia.schedule import CalculatedSchedule
 from user_stuff.models.star_user import StarUser
 from scheduler.resources import Resource
 
 
 class Student(StarUser):
-    program = models.ForeignKey(AcademicProgram)
-    student_identifier = models.CharField(max_length=20)
-    type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES)
+    program = models.ForeignKey(AcademicProgram, null=True)
+    student_identifier = models.CharField(max_length=20, null=True)
+    type = models.CharField(max_length=1, choices=STUDENT_TYPE_CHOICES, null=True)
 
     @property
     def registered_courses(self):

@@ -5,8 +5,8 @@ import inspect
 import sys
 import os
 
-#from uni_info.models.course import Course
-#from uni_info.models.section import Section
+#from uni_info.myconcordia.course import Course
+#from uni_info.myconcordia.section import Section
 
 current_module = sys.modules[__name__]
 

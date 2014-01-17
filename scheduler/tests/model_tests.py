@@ -8,7 +8,7 @@ from uni_info.models import AcademicProgram, Course, \
     AcademicInstitution, Faculty, Department, Semester
 
 from user_stuff.models import Student, Professor
-# from registrator.models import StudentRecord, StudentRecordEntry
+# from registrator.myconcordia import StudentRecord, StudentRecordEntry
 
 
 class SimpleModelsTest(TestCase):

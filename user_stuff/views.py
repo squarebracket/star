@@ -19,7 +19,8 @@ def index(request):
     })
     return render(request, 'user_stuff/index.html', context)
 
-# TODO: Can this made generic?
+
+# TODO: Can this be made generic?
 @login_required
 def student(request):
     """
@@ -27,7 +28,7 @@ def student(request):
     """
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],
+        'open_semesters': [sem.name for sem in Semester.objects.all() if sem.is_open],  # what is this?
     })
     return render(request, 'user_stuff/student.html', context)
 
@@ -39,7 +40,7 @@ def login(request):
     """
     username = request.POST['username']
     password = request.POST['password']
-    user = authenticate(username=username, password=password)
+    user = authenticate(username=username, password=password, session=request.session)
 
     if user is not None:
         if user.is_active:
