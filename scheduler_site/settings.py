@@ -6,7 +6,7 @@ ADMINS = (
 )
 
 AUTH_USER_MODEL = 'auth.StarUser'
-AUTHENTICATION_BACKENDS = ('user_stuff.MyConcordiaBackend.MyConcordiaBackend',)
+AUTHENTICATION_BACKENDS = ('backends.myconcordia.MyConcordiaBackend',)
 
 MANAGERS = ADMINS
 
@@ -125,6 +125,8 @@ INSTALLED_APPS = (
     #'south',
 )
 
+
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -181,12 +183,8 @@ LOGGING = {
 
 # Extra stuff for handling different environments
 #
-# This is probably an inappropriate use of an exception, since it will be
-# fairly common for no env_settings file to exist.
-cur_path = os.path.dirname(os.path.realpath(__file__))
-if os.path.isfile(os.path.join(cur_path, 'env_settings.py')):
-    from scheduler_site.env_settings import *
-
+try:
+    from scheduler_site.dev_settings import SECRET_KEY, INSTALLED_APPS as EXTRA_APPS, DEBUG, TEMPLATE_DEBUG, DATABASES
     # If there are extra apps to be added, turn INSTALLED_APPS into a list so
     # that it is mutable, add the EXTRA_APPS, and turn it back into a tuple.
     # If you can think of a better way, please fix it, because this feels
@@ -196,23 +194,25 @@ if os.path.isfile(os.path.join(cur_path, 'env_settings.py')):
         INSTALLED_APPS.extend(EXTRA_APPS)
         INSTALLED_APPS = tuple(INSTALLED_APPS)
 
-else:
-    db_file = os.path.join(cur_path, 'schedule.db')
-    # default database config
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': db_file,  # Or path to database file if using sqlite3.
-            # The following settings are not used with sqlite3:
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-            'PORT': '',  # Set to empty string for default.
-        }
-    }
+except ImportError:
+    pass
 
-    EXTRA_APPS = ()
-    FIXTURE_DIRS = ()
-
-    DEBUG = False
-    TEMPLATE_DEBUG = False
+    #cur_path = os.path.dirname(os.path.realpath(__file__))
+    #db_file = os.path.join(cur_path, 'schedule.db')
+    ## default database config
+    #DATABASES = {
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+    #        'NAME': db_file,  # Or path to database file if using sqlite3.
+    #        # The following settings are not used with sqlite3:
+    #        'USER': '',
+    #        'PASSWORD': '',
+    #        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+    #        'PORT': '',  # Set to empty string for default.
+    #    }
+    #}
+    #
+    #FIXTURE_DIRS = ()
+    #
+    #DEBUG = False
+    #TEMPLATE_DEBUG = False

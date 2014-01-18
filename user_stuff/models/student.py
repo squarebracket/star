@@ -1,7 +1,7 @@
 from django.db import models
 from scheduler.choices import STUDENT_TYPE_CHOICES
 from uni_info.models.academic_program import AcademicProgram
-#from scheduler.myconcordia.schedule import CalculatedSchedule
+#from scheduler.myconcordiaacc.schedule import CalculatedSchedule
 from user_stuff.models.star_user import StarUser
 from scheduler.resources import Resource
 

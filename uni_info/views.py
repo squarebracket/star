@@ -1,3 +1,3 @@
 ## Create your views here.
-#from uni_info.myconcordia import Course, Semester
+#from uni_info.myconcordiaacc import Course, Semester
 #

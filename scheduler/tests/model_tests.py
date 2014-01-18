@@ -8,7 +8,6 @@ from uni_info.models import AcademicProgram, Course, \
     AcademicInstitution, Faculty, Department, Semester
 
 from user_stuff.models import Student, Professor
-# from registrator.myconcordia import StudentRecord, StudentRecordEntry
 
 
 class SimpleModelsTest(TestCase):
@@ -17,7 +16,7 @@ class SimpleModelsTest(TestCase):
         concordia = AcademicInstitution(name="Concordia University",
                                         established_on=date(year=1974, month=8, day=24))
         concordia.save()
-        logging.debug(AcademicInstitution.objects.all())
+
         encs = Faculty(name="Faculty of Engineering and Computer Science",
                        description="xx", university=concordia)
         encs.save()
@@ -60,15 +59,6 @@ class SimpleModelsTest(TestCase):
         soen301.save()
 
         #Setup course prerequisites
-        # soen201_prereq101 = Prerequisite(course=soen201, prerequisite_course=soen101)
-        # soen202_prereq102 = Prerequisite(course=soen202, prerequisite_course=soen102)
-        # soen301_prereq201 = Prerequisite(course=soen301, prerequisite_course=soen201)
-        # soen301_prereq202 = Prerequisite(course=soen301, prerequisite_course=soen202)
-
-        # soen201_prereq101.save()
-        # soen202_prereq102.save()
-        # soen301_prereq201.save()
-        # soen301_prereq202.save()
 
         # test Elective program, contains elective courses
         elec_program = AcademicProgram(name="elec", faculty=business)
@@ -127,21 +117,21 @@ class SimpleModelsTest(TestCase):
         room_h629 = Facility(name="H629", building=hall_building, capacity=50)
         room_h629.save()
 
-        wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
-                                                   start_time=time(hour=10, minute=15, second=0),
-                                                   end_time=time(hour=11, minute=30, second=0),
-                                                   day_of_week="Wed",
-                                                   section=section1_for_soen201,
-                                                   professor=prof_fancott)
-
-        wed_lecture_for_soen201_section1.save()
-        fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
-                                                   start_time=time(hour=10, minute=15),
-                                                   end_time=time(hour=11, minute=30),
-                                                   day_of_week="Fri",
-                                                   section=section1_for_soen201,
-                                                   professor=prof_fancott)
-        fri_lecture_for_soen201_section1.save()
+        #wed_lecture_for_soen201_section1 = Lecture(location=room_h629,
+        #                                           start_time=time(hour=10, minute=15, second=0),
+        #                                           end_time=time(hour=11, minute=30, second=0),
+        #                                           day_of_week="Wed",
+        #                                           section=section1_for_soen201,
+        #                                           professor=prof_fancott)
+        #
+        #wed_lecture_for_soen201_section1.save()
+        #fri_lecture_for_soen201_section1 = Lecture(location=room_h629,
+        #                                           start_time=time(hour=10, minute=15),
+        #                                           end_time=time(hour=11, minute=30),
+        #                                           day_of_week="Fri",
+        #                                           section=section1_for_soen201,
+        #                                           professor=prof_fancott)
+        #fri_lecture_for_soen201_section1.save()
 
         section1_for_soen202 = Section(name="S1", capacity=20, course=soen202,
                                        semester_year=semester)
@@ -160,21 +150,21 @@ class SimpleModelsTest(TestCase):
         student.program = soen_program
         student.save()
 
-        all_students = Student.objects.all()
-
-        test_record = StudentRecord(student=student, standing="good", gpa=0.00)
-        test_record.save()
-
-        # The student has taken 2 courses already
-        soen101_entry = StudentRecordEntry(student_record=test_record,
-                                           section=section1_for_soen101, result_grade=3.8, state="C")
-        elec101_entry = StudentRecordEntry(student_record=test_record,
-                                           section=section1_for_elec101, result_grade=3.5, state="C")
-
-        soen101_entry.save()
-        elec101_entry.save()
-
-        reg_student_record_entry = StudentRecordEntry(student_record=student.studentrecord,
-                                                      section=section1_for_soen201, state="R")
-        reg_student_record_entry.save()
-
+        #all_students = Student.objects.all()
+        #
+        #test_record = StudentRecord(student=student, standing="good", gpa=0.00)
+        #test_record.save()
+        #
+        ## The student has taken 2 courses already
+        #soen101_entry = StudentRecordEntry(student_record=test_record,
+        #                                   section=section1_for_soen101, result_grade=3.8, state="C")
+        #elec101_entry = StudentRecordEntry(student_record=test_record,
+        #                                   section=section1_for_elec101, result_grade=3.5, state="C")
+        #
+        #soen101_entry.save()
+        #elec101_entry.save()
+        #
+        #reg_student_record_entry = StudentRecordEntry(student_record=student.studentrecord,
+        #                                              section=section1_for_soen201, state="R")
+        #reg_student_record_entry.save()
+        #
