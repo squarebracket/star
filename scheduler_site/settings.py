@@ -1,5 +1,6 @@
 # Django settings for scheduler_site project.
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -122,7 +123,6 @@ INSTALLED_APPS = (
     'scraper',
     'user_stuff',
     'uni_info',
-    #'south',
 )
 
 
@@ -196,23 +196,3 @@ try:
 
 except ImportError:
     pass
-
-    #cur_path = os.path.dirname(os.path.realpath(__file__))
-    #db_file = os.path.join(cur_path, 'schedule.db')
-    ## default database config
-    #DATABASES = {
-    #    'default': {
-    #        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-    #        'NAME': db_file,  # Or path to database file if using sqlite3.
-    #        # The following settings are not used with sqlite3:
-    #        'USER': '',
-    #        'PASSWORD': '',
-    #        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-    #        'PORT': '',  # Set to empty string for default.
-    #    }
-    #}
-    #
-    #FIXTURE_DIRS = ()
-    #
-    #DEBUG = False
-    #TEMPLATE_DEBUG = False

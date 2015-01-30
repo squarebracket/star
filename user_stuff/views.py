@@ -42,7 +42,7 @@ def login(request):
     password = request.POST['password']
     user = authenticate(username=username, password=password, session=request.session)
 
-    print user.backend
+    # print user.backend
 
     if user is not None:
         if user.is_active:

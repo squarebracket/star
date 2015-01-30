@@ -38,10 +38,11 @@
 {% block content %}
     <h2>Schedule</h2>
     {% if schedule_count %}
-        {% for semester in schedule_count %}
+        {% for sched in schedules %}
             <div class="calendar_wrap">
-                <div>{{ semester }}</div>
+                <div>{{ sched.semester }}</div>
                 <div id='calendar{{ forloop.counter }}'></div>
+{#                <div>Sections: {{ sched.sections }}</div>#}
             </div>
         {% endfor %}
     {% else %}

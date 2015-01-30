@@ -7,6 +7,7 @@ from django.template import RequestContext
 from scheduler.models.schedule_generator import *
 from scheduler.models.schedule_constraint import ScheduleConstraint
 from uni_info.models import Course, Semester
+from uni_info.models import Facility, Building, Section
 import json
 import re
 
@@ -26,7 +27,7 @@ def team(request):
 def register(request):
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open]
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.isopen]
     })
 
     return render(request, 'scheduler/register.html', context)
@@ -83,7 +84,7 @@ def find(request):
 
     context = RequestContext(request, {
         'user': request.user,
-        'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
+        'open_semesters': [sem for sem in Semester.objects.all() if sem.isopen],
         'course_list': request.session['course_list']
     })
 
@@ -95,10 +96,22 @@ def generate_schedule(request):
     """
     """
     courses = request.session.get('course_list')
-    semester = Semester.objects.get(year=2013, period=Semester.FALL)
-    block_morning = request.POST['morning']
-    block_afternoon = request.POST['afternoon']
-    block_evening = request.POST['evening']
+    semester_ids = request.POST.getlist('semester_id')
+    if len(semester_ids) > 1:
+        raise NotImplementedError
+    semester = Semester.objects.get(year=2014, period=Semester.WINTER)
+    if 'morning' in request.POST:
+        block_morning = True
+    else:
+        block_morning = False
+    if 'afternoon' in request.POST:
+        block_afternoon = True
+    else:
+        block_afternoon = False
+    if 'evening' in request.POST:
+        block_evening = True
+    else:
+        block_evening = False
 
     constraint_set = ScheduleConstraintSet(name='whatever')
     constraint_set.save()
@@ -124,12 +137,14 @@ def generate_schedule(request):
 
     gen_r = ScheduleGenerator(courses, semester, constraint_set)
     schedules = gen_r.generate_schedules()
-    request.session['schedule'] = schedules
+    print schedules
+    request.session['schedules'] = schedules
     schedule_semesters = [schedule_item.semester for schedule_item in schedules]
     context = RequestContext(request, {
         'user': request.user,
         'open_semesters': [sem for sem in Semester.objects.all() if sem.is_open],
-        'schedule_count': schedule_semesters
+        'schedule_count': schedule_semesters,
+        'schedules': schedules,
     })
 
     return render(request, 'scheduler/schedule.html', context)
@@ -173,7 +188,7 @@ def add_course(request):
     Adds a course to a schedule stored in an authenticated users' session
     """
     course_search = request.POST['course_name']
-    semester_id = request.POST['semester_id']
+    semester_ids = request.POST.getlist('semester_id')
     request_student = request.user.student
     course_list = request.session['course_list']
 
@@ -182,12 +197,15 @@ def add_course(request):
         results = Course.full_search(course_search)
         if len(results) == 1:
             course = results[0]
+            if course in course_list:
+                messages.error(request, 'Course already added to list')
+            course.leaf_sections = course.leaf_sections_for_semesters(semester_ids)
             course_list.append(course)
             request.session['course_list'] = course_list
         else:
             messages.error(request, "Multiple courses found - please select one from the dropdown list")
         #find semester by name
-        #semester = [sem for sem in Semester.objects.all() if sem.id == semester_id][0]
+        #semester = [sem for sem in Semester.objects.all() if sem.id == semester_ids][0]
 
     except Course.DoesNotExist:
         #error, no courses found
@@ -283,3 +301,5 @@ def section_permutation_by_course_name(request):
     result_list = []
     json_result = []
     return HttpResponse(json_result, content_type="application/json")
+
+

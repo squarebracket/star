@@ -7,6 +7,8 @@ import logging
 import re
 import sys
 
+from cookielib import CookieJar
+
 from bs4 import BeautifulSoup, Tag
 
 from uni_info.models import Course, Section, Faculty, AcademicInstitution, Department, Semester, Requirement, \
@@ -16,6 +18,15 @@ from uni_info.models import Course, Section, Faculty, AcademicInstitution, Depar
 current_section = None
 
 logger = logging.getLogger('scraper')
+
+
+def get_current_school_year():
+    now = date.today()
+    if now.month < 5:  # previous actual year = school year
+        return now.year - 1
+    # else return current year
+    return now.year
+
 
 class ConcordiaScraper():
 
@@ -63,24 +74,26 @@ class ConcordiaScraper():
     <b><font color="#303030">([A-Z]{4}) (\d{3})<\/font><\/b><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#303030">(.*)<\/font><\/b><\/i>\([0-9\.] credits\) <br \/>\nPrerequisite: (.*?)\. (.*)<br \/>
     """
 
-    SECTIONS_URL = 'http://fcms.concordia.ca/fcms/asc002_stud_all.aspx'
-
-    # TODO: think of a better variable name / this is ugly
     defaults = {
         'course_letters': '',
         'course_numbers': '',
-        'year': date.today().year,  # This is flawed
+        'year': get_current_school_year(),
         'session': 'A',  # default is all sessions
-        'departments': Department.objects.all().exclude(code=608),  # default for now is ENCS
+        'departments': Department.objects.all().exclude(code=608),
         'department': None,  # TODO: explain this
         'level': 'U',
         'title': ''
     }
 
+    SECTIONS_URL = 'http://fcms.concordia.ca/fcms/asc002_stud_all.aspx'
+
     # The session variables that have to be pulled from the site
     required_info = ['__VIEWSTATE', '__EVENTVALIDATION']
 
     def __init__(self):
+        self.cj = CookieJar()
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
+        self.last_response = None
         self.site_tree = None
         self.get_site_tree()
         # TODO: Make this generic
@@ -95,13 +108,17 @@ class ConcordiaScraper():
         self.current_department = None
         self.year = None
 
+    # TODO: Fix it so that last_response is the actual response object
     def get_site_tree(self, payload_data=None):
-        # URL-encode payload for sending
         if payload_data is not None:
             payload_data = urllib.urlencode(payload_data)
-            self.site_tree = BeautifulSoup(urllib2.urlopen(self.SECTIONS_URL, payload_data))
+            response = urllib2.urlopen(self.SECTIONS_URL, payload_data)
+            self.last_response = response.read()
+            self.site_tree = BeautifulSoup(self.last_response)
         else:
-            self.site_tree = BeautifulSoup(urllib2.urlopen(self.SECTIONS_URL))
+            response = urllib2.urlopen(self.SECTIONS_URL)
+            self.last_response = response.read()
+            self.site_tree = BeautifulSoup(self.last_response)
 
     def create_payload(self, payload_data):
         data = {
@@ -203,10 +220,10 @@ class ConcordiaScraper():
                 sys.stdout.flush()
                 try:
                     self.current_course = self.process_course()
-                except StandardError as e:
+                except StandardError:
                     print self.current_course
                     print self.current_row
-                    raise e
+                    raise
 
                 self.current_row = self.current_row.nextSibling
                 # should be a while test_thing()
@@ -230,7 +247,15 @@ class ConcordiaScraper():
                         m = re.search(self.SECTION_REGEX, unicode(self.current_row))
                         if m is not None:
                             current_type = 'section data'
-                            self.process_section()
+                            try:
+                                self.process_section()
+                            except Exception:
+                                # print self.last_response
+                                print 'uhoh'
+                                f = open('fail_data.html', 'w')
+                                f.write(self.last_response)
+                                f.close()
+                                raise
 
                         if current_type is None:
                             abc = self.current_row.get_text()
@@ -381,6 +406,7 @@ class ConcordiaScraper():
 
         # execute gigantic regex
         m = re.match(self.SEC_REGEX, section_string)
+        # print section_string
 
         sem = self.SEMESTER_MAPPER[m.group(1)]
         semester = Semester.objects.get(period=sem, year=self.year)

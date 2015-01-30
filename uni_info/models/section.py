@@ -2,9 +2,27 @@ from django.db import models
 from uni_info.models.facility import Facility
 from uni_info.models.course import Course
 from uni_info.models.semester import Semester
+from django.db.models import Q
+import re
 from itertools import chain
 
 from user_stuff.models import StarUser
+
+
+class SectionManager(models.Manager):
+    def func(self, list_of_semesters, text):
+        query = Q()
+        for semester in list_of_semesters:
+            query = query | Q(semester_year__id=semester)
+        m = re.match('([A-Z]{1,4}) ?(\d{1,3}[A-Z]?)', text, re.I)
+        if m:
+            results = self.model.objects.filter(query & Q(course__course_letters__icontains=m.group(1)) & Q(course__course_numbers__icontains=m.group(2)) & Q(section=None))
+        else:
+            results = self.model.objects.filter(query & Q(section=None) & (Q(course__course_letters__icontains=text.strip()) | Q(course__course_numbers__icontains=text.strip()) | Q(course__name__icontains=text.strip())))
+        if len(results) > 0:
+            return results
+        else:
+            raise self.model.DoesNotExist
 
 
 class Section(models.Model):
@@ -56,6 +74,8 @@ class Section(models.Model):
 
     _scraped_as_full = models.BooleanField(default=False)
 
+    objects = SectionManager()
+
     @property
     def is_not_full(self):
         # if capacity is 0, it means we don't have the capacity information
@@ -71,6 +91,27 @@ class Section(models.Model):
     def section_tree_from_here(self):
         result_list = self._get_children()
         return result_list
+
+    # TODO: Name this better
+    @property
+    def section_tree_to_here(self):
+        parents_list = [self]
+        s = self.parent_section
+        while s:
+            parents_list.insert(0, s)
+            s = s.parent_section
+        return parents_list
+
+    @property
+    def name_with_parents(self):
+        if self.parent_section is None:
+            return self.name
+        else:
+            return "%s %s" % (self.parent_section.name_with_parents, self.name)
+
+    @property
+    def display_name(self):
+        return "%s%i: %s" % (self.semester_year.period, self.semester_year.year, self.name_with_parents)
 
     def _get_children(self):
         """

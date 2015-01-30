@@ -23,6 +23,15 @@ class Semester(models.Model):
     is_open = models.BooleanField('is open')
 
     @property
+    def isopen(self):
+        from datetime import date
+        now = date.today()
+        if now.month < 5:  # previous actual year = school year
+            return self.year == (now.year - 1)
+        # else return current year
+        return self.year == now.year
+
+    @property
     def name(self):
         return self.get_period_display() + " " + str(self.year)
 

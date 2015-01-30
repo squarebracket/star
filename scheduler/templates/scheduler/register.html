@@ -9,7 +9,7 @@
 
     <form action="register" method="post">
         {% csrf_token %}
-        <input type="text" name="course_name"/>
+        <input type="text" name="course_search" id="course_search" />
         <select name="semester_name">
             {% for semester in open_semesters %}
                 <option value="{{ semester }}"

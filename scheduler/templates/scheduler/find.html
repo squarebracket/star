@@ -92,11 +92,9 @@
                                 <option>Mornings</option>
                                 <option>Afternoons</option>
                                 <option>Evenings</option>
-                                {% for perm in course.section_perms %}
+                                {% for section in course.leaf_sections %}
                                     <option>
-                                        {% for section in perm %}
-                                            <p>{{ section.name }}</p>
-                                        {% endfor %}
+                                        {{ section.display_name }}
                                     </option>
                                 {% endfor %}
                             </select>

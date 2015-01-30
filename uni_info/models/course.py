@@ -7,6 +7,16 @@ import re
 NUMBER_OF_CREDITS_COMPLETED = 1
 
 
+class CourseManager(models.Manager):
+
+    def get(self, code=None, **kwargs):
+        if code:
+            m = re.match('([A-Z]{1,4}) ?(\d{1,3}[A-Z]?)', code, re.I)
+            return self.model.objects.get(course_letters=m.group(1).upper(), course_numbers=int(m.group(2)))
+        else:
+            return super(CourseManager, self).get(**kwargs)
+
+
 class Course(models.Model):
 
     OPEN_TO_ALL = 0
@@ -40,6 +50,8 @@ class Course(models.Model):
     # for debug purposes, provide a string to store the scraped prerequisites
     _scraped_prerequisite_text = models.TextField(null=True, blank=True)
     requirements = models.ManyToManyField('Requirement', symmetrical=False, related_name='+')
+
+    objects = CourseManager()
 
     def save_scraped_prerequisite_text(self, text):
         self._scraped_prerequisite_text = text
@@ -80,6 +92,12 @@ class Course(models.Model):
         from scheduler.models.schedule_generator import get_section_permutations
         perms = get_section_permutations(self)
         return perms
+
+    def leaf_sections_for_semesters(self, list_of_semesters):
+        query = Q()
+        for semester in list_of_semesters:
+            query = query | Q(semester_year__id=semester)
+        return self.section_set.filter(query, section=None)
 
     @staticmethod
     def full_search(text):
